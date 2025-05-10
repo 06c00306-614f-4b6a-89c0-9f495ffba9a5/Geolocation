@@ -6,6 +6,21 @@ Geolocation provides a user-friendly graphical interface for gathering device in
 
 <br>
 
+## 👥 Collaborators
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Fakechippies">
+        <img src="https://github.com/Fakechippies.png" width="100px;" alt=""/><br />
+        <sub><b>Fakechippies</b></sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+<br>
+
 ## ✨ Features
 
 - **Device Information** - Capture comprehensive details about target devices
