@@ -2,13 +2,13 @@
 
 GUI application for device geolocation tracking and information gathering.
 
-![GeoLocator Main Interface](https://github.com/user-attachments/assets/ce52ecd0-9a26-4876-a6fd-8f68492c78f7)
+![Geolocation Main Interface](https://github.com/user-attachments/assets/ce52ecd0-9a26-4876-a6fd-8f68492c78f7)
 
 <br>
 
 ## 📋 Overview
 
-GeoLocator provides a user-friendly graphical interface for gathering device information, IP data, and precise geolocation coordinates. Originally inspired by the "seeker" project, Geolocation takes a completely different approach with a full-featured GUI and expanded capabilities. This application was created for educational and legitimate security testing purposes only. Usage for any illegal activities is strictly prohibited.
+Geolocation provides a user-friendly graphical interface for gathering device information, IP data, and precise geolocation coordinates. Originally inspired by the "seeker" project, Geolocation takes a completely different approach with a full-featured GUI and expanded capabilities. This application was created for educational and legitimate security testing purposes only. Usage for any illegal activities is strictly prohibited.
 
 <br>
 
