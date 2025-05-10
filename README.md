@@ -6,10 +6,6 @@ Geolocation provides a user-friendly graphical interface for gathering device in
 
 <br>
 
-⚠️ **Disclaimer:** This application was created for educational and legitimate security testing purposes only. Usage for any illegal activities is strictly prohibited.
-
-<br>
-
 ## ✨ Features
 
 - **Device Information** - Capture comprehensive details about target devices
