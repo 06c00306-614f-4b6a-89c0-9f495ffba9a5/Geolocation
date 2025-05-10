@@ -2,7 +2,7 @@
 
 GUI application for device geolocation tracking and information gathering.
 
-![Geolocation Main Interface](https://github.com/user-attachments/assets/ce52ecd0-9a26-4876-a6fd-8f68492c78f7)
+![image](https://github.com/user-attachments/assets/4b7ad09d-e5be-453b-abbe-5ebb77535a90)
 
 <br>
 
@@ -52,6 +52,8 @@ curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
   && sudo apt install ngrok
 ```
 
+<br>
+
 ### Step 2: Configure Ngrok
 
 Navigate to https://dashboard.ngrok.com/get-started/setup/linux to obtain your authentication token, then configure it:
@@ -59,6 +61,8 @@ Navigate to https://dashboard.ngrok.com/get-started/setup/linux to obtain your a
 ```bash
 ngrok config add-authtoken YOUR_AUTH_TOKEN
 ```
+
+<br>
 
 ### Step 3: Install Python Dependencies
 
@@ -81,31 +85,11 @@ pip install -r requirements.txt
 
 <br>
 
-## 📷 Screenshots
-
-<div align="center">
-
-![Interface Preview 1](https://github.com/user-attachments/assets/745656e6-ec48-411d-ba56-5a3e6671a771)
-
-![Interface Preview 2](https://github.com/user-attachments/assets/60fa16f9-5baf-496a-bfe2-c2f2cba8af82)
-
-![Interface Preview 3](https://github.com/user-attachments/assets/9aca9432-3448-4e69-9a96-432256157379)
-
-![Interface Preview 4](https://github.com/user-attachments/assets/9b1cc64d-249c-4e0f-9879-b7e6bf252ebf)
-
-![Interface Preview 5](https://github.com/user-attachments/assets/44a46a31-7264-41c8-81a5-edf454ef5200)
-
-![Interface Preview 6](https://github.com/user-attachments/assets/b79af873-1552-4177-9b5f-b739065aa91d)
-
-![Interface Preview 7](https://github.com/user-attachments/assets/5a61d232-057c-46af-bf07-7e9c8eb3264d)
-
-![Interface Preview 8](https://github.com/user-attachments/assets/da573c0f-5afe-4a2a-8588-07b557cdb6be)
-
-</div>
-
 ## 📝 License
 
 This project is released under the MIT License.
+
+<br>
 
 ## 🤝 Contributing
 
