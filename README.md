@@ -1,7 +1,5 @@
 # Geolocation
 
-GUI application for device geolocation tracking and information gathering.
-
 ![image](https://github.com/user-attachments/assets/4b7ad09d-e5be-453b-abbe-5ebb77535a90)
 
 <br>
