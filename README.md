@@ -19,7 +19,8 @@
 
 <br>
 
-## Upcoming Features
+## Upcoming Features and Bugs
+- Use the static folder properly and fix the redirection urls.
 - Custom Domain using Ngrok Tunnels (useful for testing, monitored by interpol)
 - Custom Domain using Cloudflare Tunnels (great alternative to ngrok)
 - Capture any form submission data such as usernames and passwords
