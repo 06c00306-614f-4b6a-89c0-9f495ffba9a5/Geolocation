@@ -6,7 +6,6 @@
 - You will see the code I wrote takes a completely different approach and is very useful.
 - Do not use this gui for illegal purposes, it was created for educational purposes.
 - I will develop this app even more when I have time, should be fully functional as is.
-- Drop star on this repository if you want more tools to be created.
 
 <br>
 
