@@ -1,0 +1,3215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.4.1/dist/MarkerCluster.Default.css" />
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet.markercluster@1.4.1/dist/leaflet.markercluster.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --primary-light: #38bdf8;
+            --success: #10b981;
+            --danger: #f43f5e;
+            --warning: #f59e0b;
+            --dark: #0f172a;
+            --darker: #020617;
+            --darkest: #000000;
+            --light: #f8fafc;
+            --secondary: #94a3b8;
+            --accent-1: #6366f1;
+            --accent-2: #0ea5e9;
+            --accent-3: #10b981;
+            --glass-bg: rgba(15, 23, 42, 0.7);
+            --glass-card: rgba(15, 23, 42, 0.8);
+            --glass-sidebar: rgba(2, 6, 23, 0.85);
+            --transition-standard: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            --font-main: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.2), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+            --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            --border-radius: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-sm: 4px;
+            --border-glow: 0 0 10px rgba(14, 165, 233, 0.4);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--darkest);
+            color: var(--light);
+            line-height: 1.5;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        
+        .dashboard-container {
+            display: flex;
+            height: 100vh;
+            background-image: url('https://us.123rf.com/450wm/maximusnd/maximusnd1804/maximusnd180403032/99414859-abstract-of-warp-or-hyperspace-motion-in-blue-star-trail.jpg?ver=6');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+        
+        .dashboard-container::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(0, 8, 25, 0.85) 0%, rgba(2, 6, 23, 0.97) 100%);
+            z-index: -1;
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+        }
+        
+        .sidebar {
+            width: 260px;
+            background-color: var(--glass-sidebar);
+            border-right: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            transition: var(--transition-standard);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .sidebar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent-1));
+            opacity: 0.8;
+        }
+        
+        .sidebar-header {
+            padding: 1.75rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .sidebar-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+        
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .sidebar-logo i {
+            font-size: 1.75rem;
+            color: var(--primary);
+            filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.6));
+        }
+        
+        .sidebar-logo h1 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: white;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        
+        .sidebar-menu {
+            flex: 1;
+            padding: 1.25rem 0;
+            overflow-y: auto;
+        }
+        
+        .sidebar-menu::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .sidebar-menu::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .sidebar-menu::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .menu-section {
+            margin-bottom: 1rem;
+            padding: 0 1.25rem;
+        }
+        
+        .menu-label {
+            text-transform: uppercase;
+            color: var(--secondary);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 0.75rem;
+            padding: 0 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .menu-label::before {
+            content: '';
+            display: inline-block;
+            width: 4px;
+            height: 4px;
+            background-color: var(--primary);
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .menu-items {
+            list-style-type: none;
+        }
+        
+        .menu-item {
+            margin-bottom: 0.25rem;
+        }
+        
+        .menu-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0.75rem 0.75rem;
+            border-radius: var(--border-radius);
+            color: var(--secondary);
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .menu-link:hover {
+            color: white;
+            background-color: rgba(14, 165, 233, 0.08);
+        }
+        
+        .menu-link.active {
+            color: white;
+            background-color: rgba(14, 165, 233, 0.15);
+            box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.1);
+        }
+        
+        .menu-link.active::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent-1));
+        }
+        
+        .menu-link i {
+            width: 1.25rem;
+            font-size: 1rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        
+        .menu-link:hover i {
+            transform: translateX(2px);
+        }
+        
+        .sidebar-footer {
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.75rem;
+            color: var(--secondary);
+            position: relative;
+        }
+        
+        .sidebar-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+        
+        .sidebar-footer .status-indicator {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background-color: var(--success);
+            box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+        }
+        
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        .content {
+            padding: 1.75rem;
+        }
+        
+        .tab-panels {
+            position: relative;
+        }
+        
+        .tab-panel {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .tab-panel.active {
+            display: block;
+            opacity: 1;
+        }
+        
+        .empty-state {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 4rem 2rem;
+            text-align: center;
+            height: 100%;
+            width: 100%;
+            min-height: 300px;
+        }
+        
+        .empty-state i {
+            font-size: 3.5rem;
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+            opacity: 0.5;
+            filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.2));
+        }
+        
+        .empty-state p {
+            margin-bottom: 1.5rem;
+            color: var(--secondary);
+            font-size: 1.125rem;
+        }
+        
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .ngrok-panel {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background-color: rgba(15, 23, 42, 0.75);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent-1) 50%, var(--accent-2) 100%);
+            transition: width 0.6s ease;
+            z-index: 1;
+        }
+        
+        .card:hover::before {
+            width: 100%;
+        }
+        
+        .card-header {
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .card-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+        
+        .card-title {
+            font-size: 1.125rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+        
+        .card-title i {
+            color: var(--primary);
+            filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.5));
+        }
+        
+        .card-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+            flex: 1;
+            overflow: auto;
+        }
+        
+        .card-body::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .card-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .card-body::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .card-body::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .table-container {
+            position: relative;
+            overflow: hidden;
+            height: 500px;
+            border-radius: var(--border-radius);
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+        
+        .table-body-container {
+            overflow-y: auto;
+            height: calc(100% - 48px); /* Subtract header height */
+            scrollbar-width: thin;
+            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+        }
+        
+        .table-body-container::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        .table-body-container::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .table-body-container::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .table-body-container::-webkit-scrollbar-thumb:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+        
+        thead {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+            background: linear-gradient(180deg, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0.05) 100%);
+        }
+        
+        tbody {
+            display: block;
+            overflow: auto;
+        }
+        
+        tbody tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed;
+        }
+        
+        th {
+            color: var(--light);
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem 1.25rem;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        tbody tr td {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        
+        table th, table td {
+            box-sizing: border-box;
+        }
+        
+        tr:last-child td {
+            border-bottom: none;
+        }
+        
+        tr {
+            transition: all 0.2s;
+            position: relative;
+        }
+        
+        tbody tr:hover {
+            background-color: rgba(14, 165, 233, 0.05);
+            cursor: pointer;
+            transform: translateY(-1px);
+        }
+        
+        tr.selected {
+            background-color: rgba(14, 165, 233, 0.1);
+            box-shadow: 0 0 0 1px rgba(14, 165, 233, 0.2);
+        }
+        
+        tr.selected td:first-child {
+            border-left: 3px solid var(--primary);
+            padding-left: calc(1.25rem - 3px);
+        }
+        
+        #map {
+            height: 500px;
+            width: 100%;
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(14, 165, 233, 0.1);
+        }
+        
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .detail-section {
+            background-color: rgba(15, 23, 42, 0.75);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: var(--shadow-md);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .detail-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent-1));
+            opacity: 0.6;
+        }
+        
+        .detail-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .detail-section h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+        
+        .detail-section h3::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 50%;
+            height: 1px;
+            background: linear-gradient(to right, var(--primary), transparent);
+        }
+        
+        .detail-section h3 i {
+            color: var(--primary);
+            filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.5));
+        }
+        
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+        }
+        
+        .detail-label {
+            font-weight: 500;
+            color: var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .detail-value {
+            font-weight: 400;
+            max-width: 60%;
+            text-align: right;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            cursor: pointer;
+            border: none;
+            outline: none;
+            background-color: rgba(2, 6, 23, 0.6);
+            color: var(--light);
+            height: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                to right, 
+                rgba(255, 255, 255, 0) 0%, 
+                rgba(255, 255, 255, 0.05) 50%, 
+                rgba(255, 255, 255, 0) 100%
+            );
+            transition: left 0.6s;
+        }
+        
+        .btn:hover::before {
+            left: 100%;
+        }
+        
+        .btn:hover {
+            background-color: rgba(15, 23, 42, 0.8);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            box-shadow: 0 2px 10px rgba(14, 165, 233, 0.3);
+        }
+        
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            box-shadow: 0 4px 15px rgba(14, 165, 233, 0.4);
+        }
+        
+        .btn-success {
+            background: linear-gradient(135deg, var(--success) 0%, #0d9488 100%);
+            color: white;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.3);
+        }
+        
+        .btn-success:hover {
+            background: linear-gradient(135deg, #0d9488 0%, var(--success) 100%);
+            box-shadow: 0 4px 15px rgba(16, 185, 129, 0.4);
+        }
+        
+        .btn-danger {
+            background: linear-gradient(135deg, var(--danger) 0%, #dc2626 100%);
+            color: white;
+            box-shadow: 0 2px 10px rgba(220, 38, 38, 0.3);
+        }
+        
+        .btn-danger:hover {
+            background: linear-gradient(135deg, #dc2626 0%, var(--danger) 100%);
+            box-shadow: 0 4px 15px rgba(220, 38, 38, 0.4);
+        }
+        
+        .btn-sm {
+            height: 2rem;
+            padding: 0.375rem 0.875rem;
+            font-size: 0.75rem;
+            border-radius: var(--border-radius-sm);
+        }
+        
+        .btn-icon {
+            padding: 0.5rem;
+            width: 2.5rem;
+        }
+        
+        .btn-icon.btn-sm {
+            width: 2rem;
+        }
+        
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        
+        .btn i {
+            transition: transform 0.2s;
+        }
+        
+        .btn:hover i {
+            transform: translateX(2px);
+        }
+        
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.625rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            gap: 0.25rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        
+        .badge i {
+            font-size: 0.625rem;
+        }
+        
+        .badge-success {
+            background-color: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+        
+        .badge-danger {
+            background-color: rgba(244, 63, 94, 0.15);
+            color: #fb7185;
+            border: 1px solid rgba(244, 63, 94, 0.3);
+        }
+        
+        .badge-warning {
+            background-color: rgba(245, 158, 11, 0.15);
+            color: #fbbf24;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+        
+        .badge-primary {
+            background-color: rgba(14, 165, 233, 0.15);
+            color: #38bdf8;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+        }
+        
+        .tooltip {
+            position: relative;
+        }
+        
+        .tooltip::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 125%;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(2, 6, 23, 0.9);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.75rem;
+            font-weight: normal;
+            white-space: nowrap;
+            z-index: 10;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.2s;
+            box-shadow: var(--shadow-md);
+            pointer-events: none;
+        }
+        
+        .tooltip:hover::after {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal-backdrop {
+            position: fixed;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        
+        .modal-backdrop.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .modal {
+            width: 100%;
+            max-width: 500px;
+            background-color: rgba(15, 23, 42, 0.85);
+            border-radius: var(--border-radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-lg);
+            transform: translateY(-20px) scale(0.98);
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .modal-backdrop.show .modal {
+            transform: translateY(0) scale(1);
+        }
+        
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        
+        .modal-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+        
+        .modal-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--primary);
+        }
+        
+        .modal-title i {
+            filter: drop-shadow(0 0 8px rgba(14, 165, 233, 0.5));
+        }
+        
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: color 0.2s, transform 0.2s;
+            width: 2rem;
+            height: 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .modal-close:hover {
+            color: var(--light);
+            transform: rotate(90deg);
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+        
+        .modal-body {
+            padding: 1.5rem;
+        }
+        
+        .modal-footer {
+            padding: 1.25rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: flex-end;
+            gap: 0.75rem;
+            position: relative;
+        }
+        
+        .modal-footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 80%;
+            height: 1px;
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.1), transparent);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            color: var(--light);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background-color: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius);
+            color: var(--light);
+            font-size: 0.875rem;
+            transition: all 0.2s;
+            box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(14, 165, 233, 0.2), inset 0 1px 2px rgba(0, 0, 0, 0.1);
+            background-color: rgba(2, 6, 23, 0.7);
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.3);
+        }
+        
+        .form-text {
+            display: block;
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--secondary);
+        }
+        
+        .notification {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            max-width: 350px;
+            background: linear-gradient(135deg, rgba(2, 6, 23, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
+            color: var(--light);
+            border-radius: var(--border-radius);
+            border-left: 4px solid var(--primary);
+            box-shadow: var(--shadow-lg);
+            padding: 1rem 1.25rem;
+            z-index: 1100;
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            transform: translateX(calc(100% + 20px));
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+            opacity: 1;
+        }
+        
+        .notification::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -4px;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent-1));
+            border-radius: 4px 0 0 4px;
+        }
+        
+        .notification-icon {
+            font-size: 1.25rem;
+            color: var(--primary);
+            filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.6));
+        }
+        
+        .notification-content {
+            flex: 1;
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+        
+        .custom-marker {
+            color: var(--primary);
+            font-size: 2rem;
+            filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.7));
+            transition: transform 0.3s;
+        }
+        
+        .custom-marker:hover {
+            transform: scale(1.2);
+        }
+        
+        .leaflet-popup-content-wrapper {
+            background-color: rgba(2, 6, 23, 0.9);
+            color: var(--light);
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            box-shadow: var(--shadow-lg);
+        }
+        
+        .leaflet-popup-tip {
+            background-color: rgba(2, 6, 23, 0.9);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .custom-popup {
+            padding: 0.5rem;
+        }
+        
+        .popup-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+            color: var(--primary);
+        }
+        
+        .popup-content {
+            display: grid;
+            gap: 0.5rem;
+        }
+        
+        .popup-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+        }
+        
+        .popup-item strong {
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            color: var(--secondary);
+        }
+        
+        .popup-footer {
+            margin-top: 0.75rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+        }
+        
+        .popup-btn {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 0.375rem 0.75rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.75rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.375rem;
+            transition: all 0.2s;
+            box-shadow: 0 2px 5px rgba(14, 165, 233, 0.3);
+        }
+        
+        .popup-btn:hover {
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
+            box-shadow: 0 3px 8px rgba(14, 165, 233, 0.4);
+            transform: translateY(-1px);
+        }
+        
+        .links-header-card {
+            margin-bottom: 1.5rem;
+        }
+        
+        .panel-subtitle {
+            color: var(--secondary);
+            margin: 0;
+            font-size: 0.95rem;
+            padding-top: 0.5rem;
+        }
+        
+        .split-layout {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .table-section {
+            width: 100%;
+        }
+        
+        .map-section {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        
+        .info-section {
+            width: 100%;
+            margin-top: 1.5rem;
+        }
+        
+        .link-card {
+            background-color: rgba(15, 23, 42, 0.75);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            padding: 1.5rem;
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .link-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--accent-1));
+            opacity: 0.7;
+        }
+        
+        .link-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .link-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 0.75rem;
+            position: relative;
+        }
+        
+        .link-header::after {
+            content: '';
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 50%;
+            height: 1px;
+            background: linear-gradient(to right, var(--primary), transparent);
+        }
+        
+        .link-name {
+            font-weight: 600;
+            font-size: 1.125rem;
+            color: var(--light);
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .link-name i {
+            color: var(--primary);
+            filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.5));
+        }
+        
+        .link-url {
+            background: rgba(2, 6, 23, 0.8);
+            padding: 0.875rem 1rem;
+            border-radius: var(--border-radius-sm);
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 0.75rem;
+            margin-bottom: 0.5rem;
+            word-break: break-all;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            color: var(--primary-light);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .link-url-ngrok {
+            background: rgba(2, 6, 23, 0.8);
+            padding: 0.875rem 1rem;
+            border-radius: var(--border-radius-sm);
+            font-family: 'SF Mono', 'Consolas', monospace;
+            font-size: 0.75rem;
+            margin-bottom: 1rem;
+            word-break: break-all;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            color: var(--primary-light);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .link-url-icon {
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            flex-shrink: 0;
+        }
+        
+        .link-url-text {
+            flex: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .copy-btn {
+            position: absolute;
+            right: 0.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(14, 165, 233, 0.15);
+            border: none;
+            color: white;
+            border-radius: var(--border-radius-sm);
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .copy-btn:hover {
+            background: rgba(14, 165, 233, 0.3);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+   
+        
+        .action-btn {
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            color: var(--light);
+            width: 32px;
+            height: 32px;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-left: 8px;
+        }
+        
+        .action-btn:hover {
+            background: rgba(14, 165, 233, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 3px 10px rgba(14, 165, 233, 0.3);
+        }
+        
+        .link-actions {
+            display: flex;
+        }
+        
+        @media (max-width: 1280px) {
+            .split-layout {
+                flex-direction: column;
+            }
+            
+            .table-section, .map-section {
+                width: 100%;
+            }
+            
+            #map {
+                height: 400px;
+            }
+        }
+        
+        @media (max-width: 960px) {
+            .sidebar {
+                width: 220px;
+            }
+            
+            .main-content {
+                margin-left: 220px;
+            }
+            
+            .card-body {
+                padding: 1rem;
+            }
+            
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .dashboard-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+                height: auto;
+                max-height: 60vh;
+                overflow-y: auto;
+            }
+            
+            .main-content {
+                margin-left: 0;
+            }
+            
+            .content {
+                padding: 1rem;
+            }
+            
+            .card-header {
+                padding: 1rem;
+            }
+            
+            .card-body {
+                padding: 0.75rem;
+            }
+            
+            .empty-state {
+                padding: 2rem 1rem;
+            }
+            
+            .modal {
+                max-width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-logo">
+                    <i class="fas fa-shield-alt"></i>
+                    <h1>Geolocation</h1>
+                </div>
+            </div>
+            
+            <div class="sidebar-menu">
+                <div class="menu-section">
+                    <ul class="menu-items">
+                        <li class="menu-item">
+                            <a href="#" class="menu-link active" data-tab="dashboard">
+                                <i class="fas fa-tachometer-alt"></i>
+                                <span>Welcome</span>
+                            </a>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="#" class="menu-link" data-tab="links">
+                                <i class="fas fa-file-code"></i>
+                                <span>Management</span>
+                            </a>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="#" class="menu-link" data-tab="connections">
+                                <i class="fas fa-users"></i>
+                                <span>Connections</span>
+                            </a>
+                        </li>
+
+                        <li class="menu-item">
+                            <a href="#" class="menu-link" data-tab="details">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Information</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-content">
+            <div class="content">
+                <div class="tab-panels">
+                    <div class="tab-panel active" id="dashboard-panel">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    Welcome
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <div class="empty-state">
+                                    <p>Welcome anonymous</p>
+                                    <p style="font-size: 0.9rem; color: var(--secondary);">This app is designed and provided strictly for educational and research purposes only. It demonstrates technical concepts related to web development, user tracking systems, and information security awareness. The tool should be used exclusively in controlled environments with proper consent from all participants. It is intended for security professionals, educators, and students to learn about potential privacy implications of location data sharing and to develop better security practices. Any use of this system for tracking individuals without their explicit knowledge and consent is unethical, potentially illegal, and explicitly prohibited. By using this tool, you acknowledge your responsibility to use it ethically and in compliance with all applicable laws and regulations regarding data privacy and digital consent.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="connections-panel">
+                        <div class="card">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <i class="fas fa-users"></i>
+                                    Connections
+                                </h2>
+                                <div class="card-actions">
+                                    <button class="btn btn-sm" id="refresh-targets">
+                                        <i class="fas fa-sync-alt"></i>
+                                        <span>Refresh</span>
+                                    </button>
+                                    <button class="btn btn-sm btn-danger" id="clear-history">
+                                        <i class="fas fa-trash-alt"></i>
+                                        <span>Clear History</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="table-container">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th width="25%">Time</th>
+                                                <th width="20%">IP</th>
+                                                <th width="20%">Browser</th>
+                                                <th width="15%">OS</th>
+                                                <th width="20%">Location</th>
+                                            </tr>
+                                        </thead>
+                                    </table>
+                                    <div class="table-body-container">
+                                        <table>
+                                            <tbody id="targets-body">
+                                                <tr>
+                                                    <td colspan="5" style="text-align: center; padding: 2rem 1rem;">
+                                                        <div style="color: var(--secondary);">
+                                                            No connection data available
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="details-panel">
+                        <div class="card" id="detail-panel">
+                            <div class="card-header">
+                                <h2 class="card-title">
+                                    <i class="fas fa-info-circle"></i>
+                                    Information
+                                </h2>
+                            </div>
+                            <div class="card-body">
+                                <div id="detail-content">
+                                    <div class="empty-state" id="detail-empty-state">
+                                        <p>No connection selected</p>
+                                        <p style="font-size: 0.9rem; color: var(--secondary);">Select a connection from the Connections tab to view details</p>
+                                    </div>
+                                    <div class="detail-grid" id="detail-grid" style="display: none;">
+                                        <div class="detail-section">
+                                            <h3><i class="fas fa-laptop"></i> Device Information</h3>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Platform</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Operating System</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Browser</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">CPU Cores</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Memory</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Screen Resolution</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">GPU Vendor</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">GPU Renderer</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="detail-section">
+                                            <h3><i class="fas fa-globe"></i> IP Information</h3>
+                                            <div class="detail-item">
+                                                <div class="detail-label">IP Address</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">City</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Region</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Country</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">ISP</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Organization</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Timezone</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Postal Code</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="detail-section">
+                                            <h3><i class="fas fa-map-marker-alt"></i> Location Information</h3>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Latitude</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Longitude</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Accuracy</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Altitude</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Altitude Accuracy</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Heading</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                            <div class="detail-item">
+                                                <div class="detail-label">Speed</div>
+                                                <div class="detail-value">Null</div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="detail-section">
+                                            <h3><i class="fas fa-map-marked-alt"></i> Map View</h3>
+                                            <div id="map"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="tab-panel" id="links-panel">
+                        <div class="links-dashboard">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h2 class="card-title">
+                                        <i class="fas fa-table"></i>
+                                        Your Links
+                                    </h2>
+                                    <div class="card-actions">
+                                        <button class="btn btn-success" id="start-ngrok-btn">
+                                            <i class="fas fa-play"></i>
+                                            <span>Start Tunnel</span>
+                                        </button>
+                                        <button class="btn btn-danger" id="stop-ngrok-btn" style="display: none;">
+                                            <i class="fas fa-stop"></i>
+                                            <span>Stop Tunnel</span>
+                                        </button>
+                                        <button class="btn btn-primary" id="new-link-btn">
+                                            <i class="fas fa-plus"></i>
+                                            <span>Create Link</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="card-body" style="display: flex; justify-content: center; align-items: center;">
+                                    <div class="links-grid" id="links-container">
+                                        <div class="empty-state">
+                                            <i class="fas fa-link"></i>
+                                            <p>No custom links created yet.</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Create Link Modal -->
+    <div class="modal-backdrop" id="create-link-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-link"></i>
+                    Create Custom Link
+                </h3>
+                <button class="modal-close" id="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="link-name" class="form-label">Link Name</label>
+                    <input type="text" id="link-name" class="form-control" placeholder="e.g. Marketing Campaign 2025">
+                </div>
+                <div class="form-group">
+                    <label for="custom-id" class="form-label">Custom URL Path (optional)</label>
+                    <input type="text" id="custom-id" class="form-control" placeholder="e.g. marketing-2025">
+                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Leave empty for auto-generated ID</small>
+                </div>
+                <div class="form-group">
+                    <label for="template-select" class="form-label">Template</label>
+                    <select id="template-select" class="form-control">
+                        <option value="default">Default Security Template</option>
+                        <option value="nearyou">Near You Template</option>
+                        <option value="gdrive">Google Drive Template</option>
+                        <option value="captcha">CAPTCHA Verification</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="redirect-url-new" class="form-label">Redirect URL (optional)</label>
+                    <input type="text" id="redirect-url-new" class="form-control" placeholder="e.g. https://example.com">
+                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Where to redirect after location is captured</small>
+                </div>
+                <div class="form-group">
+                    <label for="geo-mode-select-new" class="form-label">Geolocation Mode</label>
+                    <select id="geo-mode-select-new" class="form-control">
+                        <option value="single">Single Location (One-time)</option>
+                        <option value="watch">Watch Location (Continuous)</option>
+                    </select>
+                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Watch mode continuously tracks location updates</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancel-link">Cancel</button>
+                <button class="btn btn-primary" id="save-link">
+                    <i class="fas fa-save"></i>
+                    <span>Create Link</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Template Modal -->
+    <div class="modal-backdrop" id="template-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-file-code"></i>
+                    Change Template
+                </h3>
+                <button class="modal-close" id="close-template-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="change-template-select" class="form-label">Select Template</label>
+                    <select id="change-template-select" class="form-control">
+                        <option value="default">Default Security Template</option>
+                        <option value="nearyou">Near You Template</option>
+                        <option value="gdrive">Google Drive Template</option>
+                        <option value="captcha">CAPTCHA Verification</option>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancel-template-change">Cancel</button>
+                <button class="btn btn-primary" id="save-template-change">
+                    <i class="fas fa-save"></i>
+                    <span>Save Changes</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Settings Modal -->
+    <div class="modal-backdrop" id="settings-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-cog"></i>
+                    Link Settings
+                </h3>
+                <button class="modal-close" id="close-settings-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="redirect-url" class="form-label">Redirect URL (optional)</label>
+                    <input type="text" id="redirect-url" class="form-control" placeholder="e.g. https://example.com">
+                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Where to redirect after location is captured</small>
+                </div>
+                <div class="form-group">
+                    <label for="geo-mode-select" class="form-label">Geolocation Mode</label>
+                    <select id="geo-mode-select" class="form-control">
+                        <option value="single">Single Location (One-time)</option>
+                        <option value="watch">Watch Location (Continuous)</option>
+                    </select>
+                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Watch mode continuously tracks location updates</small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancel-settings">Cancel</button>
+                <button class="btn btn-primary" id="save-settings">
+                    <i class="fas fa-save"></i>
+                    <span>Save Settings</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Delete Confirmation Modal -->
+    <div class="modal-backdrop" id="confirm-delete-modal">
+        <div class="modal confirm-delete-modal">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-trash-alt"></i>
+                    Delete Link
+                </h3>
+                <button class="modal-close" id="close-delete-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete this link?</p>
+                <p style="font-size: 0.875rem; color: var(--secondary); margin-top: 0.5rem;">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancel-delete">Cancel</button>
+                <button class="btn btn-danger" id="confirm-delete">
+                    <i class="fas fa-trash-alt"></i>
+                    <span>Delete</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Notification -->
+    <div class="notification" id="notification">
+        <div class="notification-icon">
+            <i class="fas fa-info-circle" id="notification-icon"></i>
+        </div>
+        <div class="notification-content" id="notification-text">
+            Notification message
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const socket = io();
+            let targetsData = [];
+            let linksData = [];
+            let currentTab = 'dashboard';
+            let markerClusterGroup;
+            let map;
+            let currentDeleteLinkId = null;
+            let currentTemplateLinkId = null;
+            let currentSettingsLinkId = null;
+            let ngrokUrl = null;
+            let currentSelectedTarget = null;
+            
+            const darkMapStyle = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+                subdomains: 'abcd',
+                maxZoom: 19
+            });
+            
+            const markers = [];
+            
+            function initializeMap() {
+                if (map) {
+                    map.remove();
+                }
+                map = L.map('map', {
+                    layers: [darkMapStyle],
+                    zoomControl: false,
+                    minZoom: 2
+                }).setView([20, 0], 2);
+                
+                L.control.zoom({
+                    position: 'topright'
+                }).addTo(map);
+                
+                L.control.scale({
+                    imperial: false,
+                    position: 'bottomleft'
+                }).addTo(map);
+                
+                markerClusterGroup = L.markerClusterGroup({
+                    showCoverageOnHover: false,
+                    maxClusterRadius: 60,
+                    disableClusteringAtZoom: 12,
+                    spiderfyOnMaxZoom: true,
+                    iconCreateFunction: function(cluster) {
+                        const count = cluster.getChildCount();
+                        let size = 'small';
+                        
+                        if (count > 50) size = 'large';
+                        else if (count > 10) size = 'medium';
+                        
+                        return L.divIcon({
+                            html: `<div class="custom-cluster" style="background: rgba(14, 165, 233, 0.85); box-shadow: 0 0 10px rgba(14, 165, 233, 0.5); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 14px;">${count}</div>`,
+                            className: '',
+                            iconSize: L.point(36, 36)
+                        });
+                    }
+                });
+                
+                map.addLayer(markerClusterGroup);
+            }
+            
+            socket.on('new_target', function(target) {
+                showNotification('New connection detected', 'fa-user-shield');
+                
+                targetsData.push(target);
+                
+                addTargetRow(target);
+                
+                addMarker(target);
+                
+                updateDashboardStats();
+            });
+            
+            socket.on('link_created', function(link) {
+                linksData.push(link);
+                
+                if (currentTab === 'links') {
+                    if (linksData.length === 1) {
+                        document.getElementById('links-container').innerHTML = '';
+                    }
+                    
+                    addLinkCard(link);
+                }
+                
+                updateDashboardStats();
+            });
+            
+            socket.on('link_updated', function(link) {
+                const index = linksData.findIndex(l => l.id === link.id);
+                if (index !== -1) {
+                    linksData[index] = link;
+                }
+                
+                if (currentTab === 'links') {
+                    const linkElement = document.getElementById(`link-card-${link.id}`);
+                    if (linkElement) {                        
+                        const templateBadge = linkElement.querySelector('.template-badge');
+                        if (templateBadge) {
+                            let templateName = "Default";
+                            if (link.template === 'nearyou') {
+                                templateName = "Near You";
+                            } else if (link.template === 'gdrive') {
+                                templateName = "Google Drive";
+                            } else if (link.template === 'captcha') {
+                                templateName = "CAPTCHA";
+                            }
+                            templateBadge.textContent = templateName;
+                        }
+                        
+                        // Update geo mode display
+                        const stats = linkElement.querySelectorAll('.stat');
+                        if (stats.length >= 3) {
+                            const geoModeStat = stats[2];
+                            const geoModeLabel = geoModeStat.querySelector('.stat-label:first-child');
+                            if (geoModeLabel) {
+                                geoModeLabel.textContent = link.geo_mode === 'watch' ? 'Continuous' : 'One-time';
+                            }
+                        }
+                        
+                        // Update or add redirect URL section
+                        let footer = linkElement.querySelector('.link-footer');
+                        if (link.redirect_url) {
+                            if (footer) {
+                                const redirectText = footer.querySelector('span:last-child');
+                                if (redirectText) {
+                                    redirectText.textContent = link.redirect_url;
+                                    redirectText.setAttribute('title', link.redirect_url);
+                                }
+                            } else {
+                                footer = document.createElement('div');
+                                footer.className = 'link-footer';
+                                footer.style = 'margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05);';
+                                footer.innerHTML = `
+                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                        <span style="color: var(--secondary);">Redirect:</span> 
+                                        <span title="${link.redirect_url}" style="color: var(--primary-light);">${link.redirect_url}</span>
+                                    </div>
+                                `;
+                                linkElement.appendChild(footer);
+                            }
+                        } else if (footer) {
+                            footer.remove();
+                        }
+                        
+                        // Update the settings button data attributes
+                        const settingsBtn = linkElement.querySelector('.settings-btn');
+                        if (settingsBtn) {
+                            settingsBtn.setAttribute('data-redirect', link.redirect_url || '');
+                            settingsBtn.setAttribute('data-geo-mode', link.geo_mode || 'single');
+                        }
+                    }
+                }
+            });
+            
+            socket.on('link_deleted', function(data) {
+                linksData = linksData.filter(link => link.id !== data.id);
+                
+                if (currentTab === 'links') {
+                    const linkElement = document.getElementById(`link-card-${data.id}`);
+                    if (linkElement) {
+                        linkElement.remove();
+                    }
+                    
+                    if (linksData.length === 0) {
+                        const linksContainer = document.getElementById('links-container');
+                        const cardBody = linksContainer.parentElement;
+                        cardBody.style.display = "flex";
+                        cardBody.style.justifyContent = "center";
+                        cardBody.style.alignItems = "center";
+                        
+                        linksContainer.innerHTML = `
+                            <div class="empty-state">
+                                <i class="fas fa-link"></i>
+                                <p>No custom links created yet.</p>
+                                <button class="btn btn-primary" id="empty-create-link" style="margin-top: 1rem;">
+                                    <i class="fas fa-plus"></i>
+                                    <span>Create Link</span>
+                                </button>
+                            </div>
+                        `;
+                        
+                        document.getElementById('empty-create-link').addEventListener('click', openLinkModal);
+                    }
+                }
+                
+                updateDashboardStats();
+            });
+            
+            socket.on('ngrok_status', function(status) {
+                updateNgrokUI(status);
+                if (status.running && status.url) {
+                    ngrokUrl = status.url;
+                    updateLinkCards();
+                } else {
+                    ngrokUrl = null;
+                    updateLinkCards();
+                }
+            });
+            
+            function updateLinkCards() {
+                document.querySelectorAll('.link-card').forEach(card => {
+                    const linkId = card.id.replace('link-card-', '');
+                    const urlContainer = card.querySelector('.link-url-ngrok');
+                    const copyNgrokBtn = card.querySelector('.copy-btn-ngrok');
+                    
+                    if (ngrokUrl) {
+                        if (!urlContainer) {
+                            const linkUrlElement = card.querySelector('.link-url');
+                            const ngrokUrlElement = document.createElement('div');
+                            ngrokUrlElement.className = 'link-url-ngrok';
+                            ngrokUrlElement.innerHTML = `
+                                <div class="link-url-icon">
+                                    <i class="fas fa-globe"></i>
+                                </div>
+                                <div class="link-url-text">${ngrokUrl}/${linkId}</div>
+                                <button class="copy-btn copy-btn-ngrok" data-url="${ngrokUrl}/${linkId}" title="Copy Ngrok URL">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                            `;
+                            linkUrlElement.parentNode.insertBefore(ngrokUrlElement, linkUrlElement.nextSibling);
+                            
+                            ngrokUrlElement.querySelector('.copy-btn-ngrok').addEventListener('click', (e) => {
+                                e.stopPropagation();
+                                const url = e.currentTarget.getAttribute('data-url');
+                                navigator.clipboard.writeText(url).then(() => {
+                                    showNotification('Ngrok URL copied to clipboard', 'fa-copy');
+                                });
+                            });
+                        } else {
+                            urlContainer.querySelector('.link-url-text').textContent = `${ngrokUrl}/${linkId}`;
+                            urlContainer.querySelector('.copy-btn-ngrok').setAttribute('data-url', `${ngrokUrl}/${linkId}`);
+                        }
+                    } else {
+                        if (urlContainer) {
+                            urlContainer.remove();
+                        }
+                    }
+                });
+            }
+            
+            function showNotification(message, icon = 'fa-info-circle') {
+                const notification = document.getElementById('notification');
+                const notificationText = document.getElementById('notification-text');
+                const notificationIcon = document.getElementById('notification-icon');
+                
+                notificationIcon.className = `fas ${icon}`;
+                notificationText.textContent = message;
+                notification.classList.add('show');
+                
+                setTimeout(function() {
+                    notification.classList.remove('show');
+                }, 3000);
+            }
+            
+            function addMarker(target) {
+                if (target.geolocationStatus === 'success' && 
+                    target.latitude && 
+                    target.longitude) {
+                    
+                    let iconClass = 'fa-map-marker-alt';
+                    let iconColor = '#0ea5e9';
+                    
+                    if (target.browser) {
+                        if (target.browser.includes('Chrome')) {
+                            iconColor = '#10b981';
+                            iconClass = 'fa-chrome';
+                        }
+                        else if (target.browser.includes('Firefox')) {
+                            iconColor = '#f59e0b';
+                            iconClass = 'fa-firefox';
+                        }
+                        else if (target.browser.includes('Safari')) {
+                            iconColor = '#3b82f6';
+                            iconClass = 'fa-safari';
+                        }
+                        else if (target.browser.includes('Edge')) {
+                            iconColor = '#0ea5e9';
+                            iconClass = 'fa-edge';
+                        }
+                    }
+                    
+                    const customIcon = L.divIcon({
+                        html: `<div class="custom-marker" style="color:${iconColor}"><i class="fab ${iconClass}"></i></div>`,
+                        className: '',
+                        iconSize: [30, 30],
+                        iconAnchor: [15, 30],
+                        popupAnchor: [0, -30]
+                    });
+                    
+                    let formattedTime = target.timestamp || 'N/A';
+                    if (target.timestamp) {
+                        try {
+                            const date = new Date(target.timestamp.replace(/-/g, '/'));
+                            formattedTime = new Intl.DateTimeFormat('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                hour: '2-digit',
+                                minute: '2-digit'
+                            }).format(date);
+                        } catch (e) {
+                        }
+                    }
+                    
+                    const location = [target.city, target.region, target.country].filter(Boolean).join(', ');
+                    
+                    const popupContent = `
+                        <div class="custom-popup">
+                            <div class="popup-header">
+                                <i class="fas fa-info-circle"></i>
+                                <span>Connection Details</span>
+                            </div>
+                            <div class="popup-content">
+                                <div class="popup-item">
+                                    <strong><i class="fas fa-clock"></i> Time:</strong>
+                                    <span>${formattedTime}</span>
+                                </div>
+                                <div class="popup-item">
+                                    <strong><i class="fas fa-network-wired"></i> IP:</strong>
+                                    <span>${target.ip || 'N/A'}</span>
+                                </div>
+                                <div class="popup-item">
+                                    <strong><i class="fas fa-globe"></i> Browser:</strong>
+                                    <span>${target.browser || 'N/A'}</span>
+                                </div>
+                                <div class="popup-item">
+                                    <strong><i class="fas fa-laptop"></i> OS:</strong>
+                                    <span>${target.os || 'N/A'}</span>
+                                </div>
+                                ${location ? `
+                                <div class="popup-item">
+                                    <strong><i class="fas fa-map-pin"></i> Location:</strong>
+                                    <span>${location}</span>
+                                </div>` : ''}
+                                ${target.source_link ? `
+                                <div class="popup-item">
+                                    <strong><i class="fas fa-link"></i> Source:</strong>
+                                    <span>${target.link_name || target.source_link}</span>
+                                </div>` : ''}
+                                <div class="popup-item">
+                                    <strong><i class="fas fa-map-marker-alt"></i> Coordinates:</strong>
+                                    <span>${parseFloat(target.latitude).toFixed(6)}, ${parseFloat(target.longitude).toFixed(6)}</span>
+                                </div>
+                            </div>
+                            <div class="popup-footer">
+                                <button class="popup-btn" onclick="document.getElementById('details-for-${target.timestamp.replace(/[\s:-]/g, '')}').click()">
+                                    <i class="fas fa-search-plus"></i> View Details
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    
+                    const marker = L.marker([target.latitude, target.longitude], {icon: customIcon})
+                        .bindPopup(popupContent, {
+                            maxWidth: 300,
+                            className: 'custom-popup-container'
+                        });
+                    
+                    markerClusterGroup.addLayer(marker);
+                    markers.push(marker);
+                }
+            }
+            
+            function addTargetRow(target) {
+                const tableBody = document.getElementById('targets-body');
+                const row = document.createElement('tr');
+                row.id = `target-row-${target.timestamp.replace(/[\s:-]/g, '')}`;
+                // Store the target data on the row element for reference
+                row._target = target;
+                
+                let formattedTime = target.timestamp || 'N/A';
+                let timestampAttr = target.timestamp || '';
+                
+                if (target.timestamp) {
+                    try {
+                        const date = new Date(target.timestamp.replace(/-/g, '/'));
+                        formattedTime = new Intl.DateTimeFormat('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }).format(date);
+                        timestampAttr = date.toISOString();
+                    } catch (e) {
+                    }
+                }
+                
+                let browserIcon = 'fa-globe';
+                if (target.browser) {
+                    if (target.browser.includes('Chrome')) browserIcon = 'fa-chrome';
+                    else if (target.browser.includes('Firefox')) browserIcon = 'fa-firefox';
+                    else if (target.browser.includes('Safari')) browserIcon = 'fa-safari';
+                    else if (target.browser.includes('Edge')) browserIcon = 'fa-edge';
+                }
+                
+                let osIcon = 'fa-microchip';
+                if (target.os) {
+                    if (target.os.includes('Windows')) osIcon = 'fa-windows';
+                    else if (target.os.includes('Mac')) osIcon = 'fa-apple';
+                    else if (target.os.includes('Linux')) osIcon = 'fa-linux';
+                    else if (target.os.includes('Android')) osIcon = 'fa-android';
+                    else if (target.os.includes('iOS')) osIcon = 'fa-apple';
+                }
+                
+                let locationBadge = '';
+                if (target.city || target.region || target.country) {
+                    const locationParts = [target.city, target.region, target.country].filter(Boolean);
+                    const locationText = locationParts.join(', ');
+                    locationBadge = `<span class="badge badge-success">${locationText}</span>`;
+                } else if (target.geolocationStatus === 'success') {
+                    locationBadge = `<span class="badge badge-success">Available</span>`;
+                } else {
+                    locationBadge = `<span class="badge badge-danger">Unavailable</span>`;
+                }
+                
+                row.innerHTML = `
+                    <td data-timestamp="${timestampAttr}">
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fas fa-clock" style="color: var(--secondary);"></i>
+                            <span>${formattedTime}</span>
+                        </div>
+                    </td>
+                    <td>${target.ip || 'N/A'}</td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fab ${browserIcon}" style="color: var(--primary);"></i>
+                            <span>${target.browser || 'N/A'}</span>
+                        </div>
+                    </td>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 6px;">
+                            <i class="fab ${osIcon}" style="color: var(--primary);"></i>
+                            <span>${target.os || 'N/A'}</span>
+                        </div>
+                    </td>
+                    <td>${locationBadge}</td>
+                `;
+                
+                const detailsBtn = document.createElement('button');
+                detailsBtn.style.display = 'none';
+                detailsBtn.id = `details-for-${target.timestamp.replace(/[\s:-]/g, '')}`;
+                row.appendChild(detailsBtn);
+                
+                row.addEventListener('click', () => {
+                    document.querySelectorAll('#targets-body tr').forEach(r => {
+                        r.classList.remove('selected');
+                    });
+                    
+                    row.classList.add('selected');
+                    
+                    showDetails(target);
+                    
+                    // Switch to details tab
+                    switchTab('details');
+                });
+                
+                tableBody.prepend(row);
+            }
+            
+            function showDetails(target) {
+                currentSelectedTarget = target;
+                
+                // Hide empty state and show detail grid
+                document.getElementById('detail-empty-state').style.display = 'none';
+                document.getElementById('detail-grid').style.display = 'grid';
+                
+                // Update device information
+                updateDetailSection('Device Information', [
+                    { label: 'Platform', value: target.platform || 'Null' },
+                    { label: 'Operating System', value: target.os || 'Null' },
+                    { label: 'Browser', value: target.browser || 'Null' },
+                    { label: 'CPU Cores', value: target.hardwareConcurrency || 'Null' },
+                    { label: 'Memory', value: target.deviceMemory ? target.deviceMemory + ' GB' : 'Null' },
+                    { label: 'Screen Resolution', value: target.screenWidth && target.screenHeight ? `${target.screenWidth}x${target.screenHeight}` : 'Null' },
+                    { label: 'GPU Vendor', value: target.gpuVendor || 'Null' },
+                    { label: 'GPU Renderer', value: target.gpuRenderer || 'Null' }
+                ]);
+                
+                // Update IP information
+                updateDetailSection('IP Information', [
+                    { label: 'IP Address', value: target.ip || 'Null' },
+                    { label: 'City', value: target.city || 'Null' },
+                    { label: 'Region', value: target.region || 'Null' },
+                    { label: 'Country', value: target.country || 'Null' },
+                    { label: 'ISP', value: target.isp || target.org || 'Null' },
+                    { label: 'Organization', value: target.org || 'Null' },
+                    { label: 'Timezone', value: target.timezone || 'Null' },
+                    { label: 'Postal Code', value: target.postal || 'Null' }
+                ]);
+                
+                // Update location information
+                if (target.geolocationStatus === 'success') {
+                    const latDec = parseFloat(target.latitude).toFixed(6);
+                    const lonDec = parseFloat(target.longitude).toFixed(6);
+                    
+                    updateDetailSection('Location Information', [
+                        { label: 'Latitude', value: `${latDec}°` },
+                        { label: 'Longitude', value: `${lonDec}°` },
+                        { label: 'Accuracy', value: target.accuracy ? parseFloat(target.accuracy).toFixed(2) + ' m' : 'Null' },
+                        { label: 'Altitude', value: target.altitude ? parseFloat(target.altitude).toFixed(2) + ' m' : 'Null' },
+                        { label: 'Altitude Accuracy', value: target.altitudeAccuracy ? parseFloat(target.altitudeAccuracy).toFixed(2) + ' m' : 'Null' },
+                        { label: 'Heading', value: target.heading ? parseFloat(target.heading).toFixed(2) + '°' : 'Null' },
+                        { label: 'Speed', value: target.speed ? parseFloat(target.speed).toFixed(2) + ' m/s' : 'Null' },
+                        { label: 'Maps Link', value: `<a href="https://www.google.com/maps?q=${target.latitude},${target.longitude}" target="_blank" style="color: var(--primary);">View in Google Maps</a>` }
+                    ]);
+                } else {
+                    updateDetailSection('Location Information', [
+                        { label: 'Status', value: '<span style="color: var(--danger);">Location unavailable</span>' },
+                        { label: 'Reason', value: target.geolocationError || 'Unknown' }
+                    ]);
+                }
+                
+                // Initialize map
+                setTimeout(() => {
+                    initializeMap();
+                    
+                    if (target.geolocationStatus === 'success' && 
+                        target.latitude && 
+                        target.longitude) {
+                        map.flyTo([target.latitude, target.longitude], 13);
+                        
+                        let iconClass = 'fa-map-marker-alt';
+                        let iconColor = '#0ea5e9';
+                        
+                        if (target.browser) {
+                            if (target.browser.includes('Chrome')) {
+                                iconColor = '#10b981';
+                                iconClass = 'fa-chrome';
+                            }
+                            else if (target.browser.includes('Firefox')) {
+                                iconColor = '#f59e0b';
+                                iconClass = 'fa-firefox';
+                            }
+                            else if (target.browser.includes('Safari')) {
+                                iconColor = '#3b82f6';
+                                iconClass = 'fa-safari';
+                            }
+                            else if (target.browser.includes('Edge')) {
+                                iconColor = '#0ea5e9';
+                                iconClass = 'fa-edge';
+                            }
+                        }
+                        
+                        const customIcon = L.divIcon({
+                            html: `<div class="custom-marker" style="color:${iconColor}"><i class="fab ${iconClass}"></i></div>`,
+                            className: '',
+                            iconSize: [30, 30],
+                            iconAnchor: [15, 30],
+                            popupAnchor: [0, -30]
+                        });
+                        
+                        L.marker([target.latitude, target.longitude], {icon: customIcon}).addTo(map);
+                    }
+                }, 100);
+            }
+            
+            function updateDetailSection(sectionTitle, items) {
+                const sections = document.querySelectorAll('.detail-section');
+                let section;
+                
+                for (let i = 0; i < sections.length; i++) {
+                    if (sections[i].querySelector('h3').textContent.includes(sectionTitle)) {
+                        section = sections[i];
+                        break;
+                    }
+                }
+                
+                if (!section) return;
+                
+                // Clear existing items except the header
+                const header = section.querySelector('h3');
+                section.innerHTML = '';
+                section.appendChild(header);
+                
+                // Add new items
+                items.forEach(item => {
+                    const itemDiv = document.createElement('div');
+                    itemDiv.className = 'detail-item';
+                    itemDiv.innerHTML = `
+                        <div class="detail-label">${item.label}</div>
+                        <div class="detail-value">${item.value}</div>
+                    `;
+                    section.appendChild(itemDiv);
+                });
+            }
+            
+            function openLinkModal() {
+                document.getElementById('create-link-modal').classList.add('show');
+                document.getElementById('link-name').value = '';
+                document.getElementById('custom-id').value = '';
+                document.getElementById('template-select').value = 'default';
+                document.getElementById('redirect-url-new').value = '';
+                document.getElementById('geo-mode-select-new').value = 'single';
+                document.getElementById('link-name').focus();
+            }
+            
+            function closeLinkModal() {
+                document.getElementById('create-link-modal').classList.remove('show');
+            }
+            
+            function openTemplateModal(linkId, currentTemplate) {
+                currentTemplateLinkId = linkId;
+                document.getElementById('change-template-select').value = currentTemplate || 'default';
+                document.getElementById('template-modal').classList.add('show');
+            }
+            
+            function closeTemplateModal() {
+                document.getElementById('template-modal').classList.remove('show');
+                currentTemplateLinkId = null;
+            }
+            
+            function openSettingsModal(linkId, redirectUrl, geoMode) {
+                currentSettingsLinkId = linkId;
+                document.getElementById('redirect-url').value = redirectUrl || '';
+                document.getElementById('geo-mode-select').value = geoMode || 'single';
+                document.getElementById('settings-modal').classList.add('show');
+            }
+            
+            function closeSettingsModal() {
+                document.getElementById('settings-modal').classList.remove('show');
+                currentSettingsLinkId = null;
+            }
+            
+            function openDeleteModal(linkId) {
+                currentDeleteLinkId = linkId;
+                document.getElementById('confirm-delete-modal').classList.add('show');
+            }
+            
+            function closeDeleteModal() {
+                document.getElementById('confirm-delete-modal').classList.remove('show');
+                currentDeleteLinkId = null;
+            }
+            
+            function deleteLink() {
+                if (!currentDeleteLinkId) return;
+                
+                const deleteBtn = document.getElementById('confirm-delete');
+                const originalText = deleteBtn.innerHTML;
+                deleteBtn.disabled = true;
+                deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+                
+                fetch(`/api/delete_link/${currentDeleteLinkId}`, {
+                    method: 'DELETE',
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showNotification('Link deleted successfully', 'fa-check-circle');
+                        closeDeleteModal();
+                        
+                        const linkElement = document.getElementById(`link-card-${currentDeleteLinkId}`);
+                        if (linkElement) {
+                            linkElement.remove();
+                        }
+                        
+                        linksData = linksData.filter(link => link.id !== currentDeleteLinkId);
+                        
+                        if (linksData.length === 0) {
+                            const linksContainer = document.getElementById('links-container');
+                            const cardBody = linksContainer.parentElement;
+                            cardBody.style.display = "flex";
+                            cardBody.style.justifyContent = "center";
+                            cardBody.style.alignItems = "center";
+                            
+                            linksContainer.innerHTML = `
+                                <div class="empty-state">
+                                    <i class="fas fa-link"></i>
+                                    <p>No custom links created yet.</p>
+                                    <button class="btn btn-primary" id="empty-create-link" style="margin-top: 1rem;">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Create Link</span>
+                                    </button>
+                                </div>
+                            `;
+                            
+                            document.getElementById('empty-create-link').addEventListener('click', openLinkModal);
+                        }
+                    } else {
+                        showNotification(data.message || 'Error deleting link', 'fa-exclamation-triangle');
+                    }
+                    
+                    deleteBtn.disabled = false;
+                    deleteBtn.innerHTML = originalText;
+                })
+                .catch(error => {
+                    showNotification('Error deleting link', 'fa-exclamation-triangle');
+                    deleteBtn.disabled = false;
+                    deleteBtn.innerHTML = originalText;
+                });
+            }
+            
+            function updateLinkTemplate() {
+                if (!currentTemplateLinkId) return;
+                
+                const templateSelect = document.getElementById('change-template-select');
+                const selectedTemplate = templateSelect.value;
+                
+                const saveBtn = document.getElementById('save-template-change');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                
+                fetch('/api/update_link_template', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        link_id: currentTemplateLinkId,
+                        template: selectedTemplate
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showNotification('Template updated successfully', 'fa-check-circle');
+                        closeTemplateModal();
+                        
+                        const linkIndex = linksData.findIndex(link => link.id === currentTemplateLinkId);
+                        if (linkIndex !== -1) {
+                            linksData[linkIndex].template = selectedTemplate;
+                            
+                            const linkCard = document.getElementById(`link-card-${currentTemplateLinkId}`);
+                            if (linkCard) {
+                                const templateBadge = linkCard.querySelector('.template-badge');
+                                if (templateBadge) {
+                                    let templateName = "Default";
+                                    if (selectedTemplate === 'nearyou') {
+                                        templateName = "Near You";
+                                    } else if (selectedTemplate === 'gdrive') {
+                                        templateName = "Google Drive";
+                                    } else if (selectedTemplate === 'captcha') {
+                                        templateName = "CAPTCHA";
+                                    }
+                                    templateBadge.textContent = templateName;
+                                }
+                            }
+                        }
+                    } else {
+                        showNotification(data.message || 'Error updating template', 'fa-exclamation-triangle');
+                    }
+                    
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalText;
+                })
+                .catch(error => {
+                    showNotification('Error updating template', 'fa-exclamation-triangle');
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalText;
+                });
+            }
+            
+            function updateLinkSettings() {
+                if (!currentSettingsLinkId) return;
+                
+                const redirectUrl = document.getElementById('redirect-url').value.trim();
+                const geoMode = document.getElementById('geo-mode-select').value;
+                
+                const saveBtn = document.getElementById('save-settings');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+                
+                fetch('/api/update_link_settings', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        link_id: currentSettingsLinkId,
+                        redirect_url: redirectUrl,
+                        geo_mode: geoMode
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showNotification('Settings updated successfully', 'fa-check-circle');
+                        closeSettingsModal();
+                        
+                        const linkIndex = linksData.findIndex(link => link.id === currentSettingsLinkId);
+                        if (linkIndex !== -1) {
+                            linksData[linkIndex].redirect_url = redirectUrl;
+                            linksData[linkIndex].geo_mode = geoMode;
+                            
+                            const linkCard = document.getElementById(`link-card-${currentSettingsLinkId}`);
+                            if (linkCard) {
+                                // Update the geolocation mode display
+                                const stats = linkCard.querySelectorAll('.stat');
+                                if (stats.length >= 3) {
+                                    const geoModeStat = stats[2];
+                                    const geoModeLabel = geoModeStat.querySelector('.stat-label:first-child');
+                                    if (geoModeLabel) {
+                                        geoModeLabel.textContent = geoMode === 'watch' ? 'Continuous' : 'One-time';
+                                    }
+                                }
+                                
+                                // Update or add the redirect URL section
+                                let footer = linkCard.querySelector('.link-footer');
+                                if (redirectUrl) {
+                                    if (footer) {
+                                        const redirectText = footer.querySelector('span:last-child');
+                                        if (redirectText) {
+                                            redirectText.textContent = redirectUrl;
+                                            redirectText.setAttribute('title', redirectUrl);
+                                        }
+                                    } else {
+                                        footer = document.createElement('div');
+                                        footer.className = 'link-footer';
+                                        footer.style = 'margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05);';
+                                        footer.innerHTML = `
+                                            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                                                <span style="color: var(--secondary);">Redirect:</span> 
+                                                <span title="${redirectUrl}" style="color: var(--primary-light);">${redirectUrl}</span>
+                                            </div>
+                                        `;
+                                        linkCard.appendChild(footer);
+                                    }
+                                } else if (footer) {
+                                    footer.remove();
+                                }
+                                
+                                // Update the settings button data attributes
+                                const settingsBtn = linkCard.querySelector('.settings-btn');
+                                if (settingsBtn) {
+                                    settingsBtn.setAttribute('data-redirect', redirectUrl || '');
+                                    settingsBtn.setAttribute('data-geo-mode', geoMode);
+                                }
+                            }
+                        }
+                    } else {
+                        showNotification(data.message || 'Error updating settings', 'fa-exclamation-triangle');
+                    }
+                    
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalText;
+                })
+                .catch(error => {
+                    showNotification('Error updating settings', 'fa-exclamation-triangle');
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalText;
+                });
+            }
+            
+            function addLinkCard(link) {
+                const linksContainer = document.getElementById('links-container');
+                
+                if (linksData.length === 1) {
+                    linksContainer.innerHTML = '';
+                    linksContainer.className = 'links-grid';
+                    const cardBody = linksContainer.parentElement;
+                    cardBody.style.display = "block";
+                    cardBody.style.justifyContent = "";
+                    cardBody.style.alignItems = "";
+                }
+                
+                let formattedDate = link.created || 'N/A';
+                if (link.created) {
+                    try {
+                        const date = new Date(link.created.replace(/-/g, '/'));
+                        formattedDate = new Intl.DateTimeFormat('en-US', {
+                            year: 'numeric',
+                            month: 'short',
+                            day: 'numeric'
+                        }).format(date);
+                    } catch (e) {
+                    }
+                }
+                
+                const baseUrl = window.location.origin;
+                const fullUrl = `${baseUrl}/${link.id}`;
+                
+                let templateName = "Default";
+                if (link.template === 'nearyou') {
+                    templateName = "Near You";
+                } else if (link.template === 'gdrive') {
+                    templateName = "Google Drive";
+                } else if (link.template === 'captcha') {
+                    templateName = "CAPTCHA";
+                }
+            
+                // Geolocation mode text
+                let geoModeText = link.geo_mode === 'watch' ? 'Continuous' : 'One-time';
+                
+                const linkCard = document.createElement('div');
+                linkCard.className = 'link-card';
+                linkCard.id = `link-card-${link.id}`;
+                
+                let ngrokHtml = '';
+                if (ngrokUrl) {
+                    ngrokHtml = `
+                        <div class="link-url-ngrok">
+                            <div class="link-url-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div class="link-url-text">${ngrokUrl}/${link.id}</div>
+                            <button class="copy-btn copy-btn-ngrok" data-url="${ngrokUrl}/${link.id}" title="Copy Ngrok URL">
+                                <i class="fas fa-copy"></i>
+                            </button>
+                        </div>
+                    `;
+                }
+                
+                linkCard.innerHTML = `
+                    <div class="link-header">
+                        <h3 class="link-name">
+                            <i class="fas fa-link"></i>
+                            ${link.name}
+                        </h3>
+                        <div class="link-actions">
+                            <button class="action-btn settings-btn" title="Link Settings" data-id="${link.id}" data-redirect="${link.redirect_url || ''}" data-geo-mode="${link.geo_mode || 'single'}">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                            <button class="action-btn template-btn" title="Change template" data-id="${link.id}" data-template="${link.template || 'default'}">
+                                <i class="fas fa-file-code"></i>
+                            </button>
+                            <button class="action-btn delete-btn" title="Delete link" data-id="${link.id}">
+                                <i class="fas fa-trash-alt"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="link-url">
+                        <div class="link-url-icon">
+                            <i class="fas fa-link"></i>
+                        </div>
+                        <div class="link-url-text">${fullUrl}</div>
+                        <button class="copy-btn" data-url="${fullUrl}" title="Copy URL">
+                            <i class="fas fa-copy"></i>
+                        </button>
+                    </div>
+                    ${ngrokHtml}
+                    ${link.redirect_url ? `
+                    <div class="link-footer" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
+                        <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                            <span style="color: var(--secondary);">Redirect:</span> 
+                            <span title="${link.redirect_url}" style="color: var(--primary-light);">${link.redirect_url}</span>
+                        </div>
+                    </div>
+                    ` : ''}
+                `;
+                
+                setTimeout(() => {
+                    const settingsBtn = linkCard.querySelector('.settings-btn');
+                    if (settingsBtn) {
+                        settingsBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const id = settingsBtn.getAttribute('data-id');
+                            const redirect = settingsBtn.getAttribute('data-redirect');
+                            const geoMode = settingsBtn.getAttribute('data-geo-mode');
+                            openSettingsModal(id, redirect, geoMode);
+                        });
+                    }
+                    
+                    const templateBtn = linkCard.querySelector('.template-btn');
+                    if (templateBtn) {
+                        templateBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const id = templateBtn.getAttribute('data-id');
+                            const template = templateBtn.getAttribute('data-template');
+                            openTemplateModal(id, template);
+                        });
+                    }
+                    
+                    const deleteBtn = linkCard.querySelector('.delete-btn');
+                    if (deleteBtn) {
+                        deleteBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const id = deleteBtn.getAttribute('data-id');
+                            openDeleteModal(id);
+                        });
+                    }
+                    
+                    const copyBtn = linkCard.querySelector('.copy-btn');
+                    if (copyBtn) {
+                        copyBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const url = copyBtn.getAttribute('data-url');
+                            navigator.clipboard.writeText(url).then(() => {
+                                showNotification('URL copied to clipboard', 'fa-copy');
+                            });
+                        });
+                    }
+                    
+                    const copyNgrokBtn = linkCard.querySelector('.copy-btn-ngrok');
+                    if (copyNgrokBtn) {
+                        copyNgrokBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            const url = copyNgrokBtn.getAttribute('data-url');
+                            navigator.clipboard.writeText(url).then(() => {
+                                showNotification('Ngrok URL copied to clipboard', 'fa-copy');
+                            });
+                        });
+                    }
+                }, 0);
+                
+                linksContainer.appendChild(linkCard);
+            }
+            
+            function loadTargets() {
+                fetch('/api/targets')
+                    .then(response => response.json())
+                    .then(data => {
+                        targetsData = data;
+                        const tableBody = document.getElementById('targets-body');
+                        tableBody.innerHTML = '';
+                        
+                        markerClusterGroup.clearLayers();
+                        markers.length = 0;
+                        
+                        if (data.length === 0) {
+                            tableBody.innerHTML = `
+                                <tr>
+                                    <td colspan="5" style="text-align: center; padding: 2rem 1rem;">
+                                        <div style="color: var(--secondary);">
+                                            No connection data available
+                                        </div>
+                                    </td>
+                                </tr>
+                            `;
+                        } else {
+                            data.slice().reverse().forEach(target => {
+                                addTargetRow(target);
+                                addMarker(target);
+                            });
+                        }
+                        
+                        updateDashboardStats();
+                    })
+                    .catch(error => {
+                        showNotification('Error loading connection data', 'fa-exclamation-triangle');
+                    });
+            }
+            
+            function loadLinks() {
+                fetch('/api/links')
+                    .then(response => response.json())
+                    .then(data => {
+                        linksData = data;
+                        const linksContainer = document.getElementById('links-container');
+                        const cardBody = linksContainer.parentElement;
+                        
+                        if (data.length === 0) {
+                            cardBody.style.display = "flex";
+                            cardBody.style.justifyContent = "center";
+                            cardBody.style.alignItems = "center";
+                            
+                            linksContainer.innerHTML = `
+                                <div class="empty-state">
+                                    <i class="fas fa-link"></i>
+                                    <p>No custom links created yet.</p>
+                                    <button class="btn btn-primary" id="empty-create-link" style="margin-top: 1rem;">
+                                        <i class="fas fa-plus"></i>
+                                        <span>Create Link</span>
+                                    </button>
+                                </div>
+                            `;
+                            
+                            document.getElementById('empty-create-link').addEventListener('click', openLinkModal);
+                        } else {
+                            linksContainer.innerHTML = '';
+                            linksContainer.className = 'links-grid';
+                            cardBody.style.display = "block";
+                            cardBody.style.justifyContent = "";
+                            cardBody.style.alignItems = "";
+                            
+                            data.forEach(link => {
+                                addLinkCard(link);
+                            });
+                        }
+                        
+                        updateDashboardStats();
+                    })
+                    .catch(error => {
+                        showNotification('Error loading links', 'fa-exclamation-triangle');
+                    });
+                
+                loadNgrokStatus();
+            }
+            
+            function updateDashboardStats() {
+                const totalLinks = linksData.length;
+                const totalVisits = linksData.reduce((acc, link) => acc + (link.visits || 0), 0);
+                
+                const oneWeekAgo = new Date();
+                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+                
+                const recentLinks = linksData.filter(link => {
+                    if (!link.created) return false;
+                    try {
+                        const linkDate = new Date(link.created.replace(/-/g, '/'));
+                        return linkDate >= oneWeekAgo;
+                    } catch (e) {
+                        return false;
+                    }
+                }).length;
+            }
+            
+            function loadNgrokStatus() {
+                fetch('/api/ngrok/status')
+                    .then(response => response.json())
+                    .then(data => {
+                        updateNgrokUI(data);
+                        if (data.running && data.url) {
+                            ngrokUrl = data.url;
+                            updateLinkCards();
+                        }
+                    })
+                    .catch(error => {
+                        showNotification('Error loading ngrok status', 'fa-exclamation-triangle');
+                    });
+            }
+            
+            function updateNgrokUI(status) {
+                const startBtn = document.getElementById('start-ngrok-btn');
+                const stopBtn = document.getElementById('stop-ngrok-btn');
+                
+                if (status.running) {
+                    if (startBtn) startBtn.style.display = 'none';
+                    if (stopBtn) stopBtn.style.display = 'block';
+                } else {
+                    if (startBtn) startBtn.style.display = 'block';
+                    if (stopBtn) stopBtn.style.display = 'none';
+                }
+            }
+            
+            function createLink() {
+                const name = document.getElementById('link-name').value.trim();
+                const customId = document.getElementById('custom-id').value.trim();
+                const template = document.getElementById('template-select').value;
+                const redirectUrl = document.getElementById('redirect-url-new').value.trim();
+                const geoMode = document.getElementById('geo-mode-select-new').value;
+                
+                if (!name) {
+                    showNotification('Link name is required', 'fa-exclamation-triangle');
+                    return;
+                }
+                
+                const saveBtn = document.getElementById('save-link');
+                const originalText = saveBtn.innerHTML;
+                saveBtn.disabled = true;
+                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+                
+                const linkData = {
+                    name: name,
+                    template: template,
+                    redirect_url: redirectUrl,
+                    geo_mode: geoMode
+                };
+                
+                if (customId) {
+                    linkData.custom_id = customId;
+                }
+                
+                fetch('/api/create_link', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(linkData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showNotification('Custom link created successfully', 'fa-check-circle');
+                        closeLinkModal();
+                        
+                        const exists = linksData.find(link => link.id === data.id);
+                        if (!exists) {
+                            const newLink = {
+                                id: data.id,
+                                name: name,
+                                created: new Date().toISOString(),
+                                visits: 0,
+                                template: template,
+                                redirect_url: redirectUrl,
+                                geo_mode: geoMode
+                            };
+                            linksData.push(newLink);
+                            
+                            if (currentTab === 'links') {
+                                if (linksData.length === 1) {
+                                    document.getElementById('links-container').innerHTML = '';
+                                }
+                                
+                                addLinkCard(newLink);
+                            }
+                            
+                            switchTab('links');
+                        }
+                    } else {
+                        showNotification(data.message || 'Error creating link', 'fa-exclamation-triangle');
+                    }
+                    
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalText;
+                })
+                .catch(error => {
+                    showNotification('Error creating link', 'fa-exclamation-triangle');
+                    saveBtn.disabled = false;
+                    saveBtn.innerHTML = originalText;
+                });
+            }
+            
+            function switchTab(tabId) {
+                currentTab = tabId;
+                
+                document.querySelectorAll('.menu-link').forEach(link => {
+                    link.classList.remove('active');
+                });
+                document.querySelector(`.menu-link[data-tab="${tabId}"]`).classList.add('active');
+                
+                document.querySelectorAll('.tab-panel').forEach(panel => {
+                    panel.classList.remove('active');
+                });
+                document.getElementById(`${tabId}-panel`).classList.add('active');
+                
+                if (tabId === 'dashboard') {
+                    // Nothing specific to do for dashboard
+                } else if (tabId === 'connections') {
+                    loadTargets();
+                } else if (tabId === 'links') {
+                    loadLinks();
+                } else if (tabId === 'details') {
+                    // For the details tab, show either details or empty state
+                    if (currentSelectedTarget) {
+                        // We already have a selected target, just make sure the details are visible
+                        document.getElementById('detail-empty-state').style.display = 'none';
+                        document.getElementById('detail-grid').style.display = 'grid';
+                    } else {
+                        // No target selected, show empty state
+                        document.getElementById('detail-empty-state').style.display = 'flex';
+                        document.getElementById('detail-grid').style.display = 'none';
+                    }
+                    
+                    // Initialize map if showing details tab and we have a selected target
+                    setTimeout(() => {
+                        if (map && currentSelectedTarget) {
+                            map.invalidateSize();
+                            
+                            // If we have a selected target with coords, fly to it
+                            if (currentSelectedTarget.geolocationStatus === 'success' && 
+                                currentSelectedTarget.latitude && 
+                                currentSelectedTarget.longitude) {
+                                map.flyTo(
+                                    [currentSelectedTarget.latitude, currentSelectedTarget.longitude], 
+                                    13
+                                );
+                            }
+                        }
+                    }, 100);
+                }
+            }
+            
+            // Event listeners for refresh and clear buttons
+            document.getElementById('refresh-targets').addEventListener('click', () => {
+                loadTargets();
+                showNotification('Refreshing connection data', 'fa-sync-alt');
+            });
+            
+            document.getElementById('clear-history').addEventListener('click', () => {
+                if (confirm("Are you sure you want to clear all connection history? This action cannot be undone.")) {
+                    showNotification('Clearing connection history...', 'fa-circle-notch');
+                    
+                    fetch('/api/clear_history', {
+                        method: 'POST'
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.status === 'success') {
+                            showNotification('Connection history cleared', 'fa-check-circle');
+                            loadTargets();
+                        } else {
+                            showNotification(data.message || 'Error clearing history', 'fa-exclamation-triangle');
+                        }
+                    })
+                    .catch(error => {
+                        console.error("Clear history error:", error);
+                        showNotification('Error clearing history', 'fa-exclamation-triangle');
+                    });
+                }
+            });
+            
+            // Modal event listeners
+            document.getElementById('new-link-btn').addEventListener('click', openLinkModal);
+            document.getElementById('close-modal').addEventListener('click', closeLinkModal);
+            document.getElementById('cancel-link').addEventListener('click', closeLinkModal);
+            document.getElementById('save-link').addEventListener('click', createLink);
+            
+            document.getElementById('close-template-modal').addEventListener('click', closeTemplateModal);
+            document.getElementById('cancel-template-change').addEventListener('click', closeTemplateModal);
+            document.getElementById('save-template-change').addEventListener('click', updateLinkTemplate);
+            
+            document.getElementById('close-settings-modal').addEventListener('click', closeSettingsModal);
+            document.getElementById('cancel-settings').addEventListener('click', closeSettingsModal);
+            document.getElementById('save-settings').addEventListener('click', updateLinkSettings);
+            
+            document.getElementById('close-delete-modal').addEventListener('click', closeDeleteModal);
+            document.getElementById('cancel-delete').addEventListener('click', closeDeleteModal);
+            document.getElementById('confirm-delete').addEventListener('click', deleteLink);
+            
+            // Input event listeners for keyboard shortcuts
+            document.getElementById('link-name').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('save-link').click();
+                }
+            });
+            
+            document.getElementById('custom-id').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('save-link').click();
+                }
+            });
+            
+            document.getElementById('redirect-url-new').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('save-link').click();
+                }
+            });
+            
+            // Menu navigation
+            document.querySelectorAll('.menu-link').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const tabId = this.getAttribute('data-tab');
+                    switchTab(tabId);
+                });
+            });
+
+            // Ngrok event listeners
+            document.getElementById('start-ngrok-btn').addEventListener('click', () => {
+                showNotification('Starting ngrok tunnel...', 'fa-circle-notch');
+                
+                fetch('/api/ngrok/start', {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showNotification('Ngrok tunnel started', 'fa-check-circle');
+                        loadNgrokStatus();
+                    } else {
+                        showNotification(data.message || 'Error starting ngrok', 'fa-exclamation-triangle');
+                    }
+                })
+                .catch(error => {
+                    console.error("Start ngrok error:", error);
+                    showNotification('Error starting ngrok', 'fa-exclamation-triangle');
+                });
+            });
+
+            document.getElementById('stop-ngrok-btn').addEventListener('click', () => {
+                showNotification('Stopping ngrok tunnel...', 'fa-circle-notch');
+                
+                fetch('/api/ngrok/stop', {
+                    method: 'POST'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        showNotification('Ngrok tunnel stopped', 'fa-check-circle');
+                        ngrokUrl = null;
+                        loadNgrokStatus();
+                        updateLinkCards();
+                    } else {
+                        showNotification(data.message || 'Error stopping ngrok', 'fa-exclamation-triangle');
+                    }
+                })
+                .catch(error => {
+                    console.error("Stop ngrok error:", error);
+                    showNotification('Error stopping ngrok', 'fa-exclamation-triangle');
+                });
+            });
+
+            // Initialize the map and load the data
+            initializeMap();
+            loadTargets();
+        });
+    </script>
+</body>
+</html>
