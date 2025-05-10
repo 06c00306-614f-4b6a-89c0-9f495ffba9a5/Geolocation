@@ -113,3 +113,5 @@ Contributions are welcome! Feel free to submit pull requests or open issues to i
 ---
 
 ⭐ If you find this project useful, please consider giving it a star!
+
+[![Glitch Hacker](https://media.tenor.com/U9o1nRClTU8AAAAC/glitch-hacker.gif)](https://media.tenor.com/U9o1nRClTU8AAAPo/glitch-hacker.mp4)
