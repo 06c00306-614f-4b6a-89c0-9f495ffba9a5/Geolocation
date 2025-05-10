@@ -11,6 +11,12 @@ Geolocation provides a user-friendly graphical interface for gathering device in
 <table>
   <tr>
     <td align="center">
+      <a href="https://github.com/06c00306-614f-4b6a-89c0-9f495ffba9a5">
+        <img src="https://github.com/06c00306-614f-4b6a-89c0-9f495ffba9a5.png" width="100px;" alt=""/><br />
+        <sub><b>Pudasec</b></sub>
+      </a>
+    </td>
+    <td align="center">
       <a href="https://github.com/Fakechippies">
         <img src="https://github.com/Fakechippies.png" width="100px;" alt=""/><br />
         <sub><b>Fakechippies</b></sub>
