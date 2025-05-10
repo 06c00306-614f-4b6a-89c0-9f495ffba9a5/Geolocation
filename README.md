@@ -21,8 +21,41 @@
 <br>
 
 ## Upcoming Features
+- Custom Domain using Ngrok Tunnels (useful for testing, monitored by interpol)
 - Custom Domain using Cloudflare Tunnels (great alternative to ngrok)
 - Capture any form submission data such as usernames and passwords
+
+<br>
+
+## Installation
+Run the command below to install ngrok on your system
+
+```
+curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
+  | sudo tee /etc/apt/trusted.gpg.d/ngrok.asc >/dev/null \
+  && echo "deb https://ngrok-agent.s3.amazonaws.com buster main" \
+  | sudo tee /etc/apt/sources.list.d/ngrok.list \
+  && sudo apt update \
+  && sudo apt install ngrok
+```
+
+Navigate to https://dashboard.ngrok.com/get-started/setup/linux to get your auth token. You can add it like this
+
+```
+ngrok config add-authtoken ********Y2hy2RIT_22knJkRcc9EQkEBeeEGkM
+```
+
+Install the required python packages
+```
+Flask
+Flask-SocketIO
+python-socketio
+python-engineio
+requests
+Werkzeug
+```
+
+<br>
 
 ## Project Showcase
 ![image](https://github.com/user-attachments/assets/745656e6-ec48-411d-ba56-5a3e6671a771)
