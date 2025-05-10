@@ -47,12 +47,7 @@ ngrok config add-authtoken ********Y2hy2RIT_22knJkRcc9EQkEBeeEGkM
 
 Install the required python packages
 ```
-Flask
-Flask-SocketIO
-python-socketio
-python-engineio
-requests
-Werkzeug
+pip install -r requirements.txt
 ```
 
 <br>
