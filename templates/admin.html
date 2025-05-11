@@ -1496,40 +1496,6 @@
             transform: translateY(-50%) scale(1.1);
         }
         
-        .link-stats {
-            display: flex;
-            gap: 10px;
-            margin-top: 1rem;
-            margin-bottom: 1rem;
-        }
-        
-        .stat {
-            flex: 1;
-            padding: 12px;
-            background: rgba(14, 165, 233, 0.1);
-            border-radius: var(--border-radius);
-            text-align: center;
-            transition: all 0.2s;
-            border: 1px solid rgba(14, 165, 233, 0.05);
-        }
-        
-        .stat:hover {
-            background: rgba(14, 165, 233, 0.15);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        }
-        
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--secondary);
-        }
-        
-        .stat-value {
-            font-weight: 500;
-            margin-top: 4px;
-            font-size: 0.9rem;
-        }
-        
         .action-btn {
             background: rgba(14, 165, 233, 0.1);
             border: 1px solid rgba(14, 165, 233, 0.2);
@@ -3742,20 +3708,6 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
             ${ngrokHtml}
             ${cloudflaredHtml}
-            <div class="link-stats">
-                <div class="stat">
-                    <div class="stat-label">Template</div>
-                    <div class="stat-value template-badge">${templateName}</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">Created</div>
-                    <div class="stat-value">${formattedDate}</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-label">${geoModeText}</div>
-                    <div class="stat-value">Mode</div>
-                </div>
-            </div>
             ${link.redirect_url ? `
             <div class="link-footer">
                 <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
