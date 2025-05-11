@@ -39,7 +39,7 @@ Geolocation provides a user-friendly graphical interface for gathering device in
 
 <br>
 
-## 🔧 Installation
+## 🔧 Installation and Troubleshooting
 
 ### Prerequisites
 
@@ -71,6 +71,35 @@ ngrok config add-authtoken YOUR_AUTH_TOKEN
 pip install -r requirements.txt
 ```
 
+### Custom Domain Configuration
+
+Keep in mind that when you use a custom domain it can take time for DNS changes to be properly propagated across the internet. This process, known as DNS propagation, typically takes anywhere from a few minutes to 48 hours depending on your DNS provider and various network factors.
+
+#### Cloudflare API Token Setup
+
+1. **Obtain your API Token**
+   - Navigate to https://dash.cloudflare.com/profile/api-tokens 
+   - Click on `Create Token`, this will load the api token templates
+   - Click on `Edit zone DNS` template, this will allow you to manage dns records
+   - Click on the `edit` icon to rename your token, call it `Test`
+   - Under `Zone Resources`, Set the following `Include > All zones`
+   - Click on the button called `Continue to summary`
+   - Click on `Create token`, copy and paste your token into your `.env` file 
+   - Token Example: `***********PwEZxKZxgvqHJtz`
+
+   ```bash
+   curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+        -H "Authorization: Bearer ***********PwEZxKZxgvqHJtz" \
+        -H "Content-Type:application/json"
+   ```
+
+2. **Obtain your Zone ID**
+   - Navigate to your Cloudflare dashboard https://dash.cloudflare.com/login
+   - From the Accounts page, locate your account
+   - Select the menu button at the end of the account row
+   - Select copy zone ID for your domain
+   - Example: `*********aa5ab33705d905939cd`
+  
 <br>
 
 ## 📖 Usage
@@ -83,38 +112,6 @@ pip install -r requirements.txt
    ```
 4. Use the GUI to configure your desired settings
 5. Generate and share the tracking link
-
-<br>
-
-## Troubleshooting
-
-Keep in mind that when you use a custom domain it can take time for DNS changes to be properly propagated across the internet. This process, known as DNS propagation, typically takes anywhere from a few minutes to 48 hours depending on your DNS provider and various network factors.
-
-### Obtain your API Token
-- Navigate to https://dash.cloudflare.com/profile/api-tokens 
-- Click on `Create Token`, this will load the api token templates
-- Click on `Edit zone DNS` template, this will allow you to manage dns records
-- Click on the `edit` icon to rename your token, call it `Test`
-- Under `Zone Resources`, Set the following `Include > All zones`
-- Click on the button called `Continue to summary`
-- Click on `Create token`, copy and paste your token into your `.env` file 
-- Token Example: `***********PwEZxKZxgvqHJtz`
-
-```
-curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
-     -H "Authorization: Bearer ***********PwEZxKZxgvqHJtz" \
-     -H "Content-Type:application/json"
-```
-
-### Obtain your Zone ID
-- Navigate to your Cloudflare dashboard https://dash.cloudflare.com/login
-- From the Accounts page, locate your account.
-- Select the menu button at the end of the account row. 
-- Select copy zone ID for your domain.
-
-```
-*********aa5ab33705d905939cd
-```
 
 <br>
 
