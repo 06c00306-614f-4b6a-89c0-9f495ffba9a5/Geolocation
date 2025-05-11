@@ -108,7 +108,7 @@ Keep in mind that when you use a custom domain it can take time for DNS changes 
 2. Complete the installation steps above
 3. Run the application:
    ```bash
-   python main.py
+   python server.py
    ```
 4. Use the GUI to configure your desired settings
 5. Generate and share the tracking link
