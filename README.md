@@ -2,7 +2,7 @@
 
 Geolocation provides a user-friendly graphical interface for gathering device information, IP data, and precise geolocation coordinates. Originally inspired by the "seeker" project, Geolocation takes a completely different approach with a full-featured GUI and expanded capabilities. This application was created for educational and legitimate security testing purposes only. Usage for any illegal activities is strictly prohibited.
 
-![image](https://github.com/user-attachments/assets/4b7ad09d-e5be-453b-abbe-5ebb77535a90)
+![image](https://github.com/user-attachments/assets/a2f414bb-e05f-400a-a7a0-285126407b02)
 
 <br>
 
@@ -100,18 +100,60 @@ pip install -r requirements.txt
 
 <br>
 
-## 📝 License
+## Troubleshooting
 
-This project is released under the MIT License.
+Keep in mind that when you use a custom domain it can take time for DNS changes to be properly propagated across the internet. This process, known as DNS propagation, typically takes anywhere from a few minutes to 48 hours depending on your DNS provider and various network factors.
+
+### Obtain your API Token
+- Navigate to https://dash.cloudflare.com/profile/api-tokens 
+- Click on `Create Token`, this will load the api token templates
+- Click on `Edit zone DNS` template, this will allow you to manage dns records
+- Click on the `edit` icon to rename your token, call it `Test`
+- Under `Zone Resources`, Set the following `Include > All zones`
+- Click on the button called `Continue to summary`
+- Click on `Create token`, copy and paste your token into your `.env` file 
+- Token Example: `***********PwEZxKZxgvqHJtz`
+
+```
+curl -X GET "https://api.cloudflare.com/client/v4/user/tokens/verify" \
+     -H "Authorization: Bearer ***********PwEZxKZxgvqHJtz" \
+     -H "Content-Type:application/json"
+```
+
+### Obtain your Zone ID
+- Navigate to your Cloudflare dashboard https://dash.cloudflare.com/login
+- From the Accounts page, locate your account.
+- Select the menu button at the end of the account row. 
+- Select copy zone ID for your domain.
+
+```
+*********aa5ab33705d905939cd
+```
 
 <br>
 
 ## 🤝 Contributing
 
-Contributions are welcome! Feel free to submit pull requests or open issues to improve the application.
+Contributions are welcome! Feel free to submit pull requests or open issues to improve the application. If you find this project useful, please consider giving it a star!
 
----
+<br>
 
-⭐ If you find this project useful, please consider giving it a star!
+## Project Showcase
+![image](https://github.com/user-attachments/assets/a2f414bb-e05f-400a-a7a0-285126407b02)
+![image](https://github.com/user-attachments/assets/4964e4d3-806e-4739-987e-ad33cdaf12be)
+![image](https://github.com/user-attachments/assets/4802d847-6f35-4db1-99f8-525531ad9fb0)
+![image](https://github.com/user-attachments/assets/16b0d42b-9d6f-4ea6-97aa-a1fbfef09ead)
+![image](https://github.com/user-attachments/assets/1fbf105e-60e3-43e4-b693-ab0ed508fed6)
+![image](https://github.com/user-attachments/assets/ae67cd83-7737-40c5-9330-30c22da5aa72)
+![image](https://github.com/user-attachments/assets/7aba4c41-f59d-4267-9b00-f3c2691515ab)
+![image](https://github.com/user-attachments/assets/3294bfa6-65a0-489b-9945-a7cef390eaf7)
+![image](https://github.com/user-attachments/assets/9a5e226d-d151-4dfa-bede-33c658e68752)
 
-[![Glitch Hacker](https://media.tenor.com/U9o1nRClTU8AAAAC/glitch-hacker.gif)](https://media.tenor.com/U9o1nRClTU8AAAPo/glitch-hacker.mp4)
+
+
+
+
+
+
+
+
