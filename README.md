@@ -127,7 +127,6 @@ Contributions are welcome! Feel free to submit pull requests or open issues to i
 ![image](https://github.com/user-attachments/assets/10f3a8ec-6671-4f42-addd-2415f2f32085)
 ![image](https://github.com/user-attachments/assets/16b0d42b-9d6f-4ea6-97aa-a1fbfef09ead)
 ![image](https://github.com/user-attachments/assets/1fbf105e-60e3-43e4-b693-ab0ed508fed6)
-![image](https://github.com/user-attachments/assets/ae67cd83-7737-40c5-9330-30c22da5aa72)
 ![image](https://github.com/user-attachments/assets/7aba4c41-f59d-4267-9b00-f3c2691515ab)
 ![image](https://github.com/user-attachments/assets/3294bfa6-65a0-489b-9945-a7cef390eaf7)
 ![image](https://github.com/user-attachments/assets/9a5e226d-d151-4dfa-bede-33c658e68752)
