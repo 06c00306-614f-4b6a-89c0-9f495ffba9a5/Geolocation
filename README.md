@@ -124,7 +124,7 @@ Contributions are welcome! Feel free to submit pull requests or open issues to i
 ## Project Showcase
 ![image](https://github.com/user-attachments/assets/a2f414bb-e05f-400a-a7a0-285126407b02)
 ![image](https://github.com/user-attachments/assets/4964e4d3-806e-4739-987e-ad33cdaf12be)
-![image](https://github.com/user-attachments/assets/4802d847-6f35-4db1-99f8-525531ad9fb0)
+![image](https://github.com/user-attachments/assets/64ff2374-6f61-4338-9352-f48a4aa76fd9)
 ![image](https://github.com/user-attachments/assets/16b0d42b-9d6f-4ea6-97aa-a1fbfef09ead)
 ![image](https://github.com/user-attachments/assets/1fbf105e-60e3-43e4-b693-ab0ed508fed6)
 ![image](https://github.com/user-attachments/assets/ae67cd83-7737-40c5-9330-30c22da5aa72)
