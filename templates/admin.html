@@ -303,6 +303,60 @@
             opacity: 1;
         }
         
+        .welcome-content {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 2rem;
+            text-align: left;
+            height: 100%;
+            width: 100%;
+        }
+        
+        .welcome-content i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            opacity: 0.8;
+            filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.3));
+        }
+        
+        .welcome-content h2 {
+            margin-bottom: 1rem;
+            font-size: 1.75rem;
+            font-weight: 600;
+            color: white;
+        }
+        
+        .welcome-content p {
+            margin-bottom: 1rem;
+            color: var(--light);
+            font-size: 1rem;
+            max-width: 800px;
+            line-height: 1.7;
+        }
+        
+        .disclaimer {
+            margin-top: 1.5rem;
+            padding: 1rem 1.25rem;
+            background: rgba(14, 165, 233, 0.1);
+            border-left: 3px solid var(--primary);
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+            max-width: 800px;
+        }
+        
+        .disclaimer p {
+            margin-bottom: 0.5rem;
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+        
+        .disclaimer p:last-child {
+            margin-bottom: 0;
+        }
+        
+        /* Improved empty state styling */
         .empty-state {
             display: flex;
             flex-direction: column;
@@ -310,9 +364,14 @@
             justify-content: center;
             padding: 4rem 2rem;
             text-align: center;
-            height: 100%;
             width: 100%;
+            height: 100%;
             min-height: 300px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
         }
         
         .empty-state i {
@@ -329,10 +388,78 @@
             font-size: 1.125rem;
         }
         
+        /* Improved links grid layout */
         .links-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 1.5rem;
+            width: 100%;
+        }
+        
+        .links-container-wrapper {
+            position: relative;
+            min-height: 400px;
+        }
+        
+        .management-controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            background: rgba(15, 23, 42, 0.5);
+            padding: 1.25rem;
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow-md);
+        }
+        
+        .tunneling-section {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.75rem;
+            padding-right: 1.25rem;
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            margin-right: 1rem;
+        }
+        
+        .tunneling-section .section-title {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-right: 0.5rem;
+        }
+        
+        .tunneling-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .tunneling-selector select {
+            background-color: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-sm);
+            color: var(--light);
+            font-size: 0.75rem;
+            padding: 0.375rem 0.75rem;
+            height: 2.25rem;
+            min-width: 150px;
+        }
+        
+        .tunneling-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .new-link-section {
+            display: flex;
+            align-items: center;
+            margin-left: auto;
         }
         
         .ngrok-panel {
@@ -421,6 +548,7 @@
             padding: 1.5rem;
             flex: 1;
             overflow: auto;
+            position: relative;
         }
         
         .card-body::-webkit-scrollbar {
@@ -441,18 +569,21 @@
             background-color: rgba(255, 255, 255, 0.2);
         }
         
+        /* Improved table styling */
         .table-container {
             position: relative;
             overflow: hidden;
-            height: 500px;
-            border-radius: var(--border-radius);
-            scrollbar-width: thin;
-            scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
+            border-radius: var(--border-radius-lg);
+            box-shadow: var(--shadow-md);
+            height: calc(100vh - 220px);
+            min-height: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.07);
+            background-color: rgba(15, 23, 42, 0.4);
         }
         
         .table-body-container {
             overflow-y: auto;
-            height: calc(100% - 48px); /* Subtract header height */
+            height: calc(100% - 48px);
             scrollbar-width: thin;
             scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
         }
@@ -485,7 +616,8 @@
             display: table;
             width: 100%;
             table-layout: fixed;
-            background: linear-gradient(180deg, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0.05) 100%);
+            background: linear-gradient(180deg, rgba(14, 165, 233, 0.2) 0%, rgba(14, 165, 233, 0.08) 100%);
+            border-bottom: 1px solid rgba(14, 165, 233, 0.25);
         }
         
         tbody {
@@ -507,7 +639,6 @@
             font-size: 0.75rem;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            border-bottom: 1px solid rgba(14, 165, 233, 0.2);
         }
         
         tbody tr td {
@@ -534,9 +665,10 @@
         }
         
         tbody tr:hover {
-            background-color: rgba(14, 165, 233, 0.05);
+            background-color: rgba(14, 165, 233, 0.08);
             cursor: pointer;
             transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.12);
         }
         
         tr.selected {
@@ -549,8 +681,20 @@
             padding-left: calc(1.25rem - 3px);
         }
         
+        tbody tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+        
+        tbody tr:nth-child(even):hover {
+            background-color: rgba(14, 165, 233, 0.08);
+        }
+        
+        tbody tr.selected:nth-child(even) {
+            background-color: rgba(14, 165, 233, 0.1);
+        }
+        
         #map {
-            height: 500px;
+            height: 300px;
             width: 100%;
             border-radius: var(--border-radius);
             overflow: hidden;
@@ -862,6 +1006,9 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
             border: 1px solid rgba(255, 255, 255, 0.1);
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
         }
         
         .modal-backdrop.show .modal {
@@ -869,12 +1016,13 @@
         }
         
         .modal-header {
-            padding: 1.5rem;
+            padding: 1.25rem 1.5rem;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: space-between;
             align-items: center;
             position: relative;
+            flex-shrink: 0;
         }
         
         .modal-header::after {
@@ -924,15 +1072,31 @@
         
         .modal-body {
             padding: 1.5rem;
+            overflow-y: auto;
+            flex: 1;
+        }
+        
+        .modal-body::-webkit-scrollbar {
+            width: 4px;
+        }
+        
+        .modal-body::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        
+        .modal-body::-webkit-scrollbar-thumb {
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
         }
         
         .modal-footer {
-            padding: 1.25rem 1.5rem;
+            padding: 1rem 1.5rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
             display: flex;
             justify-content: flex-end;
             gap: 0.75rem;
             position: relative;
+            flex-shrink: 0;
         }
         
         .modal-footer::before {
@@ -946,7 +1110,7 @@
         }
         
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.25rem;
         }
         
         .form-group:last-child {
@@ -955,7 +1119,7 @@
         
         .form-label {
             display: block;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.375rem;
             font-weight: 500;
             font-size: 0.875rem;
             color: var(--light);
@@ -963,7 +1127,7 @@
         
         .form-control {
             width: 100%;
-            padding: 0.75rem 1rem;
+            padding: 0.625rem 0.875rem;
             background-color: rgba(2, 6, 23, 0.5);
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: var(--border-radius);
@@ -986,16 +1150,26 @@
         
         .form-text {
             display: block;
-            margin-top: 0.5rem;
+            margin-top: 0.375rem;
             font-size: 0.75rem;
             color: var(--secondary);
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.25rem;
+        }
+        
+        .form-col {
+            flex: 1;
         }
         
         .notification {
             position: fixed;
             top: 1.5rem;
             right: 1.5rem;
-            max-width: 350px;
+            max-width: 400px;
             background: linear-gradient(135deg, rgba(2, 6, 23, 0.9) 0%, rgba(15, 23, 42, 0.9) 100%);
             color: var(--light);
             border-radius: var(--border-radius);
@@ -1004,7 +1178,7 @@
             padding: 1rem 1.25rem;
             z-index: 1100;
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 0.875rem;
             transform: translateX(calc(100% + 20px));
             opacity: 0;
@@ -1033,6 +1207,7 @@
             font-size: 1.25rem;
             color: var(--primary);
             filter: drop-shadow(0 0 6px rgba(14, 165, 233, 0.6));
+            margin-top: 0.25rem;
         }
         
         .notification-content {
@@ -1041,15 +1216,36 @@
             line-height: 1.5;
         }
         
-        .custom-marker {
-            color: var(--primary);
-            font-size: 2rem;
-            filter: drop-shadow(0 0 10px rgba(14, 165, 233, 0.7));
-            transition: transform 0.3s;
+        .notification-details {
+            margin-top: 8px;
+            padding: 8px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 4px;
+            font-family: monospace;
+            word-break: break-all;
+            font-size: 12px;
+            position: relative;
         }
         
-        .custom-marker:hover {
-            transform: scale(1.2);
+        .notification-details-copy {
+            position: absolute;
+            right: 4px;
+            top: 4px;
+            background: rgba(14, 165, 233, 0.2);
+            border: none;
+            color: var(--primary-light);
+            width: 20px;
+            height: 20px;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 10px;
+        }
+        
+        .notification-details-copy:hover {
+            background: rgba(14, 165, 233, 0.3);
         }
         
         .leaflet-popup-content-wrapper {
@@ -1161,7 +1357,7 @@
         }
         
         .link-card {
-            background-color: rgba(15, 23, 42, 0.75);
+            background: linear-gradient(145deg, rgba(15, 23, 42, 0.75) 0%, rgba(9, 14, 26, 0.85) 100%);
             border-radius: var(--border-radius-lg);
             border: 1px solid rgba(255, 255, 255, 0.07);
             box-shadow: var(--shadow-lg);
@@ -1231,7 +1427,7 @@
             border-radius: var(--border-radius-sm);
             font-family: 'SF Mono', 'Consolas', monospace;
             font-size: 0.75rem;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.75rem;
             word-break: break-all;
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
@@ -1240,15 +1436,16 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
         
-        .link-url-ngrok {
+        .link-url-tunnel {
             background: rgba(2, 6, 23, 0.8);
             padding: 0.875rem 1rem;
             border-radius: var(--border-radius-sm);
             font-family: 'SF Mono', 'Consolas', monospace;
             font-size: 0.75rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.75rem;
             word-break: break-all;
             border: 1px solid rgba(255, 255, 255, 0.05);
             position: relative;
@@ -1257,6 +1454,7 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
         }
         
         .link-url-icon {
@@ -1298,7 +1496,39 @@
             transform: translateY(-50%) scale(1.1);
         }
         
-   
+        .link-stats {
+            display: flex;
+            gap: 10px;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .stat {
+            flex: 1;
+            padding: 12px;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: var(--border-radius);
+            text-align: center;
+            transition: all 0.2s;
+            border: 1px solid rgba(14, 165, 233, 0.05);
+        }
+        
+        .stat:hover {
+            background: rgba(14, 165, 233, 0.15);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--secondary);
+        }
+        
+        .stat-value {
+            font-weight: 500;
+            margin-top: 4px;
+            font-size: 0.9rem;
+        }
         
         .action-btn {
             background: rgba(14, 165, 233, 0.1);
@@ -1325,6 +1555,59 @@
             display: flex;
         }
         
+        .link-footer {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .tunneling-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-right: 1rem;
+        }
+        
+        .tunneling-selector select {
+            background-color: rgba(2, 6, 23, 0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-sm);
+            color: var(--light);
+            font-size: 0.75rem;
+            padding: 0.375rem 0.75rem;
+            height: 2.25rem;
+        }
+        
+        .tunneling-controls {
+            display: flex;
+            align-items: center;
+            margin-right: 0.75rem;
+        }
+        
+        .auth-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
+            background-color: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+        }
+        
+        .auth-status.authenticated {
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            color: #34d399;
+        }
+        
+        .auth-status.not-authenticated {
+            background-color: rgba(244, 63, 94, 0.1);
+            border: 1px solid rgba(244, 63, 94, 0.2);
+            color: #fb7185;
+        }
+        
         @media (max-width: 1280px) {
             .split-layout {
                 flex-direction: column;
@@ -1335,7 +1618,7 @@
             }
             
             #map {
-                height: 400px;
+                height: 300px;
             }
         }
         
@@ -1386,8 +1669,29 @@
                 padding: 0.75rem;
             }
             
-            .empty-state {
-                padding: 2rem 1rem;
+            .management-controls {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .tunneling-section {
+                border-right: none;
+                padding-right: 0;
+                margin-right: 0;
+                padding-bottom: 1rem;
+                margin-bottom: 1rem;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+                width: 100%;
+            }
+            
+            .new-link-section {
+                margin-left: 0;
+                margin-top: 1rem;
+                width: 100%;
+            }
+            
+            .new-link-section .btn {
+                width: 100%;
             }
             
             .modal {
@@ -1402,7 +1706,7 @@
             <div class="sidebar-header">
                 <div class="sidebar-logo">
                     <i class="fas fa-shield-alt"></i>
-                    <h1>Geolocation</h1>
+                    <h1>SeekerX</h1>
                 </div>
             </div>
             
@@ -1453,9 +1757,15 @@
                                 </h2>
                             </div>
                             <div class="card-body">
-                                <div class="empty-state">
-                                    <p>Welcome anonymous</p>
-                                    <p style="font-size: 0.9rem; color: var(--secondary);">This app is designed and provided strictly for educational and research purposes only. It demonstrates technical concepts related to web development, user tracking systems, and information security awareness. The tool should be used exclusively in controlled environments with proper consent from all participants. It is intended for security professionals, educators, and students to learn about potential privacy implications of location data sharing and to develop better security practices. Any use of this system for tracking individuals without their explicit knowledge and consent is unethical, potentially illegal, and explicitly prohibited. By using this tool, you acknowledge your responsibility to use it ethically and in compliance with all applicable laws and regulations regarding data privacy and digital consent.</p>
+                                <div class="welcome-content">
+                                    <h2>Welcome to SeekerX</h2>
+                                    <p>This dashboard provides comprehensive tools for managing and tracking connection data.</p>
+                                    
+                                    <div class="disclaimer">
+                                        <p>This app is designed and provided strictly for educational and research purposes only. It demonstrates technical concepts related to web development, user tracking systems, and information security awareness. The tool should be used exclusively in controlled environments with proper consent from all participants.</p>
+                                        <p>It is intended for security professionals, educators, and students to learn about potential privacy implications of location data sharing and to develop better security practices. Any use of this system for tracking individuals without their explicit knowledge and consent is unethical, potentially illegal, and explicitly prohibited.</p>
+                                        <p>By using this tool, you acknowledge your responsibility to use it ethically and in compliance with all applicable laws and regulations regarding data privacy and digital consent.</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -1644,29 +1954,60 @@
                             <div class="card">
                                 <div class="card-header">
                                     <h2 class="card-title">
-                                        <i class="fas fa-table"></i>
-                                        Your Links
+                                        <i class="fas fa-link"></i>
+                                        Link Management
                                     </h2>
-                                    <div class="card-actions">
-                                        <button class="btn btn-success" id="start-ngrok-btn">
-                                            <i class="fas fa-play"></i>
-                                            <span>Start Tunnel</span>
-                                        </button>
-                                        <button class="btn btn-danger" id="stop-ngrok-btn" style="display: none;">
-                                            <i class="fas fa-stop"></i>
-                                            <span>Stop Tunnel</span>
-                                        </button>
-                                        <button class="btn btn-primary" id="new-link-btn">
-                                            <i class="fas fa-plus"></i>
-                                            <span>Create Link</span>
-                                        </button>
-                                    </div>
                                 </div>
-                                <div class="card-body" style="display: flex; justify-content: center; align-items: center;">
-                                    <div class="links-grid" id="links-container">
-                                        <div class="empty-state">
-                                            <i class="fas fa-link"></i>
-                                            <p>No custom links created yet.</p>
+                                <div class="card-body">
+                                    <div class="management-controls">
+                                        <div class="tunneling-section">
+                                            <span class="section-title">Tunneling Service</span>
+                                            <div class="tunneling-selector">
+                                                <select id="tunneling-service" class="form-control">
+                                                    <option value="ngrok">Ngrok</option>
+                                                    <option value="cloudflared">Cloudflared</option>
+                                                </select>
+                                                <div id="cloudflared-auth-status" style="display: none;"></div>
+                                            </div>
+                                            <div id="ngrok-controls">
+                                                <button class="btn btn-success" id="start-ngrok-btn">
+                                                    <i class="fas fa-play"></i>
+                                                    <span>Start Ngrok</span>
+                                                </button>
+                                                <button class="btn btn-danger" id="stop-ngrok-btn" style="display: none;">
+                                                    <i class="fas fa-stop"></i>
+                                                    <span>Stop Ngrok</span>
+                                                </button>
+                                            </div>
+                                            <div id="cloudflared-controls" style="display: none;">
+                                                <button class="btn btn-success" id="start-cloudflared-btn">
+                                                    <i class="fas fa-play"></i>
+                                                    <span>Start Cloudflared</span>
+                                                </button>
+                                                <button class="btn btn-danger" id="stop-cloudflared-btn" style="display: none;">
+                                                    <i class="fas fa-stop"></i>
+                                                    <span>Stop Cloudflared</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="new-link-section">
+                                            <button class="btn btn-primary" id="new-link-btn">
+                                                <i class="fas fa-plus"></i>
+                                                <span>Create New Link</span>
+                                            </button>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="links-container-wrapper">
+                                        <div class="links-grid" id="links-container">
+                                            <div class="empty-state">
+                                                <i class="fas fa-link"></i>
+                                                <p>No custom links created yet.</p>
+                                                <button class="btn btn-primary" id="empty-create-link" style="margin-top: 1rem;">
+                                                    <i class="fas fa-plus"></i>
+                                                    <span>Create Link</span>
+                                                </button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -1678,7 +2019,6 @@
         </div>
     </div>
     
-    <!-- Create Link Modal -->
     <div class="modal-backdrop" id="create-link-modal">
         <div class="modal">
             <div class="modal-header">
@@ -1689,36 +2029,40 @@
                 <button class="modal-close" id="close-modal">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="form-group">
-                    <label for="link-name" class="form-label">Link Name</label>
-                    <input type="text" id="link-name" class="form-control" placeholder="e.g. Marketing Campaign 2025">
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="link-name" class="form-label">Link Name</label>
+                        <input type="text" id="link-name" class="form-control" placeholder="e.g. Marketing Campaign 2025">
+                    </div>
+                    <div class="form-col">
+                        <label for="custom-id" class="form-label">Custom URL Path (optional)</label>
+                        <input type="text" id="custom-id" class="form-control" placeholder="e.g. marketing-2025">
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="custom-id" class="form-label">Custom URL Path (optional)</label>
-                    <input type="text" id="custom-id" class="form-control" placeholder="e.g. marketing-2025">
-                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Leave empty for auto-generated ID</small>
+                
+                <div class="form-row">
+                    <div class="form-col">
+                        <label for="template-select" class="form-label">Template</label>
+                        <select id="template-select" class="form-control">
+                            <option value="default">Default Security Template</option>
+                            <option value="nearyou">Near You Template</option>
+                            <option value="gdrive">Google Drive Template</option>
+                            <option value="captcha">CAPTCHA Verification</option>
+                        </select>
+                    </div>
+                    <div class="form-col">
+                        <label for="geo-mode-select-new" class="form-label">Geolocation Mode</label>
+                        <select id="geo-mode-select-new" class="form-control">
+                            <option value="single">Single Location (One-time)</option>
+                            <option value="watch">Watch Location (Continuous)</option>
+                        </select>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label for="template-select" class="form-label">Template</label>
-                    <select id="template-select" class="form-control">
-                        <option value="default">Default Security Template</option>
-                        <option value="nearyou">Near You Template</option>
-                        <option value="gdrive">Google Drive Template</option>
-                        <option value="captcha">CAPTCHA Verification</option>
-                    </select>
-                </div>
+                
                 <div class="form-group">
                     <label for="redirect-url-new" class="form-label">Redirect URL (optional)</label>
                     <input type="text" id="redirect-url-new" class="form-control" placeholder="e.g. https://example.com">
-                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Where to redirect after location is captured</small>
-                </div>
-                <div class="form-group">
-                    <label for="geo-mode-select-new" class="form-label">Geolocation Mode</label>
-                    <select id="geo-mode-select-new" class="form-control">
-                        <option value="single">Single Location (One-time)</option>
-                        <option value="watch">Watch Location (Continuous)</option>
-                    </select>
-                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Watch mode continuously tracks location updates</small>
+                    <small class="form-text">Where to redirect after location is captured</small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1731,7 +2075,6 @@
         </div>
     </div>
     
-    <!-- Template Modal -->
     <div class="modal-backdrop" id="template-modal">
         <div class="modal">
             <div class="modal-header">
@@ -1762,7 +2105,6 @@
         </div>
     </div>
     
-    <!-- Settings Modal -->
     <div class="modal-backdrop" id="settings-modal">
         <div class="modal">
             <div class="modal-header">
@@ -1776,7 +2118,7 @@
                 <div class="form-group">
                     <label for="redirect-url" class="form-label">Redirect URL (optional)</label>
                     <input type="text" id="redirect-url" class="form-control" placeholder="e.g. https://example.com">
-                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Where to redirect after location is captured</small>
+                    <small class="form-text">Where to redirect after location is captured</small>
                 </div>
                 <div class="form-group">
                     <label for="geo-mode-select" class="form-label">Geolocation Mode</label>
@@ -1784,7 +2126,7 @@
                         <option value="single">Single Location (One-time)</option>
                         <option value="watch">Watch Location (Continuous)</option>
                     </select>
-                    <small style="color: var(--secondary); font-size: 0.75rem; margin-top: 0.25rem; display: block;">Watch mode continuously tracks location updates</small>
+                    <small class="form-text">Watch mode continuously tracks location updates</small>
                 </div>
             </div>
             <div class="modal-footer">
@@ -1797,7 +2139,6 @@
         </div>
     </div>
     
-    <!-- Delete Confirmation Modal -->
     <div class="modal-backdrop" id="confirm-delete-modal">
         <div class="modal confirm-delete-modal">
             <div class="modal-header">
@@ -1821,1395 +2162,1659 @@
         </div>
     </div>
     
-    <!-- Notification -->
+    <div class="modal-backdrop" id="cloudflared-settings-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    <i class="fas fa-cloud"></i>
+                    Cloudflared Settings
+                </h3>
+                <button class="modal-close" id="close-cloudflared-settings-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div id="cloudflared-auth-notice" style="margin-bottom: 1rem; padding: 1rem; border-radius: 4px; background-color: rgba(244, 63, 94, 0.1); border: 1px solid rgba(244, 63, 94, 0.2); display: none;">
+                    <p style="margin-bottom: 0.5rem; color: #fb7185; font-weight: 500;">Not authenticated with Cloudflare</p>
+                    <p style="font-size: 0.875rem; margin-bottom: 0.75rem;">Custom domains require authentication. Run this command in your terminal:</p>
+                    <div class="notification-details" id="auth-command-display">cloudflared login</div>
+                    <p style="font-size: 0.875rem; margin-top: 0.75rem;">A quick tunnel will be used if you're not authenticated.</p>
+                </div>
+                <div class="form-group">
+                    <label for="cloudflared-domain" class="form-label">Custom Domain (optional)</label>
+                    <input type="text" id="cloudflared-domain" class="form-control" placeholder="e.g. tracker.example.com">
+                    <small id="cloudflared-domain-help" class="form-text">
+                        Must be configured in your Cloudflare DNS. Leave empty for a random domain.
+                    </small>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancel-cloudflared-settings">Cancel</button>
+                <button class="btn btn-success" id="quick-tunnel-btn">
+                    <i class="fas fa-bolt"></i>
+                    <span>Quick Tunnel</span>
+                </button>
+                <button class="btn btn-primary" id="start-with-settings">
+                    <i class="fas fa-play"></i>
+                    <span>Start Tunnel</span>
+                </button>
+            </div>
+        </div>
+    </div>
+    
     <div class="notification" id="notification">
         <div class="notification-icon">
             <i class="fas fa-info-circle" id="notification-icon"></i>
         </div>
         <div class="notification-content" id="notification-text">
             Notification message
+            <div class="notification-details" id="notification-details" style="display: none;">
+                <span id="notification-command"></span>
+                <button class="notification-details-copy" id="copy-notification-command">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
         </div>
     </div>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const socket = io();
-            let targetsData = [];
-            let linksData = [];
-            let currentTab = 'dashboard';
-            let markerClusterGroup;
-            let map;
-            let currentDeleteLinkId = null;
-            let currentTemplateLinkId = null;
-            let currentSettingsLinkId = null;
-            let ngrokUrl = null;
-            let currentSelectedTarget = null;
-            
-            const darkMapStyle = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
-                subdomains: 'abcd',
-                maxZoom: 19
-            });
-            
-            const markers = [];
-            
-            function initializeMap() {
-                if (map) {
-                    map.remove();
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const socket = io({reconnection: true});
+    
+    let targetsData = [];
+    let linksData = [];
+    let currentTab = 'dashboard';
+    let markerClusterGroup;
+    let map;
+    let currentDeleteLinkId = null;
+    let currentTemplateLinkId = null;
+    let currentSettingsLinkId = null;
+    let ngrokUrl = null;
+    let cloudflaredUrl = null;
+    let currentSelectedTarget = null;
+    let activeTunnelingService = 'ngrok';
+    let cloudflaredAuthenticated = false;
+    let cloudflaredAuthCommand = 'cloudflared login';
+    
+    const darkMapStyle = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+        subdomains: 'abcd',
+        maxZoom: 19
+    });
+    
+    const markers = [];
+    
+    function directStartNgrok() {
+        const startBtn = document.getElementById('start-ngrok-btn');
+        startBtn.disabled = true;
+        startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+
+        fetch('/api/ngrok/start', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showNotification('Ngrok start requested. Waiting for status update...', 'fa-check-circle');
+                } else {
+                    showNotification(data.message || 'Error requesting ngrok start', 'fa-exclamation-triangle');
+                    startBtn.disabled = false; 
+                    startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Ngrok</span>';
                 }
-                map = L.map('map', {
-                    layers: [darkMapStyle],
-                    zoomControl: false,
-                    minZoom: 2
-                }).setView([20, 0], 2);
-                
-                L.control.zoom({
-                    position: 'topright'
-                }).addTo(map);
-                
-                L.control.scale({
-                    imperial: false,
-                    position: 'bottomleft'
-                }).addTo(map);
-                
-                markerClusterGroup = L.markerClusterGroup({
-                    showCoverageOnHover: false,
-                    maxClusterRadius: 60,
-                    disableClusteringAtZoom: 12,
-                    spiderfyOnMaxZoom: true,
-                    iconCreateFunction: function(cluster) {
-                        const count = cluster.getChildCount();
-                        let size = 'small';
-                        
-                        if (count > 50) size = 'large';
-                        else if (count > 10) size = 'medium';
-                        
-                        return L.divIcon({
-                            html: `<div class="custom-cluster" style="background: rgba(14, 165, 233, 0.85); box-shadow: 0 0 10px rgba(14, 165, 233, 0.5); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 14px;">${count}</div>`,
-                            className: '',
-                            iconSize: L.point(36, 36)
-                        });
+            })
+            .catch(error => {
+                console.error("Start ngrok error:", error);
+                showNotification('Network error starting ngrok', 'fa-exclamation-triangle');
+                startBtn.disabled = false; 
+                startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Ngrok</span>';
+            });
+    }
+    
+    function directStopNgrok() {
+        const stopBtn = document.getElementById('stop-ngrok-btn');
+        stopBtn.disabled = true;
+        stopBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Stopping...';
+
+        fetch('/api/ngrok/stop', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showNotification('Ngrok stop requested. Waiting for status update...', 'fa-check-circle');
+                } else {
+                    showNotification(data.message || 'Error requesting ngrok stop', 'fa-exclamation-triangle');
+                    stopBtn.disabled = false; 
+                    stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Ngrok</span>';
+                }
+            })
+            .catch(error => {
+                console.error("Stop ngrok error:", error);
+                showNotification('Network error stopping ngrok', 'fa-exclamation-triangle');
+                stopBtn.disabled = false; 
+                stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Ngrok</span>';
+            });
+    }
+    
+    function directStartCloudflared(customDomain) {
+        const startBtn = document.getElementById('start-cloudflared-btn');
+        startBtn.disabled = true;
+        startBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Starting...';
+        closeCloudflaredModal();
+        
+        fetch('/api/cloudflared/start', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ custom_domain: customDomain || null })
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showNotification('Cloudflared start requested. Waiting for status update...', 'fa-check-circle');
+                } else {
+                    showNotification(data.message || 'Error requesting Cloudflared start', 'fa-exclamation-triangle');
+                    startBtn.disabled = false;
+                    startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Cloudflared</span>';
+                }
+            })
+            .catch(error => {
+                console.error("Start cloudflared error:", error);
+                showNotification('Network error starting Cloudflared', 'fa-exclamation-triangle');
+                startBtn.disabled = false;
+                startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Cloudflared</span>';
+            });
+    }
+    
+    function directStopCloudflared() {
+        const stopBtn = document.getElementById('stop-cloudflared-btn');
+        stopBtn.disabled = true;
+        stopBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Stopping...';
+        
+        fetch('/api/cloudflared/stop', { method: 'POST' })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    showNotification('Cloudflared stop requested. Waiting for status update...', 'fa-check-circle');
+                } else {
+                    showNotification(data.message || 'Error requesting Cloudflared stop', 'fa-exclamation-triangle');
+                    stopBtn.disabled = false;
+                    stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Cloudflared</span>';
+                }
+            })
+            .catch(error => {
+                console.error("Stop cloudflared error:", error);
+                showNotification('Network error stopping Cloudflared', 'fa-exclamation-triangle');
+                stopBtn.disabled = false;
+                stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Cloudflared</span>';
+            });
+    }
+    
+    function directCreateLink() {
+        const name = document.getElementById('link-name').value.trim();
+        const customId = document.getElementById('custom-id').value.trim();
+        const template = document.getElementById('template-select').value;
+        const redirectUrl = document.getElementById('redirect-url-new').value.trim();
+        const geoMode = document.getElementById('geo-mode-select-new').value;
+        
+        if (!name) {
+            showNotification('Link name is required', 'fa-exclamation-triangle');
+            return;
+        }
+        
+        const saveBtn = document.getElementById('save-link');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
+        
+        const linkData = {
+            name: name,
+            template: template,
+            redirect_url: redirectUrl,
+            geo_mode: geoMode
+        };
+        
+        if (customId) {
+            linkData.custom_id = customId;
+        }
+        
+        fetch('/api/create_link', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(linkData)
+        })
+            .then(response => response.json())
+            .then(data => {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+                if (data.status === 'success') {
+                    closeLinkModal();
+                    const newLink = {
+                        id: data.id,
+                        name: name,
+                        created: new Date().toISOString(),
+                        visits: 0,
+                        template: template,
+                        redirect_url: redirectUrl,
+                        geo_mode: geoMode
+                    };
+                    linksData.push(newLink);
+                    if (currentTab === 'links') {
+                        if (linksContainer.querySelector('.empty-state')) {
+                            linksContainer.innerHTML = '';
+                            linksContainer.className = 'links-grid';
+                        }
+                        addLinkCard(newLink);
                     }
-                });
-                
-                map.addLayer(markerClusterGroup);
-            }
-            
-            socket.on('new_target', function(target) {
-                showNotification('New connection detected', 'fa-user-shield');
-                
-                targetsData.push(target);
-                
-                addTargetRow(target);
-                
-                addMarker(target);
-                
-                updateDashboardStats();
+                    switchTab('links');
+                    showNotification('Custom link created successfully', 'fa-check-circle');
+                } else {
+                    showNotification(data.message || 'Error creating link', 'fa-exclamation-triangle');
+                }
+            })
+            .catch(error => {
+                console.error("Create link error:", error);
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+                showNotification('Error creating link', 'fa-exclamation-triangle');
             });
-            
-            socket.on('link_created', function(link) {
-                linksData.push(link);
-                
-                if (currentTab === 'links') {
-                    if (linksData.length === 1) {
-                        document.getElementById('links-container').innerHTML = '';
+    }
+    
+    function directUpdateTemplate() {
+        if (!currentTemplateLinkId) return;
+        
+        const templateSelect = document.getElementById('change-template-select');
+        const selectedTemplate = templateSelect.value;
+        
+        const saveBtn = document.getElementById('save-template-change');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        fetch('/api/update_link_template', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                link_id: currentTemplateLinkId,
+                template: selectedTemplate
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+                if (data.status === 'success') {
+                    closeTemplateModal();
+                    const linkIndex = linksData.findIndex(link => link.id === currentTemplateLinkId);
+                    if (linkIndex !== -1) {
+                        linksData[linkIndex].template = selectedTemplate;
+                        updateLinkCard(linksData[linkIndex]);
                     }
-                    
-                    addLinkCard(link);
+                    showNotification('Template updated successfully', 'fa-check-circle');
+                } else {
+                    showNotification(data.message || 'Error updating template', 'fa-exclamation-triangle');
                 }
-                
-                updateDashboardStats();
+            })
+            .catch(error => {
+                console.error("Update template error:", error);
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+                showNotification('Error updating template', 'fa-exclamation-triangle');
             });
-            
-            socket.on('link_updated', function(link) {
-                const index = linksData.findIndex(l => l.id === link.id);
-                if (index !== -1) {
-                    linksData[index] = link;
-                }
-                
-                if (currentTab === 'links') {
-                    const linkElement = document.getElementById(`link-card-${link.id}`);
-                    if (linkElement) {                        
-                        const templateBadge = linkElement.querySelector('.template-badge');
-                        if (templateBadge) {
-                            let templateName = "Default";
-                            if (link.template === 'nearyou') {
-                                templateName = "Near You";
-                            } else if (link.template === 'gdrive') {
-                                templateName = "Google Drive";
-                            } else if (link.template === 'captcha') {
-                                templateName = "CAPTCHA";
-                            }
-                            templateBadge.textContent = templateName;
-                        }
-                        
-                        // Update geo mode display
-                        const stats = linkElement.querySelectorAll('.stat');
-                        if (stats.length >= 3) {
-                            const geoModeStat = stats[2];
-                            const geoModeLabel = geoModeStat.querySelector('.stat-label:first-child');
-                            if (geoModeLabel) {
-                                geoModeLabel.textContent = link.geo_mode === 'watch' ? 'Continuous' : 'One-time';
-                            }
-                        }
-                        
-                        // Update or add redirect URL section
-                        let footer = linkElement.querySelector('.link-footer');
-                        if (link.redirect_url) {
-                            if (footer) {
-                                const redirectText = footer.querySelector('span:last-child');
-                                if (redirectText) {
-                                    redirectText.textContent = link.redirect_url;
-                                    redirectText.setAttribute('title', link.redirect_url);
-                                }
-                            } else {
-                                footer = document.createElement('div');
-                                footer.className = 'link-footer';
-                                footer.style = 'margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05);';
-                                footer.innerHTML = `
-                                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                        <span style="color: var(--secondary);">Redirect:</span> 
-                                        <span title="${link.redirect_url}" style="color: var(--primary-light);">${link.redirect_url}</span>
-                                    </div>
-                                `;
-                                linkElement.appendChild(footer);
-                            }
-                        } else if (footer) {
-                            footer.remove();
-                        }
-                        
-                        // Update the settings button data attributes
-                        const settingsBtn = linkElement.querySelector('.settings-btn');
-                        if (settingsBtn) {
-                            settingsBtn.setAttribute('data-redirect', link.redirect_url || '');
-                            settingsBtn.setAttribute('data-geo-mode', link.geo_mode || 'single');
-                        }
+    }
+    
+    function directUpdateSettings() {
+        if (!currentSettingsLinkId) return;
+        
+        const redirectUrl = document.getElementById('redirect-url').value.trim();
+        const geoMode = document.getElementById('geo-mode-select').value;
+        
+        const saveBtn = document.getElementById('save-settings');
+        const originalText = saveBtn.innerHTML;
+        saveBtn.disabled = true;
+        saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        fetch('/api/update_link_settings', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                link_id: currentSettingsLinkId,
+                redirect_url: redirectUrl,
+                geo_mode: geoMode
+            })
+        })
+            .then(response => response.json())
+            .then(data => {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+                if (data.status === 'success') {
+                    closeSettingsModal();
+                    const linkIndex = linksData.findIndex(link => link.id === currentSettingsLinkId);
+                    if (linkIndex !== -1) {
+                        linksData[linkIndex].redirect_url = redirectUrl;
+                        linksData[linkIndex].geo_mode = geoMode;
+                         updateLinkCard(linksData[linkIndex]);
                     }
+                    showNotification('Settings updated successfully', 'fa-check-circle');
+                } else {
+                    showNotification(data.message || 'Error updating settings', 'fa-exclamation-triangle');
                 }
+            })
+            .catch(error => {
+                console.error("Update settings error:", error);
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = originalText;
+                showNotification('Error updating settings', 'fa-exclamation-triangle');
             });
-            
-            socket.on('link_deleted', function(data) {
-                linksData = linksData.filter(link => link.id !== data.id);
-                
-                if (currentTab === 'links') {
-                    const linkElement = document.getElementById(`link-card-${data.id}`);
+    }
+    
+    function directDeleteLink() {
+        if (!currentDeleteLinkId) return;
+        
+        const deleteBtn = document.getElementById('confirm-delete');
+        const originalText = deleteBtn.innerHTML;
+        deleteBtn.disabled = true;
+        deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
+        
+        fetch(`/api/delete_link/${currentDeleteLinkId}`, {
+            method: 'DELETE',
+        })
+            .then(response => response.json())
+            .then(data => {
+                deleteBtn.disabled = false;
+                deleteBtn.innerHTML = originalText;
+                if (data.status === 'success') {
+                    closeDeleteModal();
+                    const linkElement = document.getElementById(`link-card-${currentDeleteLinkId}`);
                     if (linkElement) {
                         linkElement.remove();
                     }
-                    
+                    linksData = linksData.filter(link => link.id !== currentDeleteLinkId);
                     if (linksData.length === 0) {
-                        const linksContainer = document.getElementById('links-container');
-                        const cardBody = linksContainer.parentElement;
-                        cardBody.style.display = "flex";
-                        cardBody.style.justifyContent = "center";
-                        cardBody.style.alignItems = "center";
-                        
-                        linksContainer.innerHTML = `
-                            <div class="empty-state">
-                                <i class="fas fa-link"></i>
-                                <p>No custom links created yet.</p>
-                                <button class="btn btn-primary" id="empty-create-link" style="margin-top: 1rem;">
-                                    <i class="fas fa-plus"></i>
-                                    <span>Create Link</span>
-                                </button>
-                            </div>
+                        showEmptyLinksState();
+                    }
+                    showNotification('Link deleted successfully', 'fa-check-circle');
+                } else {
+                    showNotification(data.message || 'Error deleting link', 'fa-exclamation-triangle');
+                }
+            })
+            .catch(error => {
+                console.error("Delete link error:", error);
+                deleteBtn.disabled = false;
+                deleteBtn.innerHTML = originalText;
+                showNotification('Error deleting link', 'fa-exclamation-triangle');
+            });
+    }
+    
+    function directClearHistory() {
+        if (confirm("Are you sure you want to clear all connection history? This action cannot be undone.")) {
+            showNotification('Clearing connection history...', 'fa-circle-notch fa-spin');
+            
+            fetch('/api/clear_history', { method: 'POST' })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.status === 'success') {
+                        const tableBody = document.getElementById('targets-body');
+                        tableBody.innerHTML = `
+                            <tr>
+                                <td colspan="5" style="text-align: center; padding: 2rem 1rem;">
+                                    <div style="color: var(--secondary);">
+                                        No connection data available
+                                    </div>
+                                </td>
+                            </tr>
                         `;
-                        
-                        document.getElementById('empty-create-link').addEventListener('click', openLinkModal);
-                    }
-                }
-                
-                updateDashboardStats();
-            });
-            
-            socket.on('ngrok_status', function(status) {
-                updateNgrokUI(status);
-                if (status.running && status.url) {
-                    ngrokUrl = status.url;
-                    updateLinkCards();
-                } else {
-                    ngrokUrl = null;
-                    updateLinkCards();
-                }
-            });
-            
-            function updateLinkCards() {
-                document.querySelectorAll('.link-card').forEach(card => {
-                    const linkId = card.id.replace('link-card-', '');
-                    const urlContainer = card.querySelector('.link-url-ngrok');
-                    const copyNgrokBtn = card.querySelector('.copy-btn-ngrok');
-                    
-                    if (ngrokUrl) {
-                        if (!urlContainer) {
-                            const linkUrlElement = card.querySelector('.link-url');
-                            const ngrokUrlElement = document.createElement('div');
-                            ngrokUrlElement.className = 'link-url-ngrok';
-                            ngrokUrlElement.innerHTML = `
-                                <div class="link-url-icon">
-                                    <i class="fas fa-globe"></i>
-                                </div>
-                                <div class="link-url-text">${ngrokUrl}/${linkId}</div>
-                                <button class="copy-btn copy-btn-ngrok" data-url="${ngrokUrl}/${linkId}" title="Copy Ngrok URL">
-                                    <i class="fas fa-copy"></i>
-                                </button>
-                            `;
-                            linkUrlElement.parentNode.insertBefore(ngrokUrlElement, linkUrlElement.nextSibling);
-                            
-                            ngrokUrlElement.querySelector('.copy-btn-ngrok').addEventListener('click', (e) => {
-                                e.stopPropagation();
-                                const url = e.currentTarget.getAttribute('data-url');
-                                navigator.clipboard.writeText(url).then(() => {
-                                    showNotification('Ngrok URL copied to clipboard', 'fa-copy');
-                                });
-                            });
-                        } else {
-                            urlContainer.querySelector('.link-url-text').textContent = `${ngrokUrl}/${linkId}`;
-                            urlContainer.querySelector('.copy-btn-ngrok').setAttribute('data-url', `${ngrokUrl}/${linkId}`);
+                        targetsData = [];
+                        if (markerClusterGroup) {
+                            markerClusterGroup.clearLayers();
                         }
+                        markers.length = 0;
+                        showNotification('Connection history cleared', 'fa-check-circle');
                     } else {
-                        if (urlContainer) {
-                            urlContainer.remove();
-                        }
+                        showNotification(data.message || 'Error clearing history', 'fa-exclamation-triangle');
                     }
+                })
+                .catch(error => {
+                    console.error("Clear history error:", error);
+                    showNotification('Error clearing history', 'fa-exclamation-triangle');
+                });
+        }
+    }
+    
+    document.addEventListener('click', function(e) {
+        if (e.target.closest('#start-ngrok-btn')) {
+            e.preventDefault();
+            directStartNgrok();
+            return;
+        }
+        
+        if (e.target.closest('#stop-ngrok-btn')) {
+            e.preventDefault();
+            directStopNgrok();
+            return;
+        }
+        
+        if (e.target.closest('#quick-tunnel-btn')) {
+            e.preventDefault();
+            directStartCloudflared(null);
+            return;
+        }
+        
+        if (e.target.closest('#start-with-settings')) {
+            e.preventDefault();
+            const customDomain = document.getElementById('cloudflared-domain').value.trim();
+            directStartCloudflared(customDomain);
+            return;
+        }
+        
+        if (e.target.closest('#stop-cloudflared-btn')) {
+            e.preventDefault();
+            directStopCloudflared();
+            return;
+        }
+        
+        if (e.target.closest('#save-link')) {
+            e.preventDefault();
+            directCreateLink();
+            return;
+        }
+        
+        if (e.target.closest('#save-template-change')) {
+            e.preventDefault();
+            directUpdateTemplate();
+            return;
+        }
+        
+        if (e.target.closest('#save-settings')) {
+            e.preventDefault();
+            directUpdateSettings();
+            return;
+        }
+        
+        if (e.target.closest('#confirm-delete')) {
+            e.preventDefault();
+            directDeleteLink();
+            return;
+        }
+        
+        if (e.target.closest('#clear-history')) {
+            e.preventDefault();
+            directClearHistory();
+            return;
+        }
+        
+        if (e.target.closest('#start-cloudflared-btn')) {
+            e.preventDefault();
+            openCloudflaredModal();
+            return;
+        }
+        
+        if (e.target.closest('#new-link-btn') || e.target.closest('#empty-create-link')) {
+            e.preventDefault();
+            openLinkModal();
+            return;
+        }
+        
+        if (e.target.closest('#close-modal') || e.target.closest('#cancel-link')) {
+            e.preventDefault();
+            closeLinkModal();
+            return;
+        }
+        
+        if (e.target.closest('#close-template-modal') || e.target.closest('#cancel-template-change')) {
+            e.preventDefault();
+            closeTemplateModal();
+            return;
+        }
+        
+        if (e.target.closest('#close-settings-modal') || e.target.closest('#cancel-settings')) {
+            e.preventDefault();
+            closeSettingsModal();
+            return;
+        }
+        
+        if (e.target.closest('#close-delete-modal') || e.target.closest('#cancel-delete')) {
+            e.preventDefault();
+            closeDeleteModal();
+            return;
+        }
+        
+        if (e.target.closest('#close-cloudflared-settings-modal') || e.target.closest('#cancel-cloudflared-settings')) {
+            e.preventDefault();
+            closeCloudflaredModal();
+            return;
+        }
+        
+        if (e.target.closest('#refresh-targets')) {
+            e.preventDefault();
+            loadTargets();
+            showNotification('Refreshing connection data', 'fa-sync-alt');
+            return;
+        }
+        
+        if (e.target.closest('.settings-btn')) {
+            e.preventDefault();
+            const btn = e.target.closest('.settings-btn');
+            openSettingsModal(
+                btn.getAttribute('data-id'),
+                btn.getAttribute('data-redirect'),
+                btn.getAttribute('data-geo-mode')
+            );
+            return;
+        }
+        
+        if (e.target.closest('.template-btn')) {
+            e.preventDefault();
+            const btn = e.target.closest('.template-btn');
+            openTemplateModal(
+                btn.getAttribute('data-id'),
+                btn.getAttribute('data-template')
+            );
+            return;
+        }
+        
+        if (e.target.closest('.delete-btn')) {
+            e.preventDefault();
+            const btn = e.target.closest('.delete-btn');
+            openDeleteModal(btn.getAttribute('data-id'));
+            return;
+        }
+        
+        if (e.target.closest('.copy-btn')) {
+            e.preventDefault();
+            const btn = e.target.closest('.copy-btn');
+            navigator.clipboard.writeText(btn.getAttribute('data-url')).then(() => {
+                showNotification('URL copied to clipboard', 'fa-copy');
+            });
+            return;
+        }
+        
+        if (e.target.closest('.copy-btn-tunnel')) {
+            e.preventDefault();
+            const btn = e.target.closest('.copy-btn-tunnel');
+            const service = btn.closest('.ngrok-url') ? 'Ngrok' : 'Cloudflared';
+            navigator.clipboard.writeText(btn.getAttribute('data-url')).then(() => {
+                showNotification(`${service} URL copied to clipboard`, 'fa-copy');
+            });
+            return;
+        }
+        
+        if (e.target.closest('.menu-link')) {
+            e.preventDefault();
+            const tabId = e.target.closest('.menu-link').getAttribute('data-tab');
+            switchTab(tabId);
+            return;
+        }
+        
+        if (e.target.closest('#targets-body tr') && !e.target.closest('td[colspan="5"]')) {
+            const row = e.target.closest('tr');
+            if (row._target) {
+                document.querySelectorAll('#targets-body tr').forEach(r => {
+                    r.classList.remove('selected');
+                });
+                row.classList.add('selected');
+                showDetails(row._target);
+                switchTab('details');
+            }
+            return;
+        }
+        
+        if (e.target.closest('#copy-notification-command')) {
+            e.preventDefault();
+            const command = document.getElementById('notification-command').textContent;
+            navigator.clipboard.writeText(command).then(() => {
+                e.target.closest('#copy-notification-command').innerHTML = '<i class="fas fa-check"></i>';
+                setTimeout(() => {
+                    e.target.closest('#copy-notification-command').innerHTML = '<i class="fas fa-copy"></i>';
+                }, 2000);
+            });
+            return;
+        }
+    });
+    
+    socket.on('connect', function() {
+        console.log('Socket connected');
+    });
+    
+    socket.on('disconnect', function() {
+        console.log('Socket disconnected');
+        socket.connect();
+    });
+    
+    socket.on('new_target', function(target) {
+        showNotification('New connection detected', 'fa-user-shield');
+        targetsData.push(target);
+        addTargetRow(target);
+        addMarker(target);
+    });
+    
+    socket.on('link_created', function(link) {
+        linksData.push(link);
+        if (currentTab === 'links') {
+            if (linksContainer.querySelector('.empty-state')) {
+                linksContainer.innerHTML = '';
+                linksContainer.className = 'links-grid';
+            }
+            addLinkCard(link);
+        }
+    });
+    
+    socket.on('link_updated', function(link) {
+        const index = linksData.findIndex(l => l.id === link.id);
+        if (index !== -1) {
+            linksData[index] = link;
+        }
+        if (currentTab === 'links') {
+            updateLinkCard(link);
+        }
+    });
+    
+    socket.on('link_deleted', function(data) {
+        linksData = linksData.filter(link => link.id !== data.id);
+        if (currentTab === 'links') {
+            const linkElement = document.getElementById(`link-card-${data.id}`);
+            if (linkElement) {
+                linkElement.remove();
+            }
+            if (linksData.length === 0) {
+                showEmptyLinksState();
+            }
+        }
+    });
+    
+    socket.on('ngrok_status', function(status) {
+        const startBtn = document.getElementById('start-ngrok-btn');
+        const stopBtn = document.getElementById('stop-ngrok-btn');
+
+        if (status.running) {
+            startBtn.style.display = 'none';
+            startBtn.disabled = true;
+            startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Ngrok</span>';
+
+            stopBtn.style.display = 'block';
+            stopBtn.disabled = false;
+            stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Ngrok</span>';
+            ngrokUrl = status.url;
+        } else {
+            startBtn.style.display = 'block';
+            startBtn.disabled = false;
+            startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Ngrok</span>';
+
+            stopBtn.style.display = 'none';
+            stopBtn.disabled = true;
+            stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Ngrok</span>';
+            ngrokUrl = null;
+        }
+        updateLinkCards();
+    });
+    
+    socket.on('cloudflared_status', function(status) {
+        const startBtn = document.getElementById('start-cloudflared-btn');
+        const stopBtn = document.getElementById('stop-cloudflared-btn');
+
+        if (status.running) {
+            startBtn.style.display = 'none';
+            startBtn.disabled = true;
+            startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Cloudflared</span>';
+            
+            stopBtn.style.display = 'block';
+            stopBtn.disabled = false;
+            stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Cloudflared</span>';
+            cloudflaredUrl = status.url;
+        } else {
+            startBtn.style.display = 'block';
+            startBtn.disabled = false;
+            startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Cloudflared</span>';
+
+            stopBtn.style.display = 'none';
+            stopBtn.disabled = true;
+            stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Cloudflared</span>';
+            cloudflaredUrl = null;
+        }
+        
+        if (status.authenticated !== undefined) {
+            cloudflaredAuthenticated = status.authenticated;
+            updateCloudflaredAuthStatus();
+        }
+        updateLinkCards();
+    });
+    
+    socket.on('cloudflared_auth_required', function(data) {
+        showAuthNotification(data.message, data.command);
+    });
+    
+    document.getElementById('link-name').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            directCreateLink();
+        }
+    });
+    
+    document.getElementById('custom-id').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            directCreateLink();
+        }
+    });
+    
+    document.getElementById('redirect-url-new').addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            directCreateLink();
+        }
+    });
+    
+    document.getElementById('tunneling-service').addEventListener('change', function() {
+        activeTunnelingService = this.value;
+        toggleTunnelingControls();
+    });
+    
+    function initializeMap() {
+        if (map) {
+            map.remove();
+        }
+        map = L.map('map', {
+            layers: [darkMapStyle],
+            zoomControl: false,
+            minZoom: 2
+        }).setView([20, 0], 2);
+        
+        L.control.zoom({
+            position: 'topright'
+        }).addTo(map);
+        
+        L.control.scale({
+            imperial: false,
+            position: 'bottomleft'
+        }).addTo(map);
+        
+        markerClusterGroup = L.markerClusterGroup({
+            showCoverageOnHover: false,
+            maxClusterRadius: 60,
+            disableClusteringAtZoom: 12,
+            spiderfyOnMaxZoom: true,
+            iconCreateFunction: function(cluster) {
+                const count = cluster.getChildCount();
+                let size = 'small';
+                
+                if (count > 50) size = 'large';
+                else if (count > 10) size = 'medium';
+                
+                return L.divIcon({
+                    html: `<div class="custom-cluster" style="background: rgba(14, 165, 233, 0.85); box-shadow: 0 0 10px rgba(14, 165, 233, 0.5); color: white; width: 36px; height: 36px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-weight: 600; font-size: 14px;">${count}</div>`,
+                    className: '',
+                    iconSize: L.point(36, 36)
                 });
             }
-            
-            function showNotification(message, icon = 'fa-info-circle') {
-                const notification = document.getElementById('notification');
-                const notificationText = document.getElementById('notification-text');
-                const notificationIcon = document.getElementById('notification-icon');
+        });
+        
+        map.addLayer(markerClusterGroup);
+    }
+    
+    function toggleTunnelingControls() {
+        const ngrokControls = document.getElementById('ngrok-controls');
+        const cloudflaredControls = document.getElementById('cloudflared-controls');
+        const cloudflaredAuthStatus = document.getElementById('cloudflared-auth-status');
+        
+        if (activeTunnelingService === 'ngrok') {
+            ngrokControls.style.display = 'block';
+            cloudflaredControls.style.display = 'none';
+            cloudflaredAuthStatus.style.display = 'none';
+        } else {
+            ngrokControls.style.display = 'none';
+            cloudflaredControls.style.display = 'block';
+            cloudflaredAuthStatus.style.display = 'inline-flex';
+            updateCloudflaredAuthStatus();
+        }
+    }
+    
+    function updateCloudflaredAuthStatus() {
+        const statusElement = document.getElementById('cloudflared-auth-status');
+        
+        if (activeTunnelingService !== 'cloudflared') {
+            statusElement.style.display = 'none';
+            return;
+        }
+        
+        statusElement.style.display = 'inline-flex';
+        
+        if (cloudflaredAuthenticated) {
+            statusElement.className = 'auth-status authenticated';
+            statusElement.innerHTML = '<i class="fas fa-check-circle"></i> Authenticated';
+        } else {
+            statusElement.className = 'auth-status not-authenticated';
+            statusElement.innerHTML = '<i class="fas fa-times-circle"></i> Not Authenticated';
+        }
+    }
+    
+    function checkCloudflaredAuthStatus() {
+        fetch('/api/cloudflared/check_auth')
+            .then(response => response.json())
+            .then(data => {
+                cloudflaredAuthenticated = data.authenticated;
+                cloudflaredAuthCommand = data.auth_command || 'cloudflared login';
+                updateCloudflaredAuthStatus();
+                updateCloudflaredSettingsModal();
+            })
+            .catch(error => {
+                console.error("Error checking Cloudflared auth status:", error);
+            });
+    }
+    
+    function updateCloudflaredSettingsModal() {
+        const authNotice = document.getElementById('cloudflared-auth-notice');
+        const authCommandDisplay = document.getElementById('auth-command-display');
+        
+        if (!cloudflaredAuthenticated) {
+            authNotice.style.display = 'block';
+            authCommandDisplay.textContent = cloudflaredAuthCommand;
+        } else {
+            authNotice.style.display = 'none';
+        }
+    }
+    
+    function checkTunnelingOptions() {
+        fetch('/api/tunneling/check')
+            .then(response => response.json())
+            .then(data => {
+                const serviceSelector = document.getElementById('tunneling-service');
                 
-                notificationIcon.className = `fas ${icon}`;
-                notificationText.textContent = message;
-                notification.classList.add('show');
+                if (!data.ngrok_installed && data.cloudflared_installed) {
+                    serviceSelector.value = 'cloudflared';
+                    activeTunnelingService = 'cloudflared';
+                    toggleTunnelingControls();
+                }
                 
-                setTimeout(function() {
-                    notification.classList.remove('show');
-                }, 3000);
+                if (!data.ngrok_installed && !data.cloudflared_installed) {
+                    showNotification('Neither Ngrok nor Cloudflared is installed', 'fa-exclamation-circle');
+                }
+                
+                cloudflaredAuthenticated = data.cloudflared_authenticated;
+                cloudflaredAuthCommand = data.cloudflared_auth_command || 'cloudflared login';
+                updateCloudflaredAuthStatus();
+            })
+            .catch(error => {
+                console.error("Error checking tunneling options:", error);
+            });
+    }
+    
+    function showAuthNotification(message, command) {
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notification-text');
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDetails = document.getElementById('notification-details');
+        const notificationCommand = document.getElementById('notification-command');
+        
+        notificationIcon.className = 'fas fa-user-shield';
+        notificationText.innerHTML = message;
+        notificationCommand.textContent = command;
+        notificationDetails.style.display = 'block';
+        notification.classList.add('show');
+        
+        setTimeout(function() {
+            notification.classList.remove('show');
+            setTimeout(() => {
+                notificationDetails.style.display = 'none';
+            }, 300);
+        }, 8000);
+    }
+    
+    function updateLinkCard(link) {
+        const linkElement = document.getElementById(`link-card-${link.id}`);
+        if (!linkElement) return;
+        
+        const templateBadge = linkElement.querySelector('.template-badge');
+        if (templateBadge) {
+            let templateName = "Default";
+            if (link.template === 'nearyou') templateName = "Near You";
+            else if (link.template === 'gdrive') templateName = "Google Drive";
+            else if (link.template === 'captcha') templateName = "CAPTCHA";
+            templateBadge.textContent = templateName;
+        }
+        
+        const stats = linkElement.querySelectorAll('.stat');
+        if (stats.length >= 3) {
+            const geoModeStat = stats[2];
+            const geoModeTextEl = geoModeStat.querySelector('.stat-label'); 
+            if (geoModeTextEl) {
+                 geoModeTextEl.textContent = link.geo_mode === 'watch' ? 'Continuous' : 'One-time';
             }
-            
-            function addMarker(target) {
-                if (target.geolocationStatus === 'success' && 
-                    target.latitude && 
-                    target.longitude) {
-                    
-                    let iconClass = 'fa-map-marker-alt';
-                    let iconColor = '#0ea5e9';
-                    
-                    if (target.browser) {
-                        if (target.browser.includes('Chrome')) {
-                            iconColor = '#10b981';
-                            iconClass = 'fa-chrome';
-                        }
-                        else if (target.browser.includes('Firefox')) {
-                            iconColor = '#f59e0b';
-                            iconClass = 'fa-firefox';
-                        }
-                        else if (target.browser.includes('Safari')) {
-                            iconColor = '#3b82f6';
-                            iconClass = 'fa-safari';
-                        }
-                        else if (target.browser.includes('Edge')) {
-                            iconColor = '#0ea5e9';
-                            iconClass = 'fa-edge';
-                        }
-                    }
-                    
-                    const customIcon = L.divIcon({
-                        html: `<div class="custom-marker" style="color:${iconColor}"><i class="fab ${iconClass}"></i></div>`,
-                        className: '',
-                        iconSize: [30, 30],
-                        iconAnchor: [15, 30],
-                        popupAnchor: [0, -30]
-                    });
-                    
-                    let formattedTime = target.timestamp || 'N/A';
-                    if (target.timestamp) {
-                        try {
-                            const date = new Date(target.timestamp.replace(/-/g, '/'));
-                            formattedTime = new Intl.DateTimeFormat('en-US', {
-                                month: 'short',
-                                day: 'numeric',
-                                hour: '2-digit',
-                                minute: '2-digit'
-                            }).format(date);
-                        } catch (e) {
-                        }
-                    }
-                    
-                    const location = [target.city, target.region, target.country].filter(Boolean).join(', ');
-                    
-                    const popupContent = `
-                        <div class="custom-popup">
-                            <div class="popup-header">
-                                <i class="fas fa-info-circle"></i>
-                                <span>Connection Details</span>
-                            </div>
-                            <div class="popup-content">
-                                <div class="popup-item">
-                                    <strong><i class="fas fa-clock"></i> Time:</strong>
-                                    <span>${formattedTime}</span>
-                                </div>
-                                <div class="popup-item">
-                                    <strong><i class="fas fa-network-wired"></i> IP:</strong>
-                                    <span>${target.ip || 'N/A'}</span>
-                                </div>
-                                <div class="popup-item">
-                                    <strong><i class="fas fa-globe"></i> Browser:</strong>
-                                    <span>${target.browser || 'N/A'}</span>
-                                </div>
-                                <div class="popup-item">
-                                    <strong><i class="fas fa-laptop"></i> OS:</strong>
-                                    <span>${target.os || 'N/A'}</span>
-                                </div>
-                                ${location ? `
-                                <div class="popup-item">
-                                    <strong><i class="fas fa-map-pin"></i> Location:</strong>
-                                    <span>${location}</span>
-                                </div>` : ''}
-                                ${target.source_link ? `
-                                <div class="popup-item">
-                                    <strong><i class="fas fa-link"></i> Source:</strong>
-                                    <span>${target.link_name || target.source_link}</span>
-                                </div>` : ''}
-                                <div class="popup-item">
-                                    <strong><i class="fas fa-map-marker-alt"></i> Coordinates:</strong>
-                                    <span>${parseFloat(target.latitude).toFixed(6)}, ${parseFloat(target.longitude).toFixed(6)}</span>
-                                </div>
-                            </div>
-                            <div class="popup-footer">
-                                <button class="popup-btn" onclick="document.getElementById('details-for-${target.timestamp.replace(/[\s:-]/g, '')}').click()">
-                                    <i class="fas fa-search-plus"></i> View Details
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                    
-                    const marker = L.marker([target.latitude, target.longitude], {icon: customIcon})
-                        .bindPopup(popupContent, {
-                            maxWidth: 300,
-                            className: 'custom-popup-container'
-                        });
-                    
-                    markerClusterGroup.addLayer(marker);
-                    markers.push(marker);
+        }
+        
+        let footer = linkElement.querySelector('.link-footer');
+        if (link.redirect_url) {
+            if (footer) {
+                const redirectText = footer.querySelector('span:last-child');
+                if (redirectText) {
+                    redirectText.textContent = link.redirect_url;
+                    redirectText.setAttribute('title', link.redirect_url);
                 }
-            }
-            
-            function addTargetRow(target) {
-                const tableBody = document.getElementById('targets-body');
-                const row = document.createElement('tr');
-                row.id = `target-row-${target.timestamp.replace(/[\s:-]/g, '')}`;
-                // Store the target data on the row element for reference
-                row._target = target;
-                
-                let formattedTime = target.timestamp || 'N/A';
-                let timestampAttr = target.timestamp || '';
-                
-                if (target.timestamp) {
-                    try {
-                        const date = new Date(target.timestamp.replace(/-/g, '/'));
-                        formattedTime = new Intl.DateTimeFormat('en-US', {
-                            month: 'short',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
-                        }).format(date);
-                        timestampAttr = date.toISOString();
-                    } catch (e) {
-                    }
-                }
-                
-                let browserIcon = 'fa-globe';
-                if (target.browser) {
-                    if (target.browser.includes('Chrome')) browserIcon = 'fa-chrome';
-                    else if (target.browser.includes('Firefox')) browserIcon = 'fa-firefox';
-                    else if (target.browser.includes('Safari')) browserIcon = 'fa-safari';
-                    else if (target.browser.includes('Edge')) browserIcon = 'fa-edge';
-                }
-                
-                let osIcon = 'fa-microchip';
-                if (target.os) {
-                    if (target.os.includes('Windows')) osIcon = 'fa-windows';
-                    else if (target.os.includes('Mac')) osIcon = 'fa-apple';
-                    else if (target.os.includes('Linux')) osIcon = 'fa-linux';
-                    else if (target.os.includes('Android')) osIcon = 'fa-android';
-                    else if (target.os.includes('iOS')) osIcon = 'fa-apple';
-                }
-                
-                let locationBadge = '';
-                if (target.city || target.region || target.country) {
-                    const locationParts = [target.city, target.region, target.country].filter(Boolean);
-                    const locationText = locationParts.join(', ');
-                    locationBadge = `<span class="badge badge-success">${locationText}</span>`;
-                } else if (target.geolocationStatus === 'success') {
-                    locationBadge = `<span class="badge badge-success">Available</span>`;
-                } else {
-                    locationBadge = `<span class="badge badge-danger">Unavailable</span>`;
-                }
-                
-                row.innerHTML = `
-                    <td data-timestamp="${timestampAttr}">
-                        <div style="display: flex; align-items: center; gap: 6px;">
-                            <i class="fas fa-clock" style="color: var(--secondary);"></i>
-                            <span>${formattedTime}</span>
-                        </div>
-                    </td>
-                    <td>${target.ip || 'N/A'}</td>
-                    <td>
-                        <div style="display: flex; align-items: center; gap: 6px;">
-                            <i class="fab ${browserIcon}" style="color: var(--primary);"></i>
-                            <span>${target.browser || 'N/A'}</span>
-                        </div>
-                    </td>
-                    <td>
-                        <div style="display: flex; align-items: center; gap: 6px;">
-                            <i class="fab ${osIcon}" style="color: var(--primary);"></i>
-                            <span>${target.os || 'N/A'}</span>
-                        </div>
-                    </td>
-                    <td>${locationBadge}</td>
+            } else {
+                footer = document.createElement('div');
+                footer.className = 'link-footer';
+                footer.innerHTML = `
+                    <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                        <span style="color: var(--secondary);">Redirect:</span> 
+                        <span title="${link.redirect_url}" style="color: var(--primary-light);">${link.redirect_url}</span>
+                    </div>
                 `;
-                
-                const detailsBtn = document.createElement('button');
-                detailsBtn.style.display = 'none';
-                detailsBtn.id = `details-for-${target.timestamp.replace(/[\s:-]/g, '')}`;
-                row.appendChild(detailsBtn);
-                
-                row.addEventListener('click', () => {
-                    document.querySelectorAll('#targets-body tr').forEach(r => {
-                        r.classList.remove('selected');
-                    });
-                    
-                    row.classList.add('selected');
-                    
-                    showDetails(target);
-                    
-                    // Switch to details tab
-                    switchTab('details');
-                });
-                
-                tableBody.prepend(row);
+                linkElement.appendChild(footer);
+            }
+        } else if (footer) {
+            footer.remove();
+        }
+        
+        const settingsBtn = linkElement.querySelector('.settings-btn');
+        if (settingsBtn) {
+            settingsBtn.setAttribute('data-redirect', link.redirect_url || '');
+            settingsBtn.setAttribute('data-geo-mode', link.geo_mode || 'single');
+        }
+        
+        const templateBtn = linkElement.querySelector('.template-btn');
+        if (templateBtn) {
+            templateBtn.setAttribute('data-template', link.template || 'default');
+        }
+        updateLinkCards();
+    }
+    
+    function updateLinkCards() {
+        document.querySelectorAll('.link-card').forEach(card => {
+            const linkId = card.id.replace('link-card-', '');
+            
+            if (ngrokUrl) {
+                addOrUpdateTunnelUrl(card, linkId, ngrokUrl, true);
+            } else {
+                removeTunnelUrl(card, true);
             }
             
-            function showDetails(target) {
-                currentSelectedTarget = target;
+            if (cloudflaredUrl) {
+                addOrUpdateTunnelUrl(card, linkId, cloudflaredUrl, false);
+            } else {
+                removeTunnelUrl(card, false);
+            }
+        });
+    }
+    
+    function addOrUpdateTunnelUrl(card, linkId, tunnelUrl, isNgrok) {
+        const containerClass = isNgrok ? 'ngrok-url' : 'cloudflared-url';
+        const iconClass = isNgrok ? 'fa-globe' : 'fa-cloud';
+        const fullUrl = `${tunnelUrl}/${linkId}`;
+        const serviceTitle = isNgrok ? 'Ngrok URL' : 'Cloudflared URL';
+        
+        let urlContainer = card.querySelector(`.link-url-tunnel.${containerClass}`);
+        
+        if (!urlContainer) {
+            const linkUrlElement = card.querySelector('.link-url');
+            if (!linkUrlElement) return;
+
+            const newUrlElement = document.createElement('div');
+            newUrlElement.className = `link-url-tunnel ${containerClass}`;
+            newUrlElement.innerHTML = `
+                <div class="link-url-icon">
+                    <i class="fas ${iconClass}"></i>
+                </div>
+                <div class="link-url-text">${fullUrl}</div>
+                <button class="copy-btn copy-btn-tunnel" data-url="${fullUrl}" title="Copy ${serviceTitle}">
+                    <i class="fas fa-copy"></i>
+                </button>
+            `;
+            const insertAfter = isNgrok 
+                ? linkUrlElement 
+                : card.querySelector('.link-url-tunnel.ngrok-url') || linkUrlElement;
+            
+            if (insertAfter && insertAfter.parentNode) {
+                 insertAfter.parentNode.insertBefore(newUrlElement, insertAfter.nextSibling);
+            } else {
+                card.appendChild(newUrlElement);
+            }
+
+        } else {
+            urlContainer.querySelector('.link-url-text').textContent = fullUrl;
+            urlContainer.querySelector('.copy-btn-tunnel').setAttribute('data-url', fullUrl);
+        }
+    }
+    
+    function removeTunnelUrl(card, isNgrok) {
+        const containerClass = isNgrok ? 'ngrok-url' : 'cloudflared-url';
+        const urlContainer = card.querySelector(`.link-url-tunnel.${containerClass}`);
+        if (urlContainer) {
+            urlContainer.remove();
+        }
+    }
+
+    function showNotification(message, icon = 'fa-info-circle') {
+        const notification = document.getElementById('notification');
+        const notificationText = document.getElementById('notification-text');
+        const notificationIcon = document.getElementById('notification-icon');
+        const notificationDetails = document.getElementById('notification-details');
+        
+        notificationIcon.className = `fas ${icon}`;
+        notificationText.textContent = message;
+        notificationDetails.style.display = 'none';
+        notification.classList.add('show');
+        
+        setTimeout(function() {
+            notification.classList.remove('show');
+        }, 3000);
+    }
+    
+    function addMarker(target) {
+        if (target.geolocationStatus === 'success' && 
+            target.latitude && 
+            target.longitude) {
+            
+            const marker = L.marker([target.latitude, target.longitude])
+                .bindPopup(createPopupContent(target), {
+                    maxWidth: 300,
+                    className: 'custom-popup-container'
+                });
+            
+            markerClusterGroup.addLayer(marker);
+            markers.push(marker);
+        }
+    }
+    
+    function createPopupContent(target) {
+        let formattedTime = target.timestamp || 'N/A';
+        if (target.timestamp) {
+            try {
+                const date = new Date(target.timestamp.replace(/-/g, '/'));
+                formattedTime = new Intl.DateTimeFormat('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }).format(date);
+            } catch (e) {
+                console.error("Date formatting error:", e);
+            }
+        }
+        
+        const location = [target.city, target.region, target.country].filter(Boolean).join(', ');
+        
+        return `
+            <div class="custom-popup">
+                <div class="popup-header">
+                    <i class="fas fa-info-circle"></i>
+                    <span>Connection Details</span>
+                </div>
+                <div class="popup-content">
+                    <div class="popup-item">
+                        <strong><i class="fas fa-clock"></i> Time:</strong>
+                        <span>${formattedTime}</span>
+                    </div>
+                    <div class="popup-item">
+                        <strong><i class="fas fa-network-wired"></i> IP:</strong>
+                        <span>${target.ip || 'N/A'}</span>
+                    </div>
+                    <div class="popup-item">
+                        <strong><i class="fas fa-globe"></i> Browser:</strong>
+                        <span>${target.browser || 'N/A'}</span>
+                    </div>
+                    <div class="popup-item">
+                        <strong><i class="fas fa-laptop"></i> OS:</strong>
+                        <span>${target.os || 'N/A'}</span>
+                    </div>
+                    ${location ? `
+                    <div class="popup-item">
+                        <strong><i class="fas fa-map-pin"></i> Location:</strong>
+                        <span>${location}</span>
+                    </div>` : ''}
+                    ${target.source_link ? `
+                    <div class="popup-item">
+                        <strong><i class="fas fa-link"></i> Source:</strong>
+                        <span>${target.link_name || target.source_link}</span>
+                    </div>` : ''}
+                    <div class="popup-item">
+                        <strong><i class="fas fa-map-marker-alt"></i> Coordinates:</strong>
+                        <span>${parseFloat(target.latitude).toFixed(6)}, ${parseFloat(target.longitude).toFixed(6)}</span>
+                    </div>
+                </div>
+                <div class="popup-footer">
+                    <button class="popup-btn view-details-btn" data-timestamp="${target.timestamp ? target.timestamp.replace(/[\s:-]/g, '') : ''}">
+                        <i class="fas fa-search-plus"></i> View Details
+                    </button>
+                </div>
+            </div>
+        `;
+    }
+    
+    function addTargetRow(target) {
+        const tableBody = document.getElementById('targets-body');
+        const row = document.createElement('tr');
+        row.id = `target-row-${target.timestamp ? target.timestamp.replace(/[\s:-]/g, '') : Date.now()}`;
+        row._target = target;
+        
+        let formattedTime = target.timestamp || 'N/A';
+        let timestampAttr = target.timestamp || '';
+        
+        if (target.timestamp) {
+            try {
+                const date = new Date(target.timestamp.replace(/-/g, '/'));
+                formattedTime = new Intl.DateTimeFormat('en-US', {
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                }).format(date);
+                timestampAttr = date.toISOString();
+            } catch (e) {
+                console.error("Date formatting error:", e);
+            }
+        }
+        
+        let browserIcon = 'fa-globe';
+        if (target.browser) {
+            if (target.browser.includes('Chrome')) browserIcon = 'fa-chrome';
+            else if (target.browser.includes('Firefox')) browserIcon = 'fa-firefox';
+            else if (target.browser.includes('Safari')) browserIcon = 'fa-safari';
+            else if (target.browser.includes('Edge')) browserIcon = 'fa-edge';
+        }
+        
+        let osIcon = 'fa-microchip';
+        if (target.os) {
+            if (target.os.includes('Windows')) osIcon = 'fa-windows';
+            else if (target.os.includes('Mac')) osIcon = 'fa-apple';
+            else if (target.os.includes('Linux')) osIcon = 'fa-linux';
+            else if (target.os.includes('Android')) osIcon = 'fa-android';
+            else if (target.os.includes('iOS')) osIcon = 'fa-apple';
+        }
+        
+        let locationBadge = '';
+        if (target.city || target.region || target.country) {
+            const locationParts = [target.city, target.region, target.country].filter(Boolean);
+            const locationText = locationParts.join(', ');
+            locationBadge = `<span class="badge badge-success">${locationText}</span>`;
+        } else if (target.geolocationStatus === 'success') {
+            locationBadge = `<span class="badge badge-success">Available</span>`;
+        } else {
+            locationBadge = `<span class="badge badge-danger">Unavailable</span>`;
+        }
+        
+        row.innerHTML = `
+            <td data-timestamp="${timestampAttr}">
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <i class="fas fa-clock" style="color: var(--secondary);"></i>
+                    <span>${formattedTime}</span>
+                </div>
+            </td>
+            <td>${target.ip || 'N/A'}</td>
+            <td>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <i class="fab ${browserIcon}" style="color: var(--primary);"></i>
+                    <span>${target.browser || 'N/A'}</span>
+                </div>
+            </td>
+            <td>
+                <div style="display: flex; align-items: center; gap: 6px;">
+                    <i class="fab ${osIcon}" style="color: var(--primary);"></i>
+                    <span>${target.os || 'N/A'}</span>
+                </div>
+            </td>
+            <td>${locationBadge}</td>
+        `;
+        
+        if (tableBody.querySelector('td[colspan="5"]')) {
+            tableBody.innerHTML = '';
+        }
+        
+        tableBody.prepend(row);
+    }
+    
+    function showDetails(target) {
+        if (!target) return;
+        
+        currentSelectedTarget = target;
+        
+        document.getElementById('detail-empty-state').style.display = 'none';
+        document.getElementById('detail-grid').style.display = 'grid';
+        
+        updateDetailSection('Device Information', [
+            { label: 'Platform', value: target.platform || 'Null' },
+            { label: 'Operating System', value: target.os || 'Null' },
+            { label: 'Browser', value: target.browser || 'Null' },
+            { label: 'CPU Cores', value: target.hardwareConcurrency || 'Null' },
+            { label: 'Memory', value: target.deviceMemory ? target.deviceMemory + ' GB' : 'Null' },
+            { label: 'Screen Resolution', value: target.screenWidth && target.screenHeight ? `${target.screenWidth}x${target.screenHeight}` : 'Null' },
+            { label: 'GPU Vendor', value: target.gpuVendor || 'Null' },
+            { label: 'GPU Renderer', value: target.gpuRenderer || 'Null' }
+        ]);
+        
+        updateDetailSection('IP Information', [
+            { label: 'IP Address', value: target.ip || 'Null' },
+            { label: 'City', value: target.city || 'Null' },
+            { label: 'Region', value: target.region || 'Null' },
+            { label: 'Country', value: target.country || 'Null' },
+            { label: 'ISP', value: target.isp || target.org || 'Null' },
+            { label: 'Organization', value: target.org || 'Null' },
+            { label: 'Timezone', value: target.timezone || 'Null' },
+            { label: 'Postal Code', value: target.postal || 'Null' }
+        ]);
+        
+        if (target.geolocationStatus === 'success') {
+            const latDec = parseFloat(target.latitude).toFixed(6);
+            const lonDec = parseFloat(target.longitude).toFixed(6);
+            
+            updateDetailSection('Location Information', [
+                { label: 'Latitude', value: `${latDec}°` },
+                { label: 'Longitude', value: `${lonDec}°` },
+                { label: 'Accuracy', value: target.accuracy ? parseFloat(target.accuracy).toFixed(2) + ' m' : 'Null' },
+                { label: 'Altitude', value: target.altitude ? parseFloat(target.altitude).toFixed(2) + ' m' : 'Null' },
+                { label: 'Altitude Accuracy', value: target.altitudeAccuracy ? parseFloat(target.altitudeAccuracy).toFixed(2) + ' m' : 'Null' },
+                { label: 'Heading', value: target.heading ? parseFloat(target.heading).toFixed(2) + '°' : 'Null' },
+                { label: 'Speed', value: target.speed ? parseFloat(target.speed).toFixed(2) + ' m/s' : 'Null' },
+                { label: 'Maps Link', value: `<a href="https://www.google.com/maps?q=${target.latitude},${target.longitude}" target="_blank" style="color: var(--primary);">View in Google Maps</a>` }
+            ]);
+        } else {
+            updateDetailSection('Location Information', [
+                { label: 'Status', value: '<span style="color: var(--danger);">Location unavailable</span>' },
+                { label: 'Reason', value: target.geolocationError || 'Unknown' }
+            ]);
+        }
+        
+        initializeMap();
+        
+        if (target.geolocationStatus === 'success' && 
+            target.latitude && 
+            target.longitude) {
+            map.flyTo([target.latitude, target.longitude], 13);
+            L.marker([target.latitude, target.longitude]).addTo(map);
+        }
+    }
+    
+    function updateDetailSection(sectionTitle, items) {
+        const sections = document.querySelectorAll('.detail-section');
+        let section;
+        
+        for (let i = 0; i < sections.length; i++) {
+            if (sections[i].querySelector('h3').textContent.includes(sectionTitle)) {
+                section = sections[i];
+                break;
+            }
+        }
+        
+        if (!section) return;
+        
+        const header = section.querySelector('h3');
+        section.innerHTML = '';
+        section.appendChild(header);
+        
+        items.forEach(item => {
+            const itemDiv = document.createElement('div');
+            itemDiv.className = 'detail-item';
+            itemDiv.innerHTML = `
+                <div class="detail-label">${item.label}</div>
+                <div class="detail-value">${item.value}</div>
+            `;
+            section.appendChild(itemDiv);
+        });
+    }
+    
+    function openLinkModal() {
+        document.getElementById('create-link-modal').classList.add('show');
+        document.getElementById('link-name').value = '';
+        document.getElementById('custom-id').value = '';
+        document.getElementById('template-select').value = 'default';
+        document.getElementById('redirect-url-new').value = '';
+        document.getElementById('geo-mode-select-new').value = 'single';
+        document.getElementById('link-name').focus();
+    }
+    
+    function closeLinkModal() {
+        document.getElementById('create-link-modal').classList.remove('show');
+    }
+    
+    function openTemplateModal(linkId, currentTemplate) {
+        currentTemplateLinkId = linkId;
+        document.getElementById('change-template-select').value = currentTemplate || 'default';
+        document.getElementById('template-modal').classList.add('show');
+    }
+    
+    function closeTemplateModal() {
+        document.getElementById('template-modal').classList.remove('show');
+        currentTemplateLinkId = null;
+    }
+    
+    function openSettingsModal(linkId, redirectUrl, geoMode) {
+        currentSettingsLinkId = linkId;
+        document.getElementById('redirect-url').value = redirectUrl || '';
+        document.getElementById('geo-mode-select').value = geoMode || 'single';
+        document.getElementById('settings-modal').classList.add('show');
+    }
+    
+    function closeSettingsModal() {
+        document.getElementById('settings-modal').classList.remove('show');
+        currentSettingsLinkId = null;
+    }
+    
+    function openDeleteModal(linkId) {
+        currentDeleteLinkId = linkId;
+        document.getElementById('confirm-delete-modal').classList.add('show');
+    }
+    
+    function closeDeleteModal() {
+        document.getElementById('confirm-delete-modal').classList.remove('show');
+        currentDeleteLinkId = null;
+    }
+    
+    function openCloudflaredModal() {
+        document.getElementById('cloudflared-domain').value = '';
+        checkCloudflaredAuthStatus();
+        document.getElementById('cloudflared-settings-modal').classList.add('show');
+    }
+    
+    function closeCloudflaredModal() {
+        document.getElementById('cloudflared-settings-modal').classList.remove('show');
+    }
+    
+    function showEmptyLinksState() {
+        const linksContainer = document.getElementById('links-container');
+        linksContainer.innerHTML = `
+            <div class="empty-state">
+                <i class="fas fa-link"></i>
+                <p>No custom links created yet.</p>
+                <button class="btn btn-primary" id="empty-create-link" style="margin-top: 1rem;">
+                    <i class="fas fa-plus"></i>
+                    <span>Create Link</span>
+                </button>
+            </div>
+        `;
+    }
+    
+    function loadTargets() {
+        return fetch('/api/targets')
+            .then(response => response.json())
+            .then(data => {
+                targetsData = data;
+                const tableBody = document.getElementById('targets-body');
+                tableBody.innerHTML = '';
                 
-                // Hide empty state and show detail grid
+                if (markerClusterGroup) {
+                    markerClusterGroup.clearLayers();
+                }
+                markers.length = 0;
+                
+                if (data.length === 0) {
+                    tableBody.innerHTML = `
+                        <tr>
+                            <td colspan="5" style="text-align: center; padding: 2rem 1rem;">
+                                <div style="color: var(--secondary);">
+                                    No connection data available
+                                </div>
+                            </td>
+                        </tr>
+                    `;
+                } else {
+                    data.slice().reverse().forEach(target => {
+                        addTargetRow(target);
+                        addMarker(target);
+                    });
+                }
+                
+                return data;
+            })
+            .catch(error => {
+                console.error("Load targets error:", error);
+                showNotification('Error loading connection data', 'fa-exclamation-triangle');
+            });
+    }
+    
+    function loadLinks() {
+        const linksContainer = document.getElementById('links-container');
+        return fetch('/api/links')
+            .then(response => response.json())
+            .then(data => {
+                linksData = data;
+                
+                if (data.length === 0) {
+                    showEmptyLinksState();
+                } else {
+                    linksContainer.innerHTML = '';
+                    linksContainer.className = 'links-grid';
+                    
+                    data.forEach(link => {
+                        addLinkCard(link);
+                    });
+                }
+                
+                loadNgrokStatus();
+                loadCloudflaredStatus();
+                
+                return data;
+            })
+            .catch(error => {
+                console.error("Load links error:", error);
+                showNotification('Error loading links', 'fa-exclamation-triangle');
+            });
+    }
+    
+    function loadNgrokStatus() {
+        const startBtn = document.getElementById('start-ngrok-btn');
+        const stopBtn = document.getElementById('stop-ngrok-btn');
+        return fetch('/api/ngrok/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.running) {
+                    startBtn.style.display = 'none'; startBtn.disabled = true;
+                    stopBtn.style.display = 'block'; stopBtn.disabled = false;
+                    ngrokUrl = data.url;
+                } else {
+                    startBtn.style.display = 'block'; startBtn.disabled = false;
+                    stopBtn.style.display = 'none'; stopBtn.disabled = true;
+                    ngrokUrl = null;
+                }
+                startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Ngrok</span>';
+                stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Ngrok</span>';
+                updateLinkCards();
+                return data;
+            })
+            .catch(error => {
+                console.error("Error loading ngrok status:", error);
+                startBtn.style.display = 'block'; startBtn.disabled = false;
+                startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Ngrok</span>';
+                stopBtn.style.display = 'none'; stopBtn.disabled = true;
+                stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Ngrok</span>';
+                ngrokUrl = null;
+                updateLinkCards();
+            });
+    }
+    
+    function loadCloudflaredStatus() {
+        const startBtn = document.getElementById('start-cloudflared-btn');
+        const stopBtn = document.getElementById('stop-cloudflared-btn');
+        return fetch('/api/cloudflared/status')
+            .then(response => response.json())
+            .then(data => {
+                if (data.running) {
+                    startBtn.style.display = 'none'; startBtn.disabled = true;
+                    stopBtn.style.display = 'block'; stopBtn.disabled = false;
+                    cloudflaredUrl = data.url;
+                } else {
+                    startBtn.style.display = 'block'; startBtn.disabled = false;
+                    stopBtn.style.display = 'none'; stopBtn.disabled = true;
+                    cloudflaredUrl = null;
+                }
+                startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Cloudflared</span>';
+                stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Cloudflared</span>';
+                
+                if (data.authenticated !== undefined) {
+                    cloudflaredAuthenticated = data.authenticated;
+                    updateCloudflaredAuthStatus();
+                }
+                updateLinkCards();
+                return data;
+            })
+            .catch(error => {
+                console.error("Error loading cloudflared status:", error);
+                startBtn.style.display = 'block'; startBtn.disabled = false;
+                startBtn.innerHTML = '<i class="fas fa-play"></i> <span>Start Cloudflared</span>';
+                stopBtn.style.display = 'none'; stopBtn.disabled = true;
+                stopBtn.innerHTML = '<i class="fas fa-stop"></i> <span>Stop Cloudflared</span>';
+                cloudflaredUrl = null;
+                updateCloudflaredAuthStatus();
+                updateLinkCards();
+            });
+    }
+    
+    function addLinkCard(link) {
+        const linksContainer = document.getElementById('links-container');
+        
+        if (linksContainer.querySelector('.empty-state')) {
+             linksContainer.innerHTML = '';
+             linksContainer.className = 'links-grid';
+        }
+        
+        let formattedDate = link.created || 'N/A';
+        if (link.created) {
+            try {
+                const date = new Date(link.created.replace(/-/g, '/'));
+                formattedDate = new Intl.DateTimeFormat('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                }).format(date);
+            } catch (e) {
+                console.error("Date formatting error:", e);
+            }
+        }
+        
+        const baseUrl = window.location.origin;
+        const fullUrl = `${baseUrl}/${link.id}`;
+        
+        let templateName = "Default";
+        if (link.template === 'nearyou') templateName = "Near You";
+        else if (link.template === 'gdrive') templateName = "Google Drive";
+        else if (link.template === 'captcha') templateName = "CAPTCHA";
+    
+        let geoModeText = link.geo_mode === 'watch' ? 'Continuous' : 'One-time';
+        
+        const linkCard = document.createElement('div');
+        linkCard.className = 'link-card';
+        linkCard.id = `link-card-${link.id}`;
+        
+        let ngrokHtml = '';
+        if (ngrokUrl) {
+            ngrokHtml = `
+                <div class="link-url-tunnel ngrok-url">
+                    <div class="link-url-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                    <div class="link-url-text">${ngrokUrl}/${link.id}</div>
+                    <button class="copy-btn copy-btn-tunnel" data-url="${ngrokUrl}/${link.id}" title="Copy Ngrok URL">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            `;
+        }
+        
+        let cloudflaredHtml = '';
+        if (cloudflaredUrl) {
+            cloudflaredHtml = `
+                <div class="link-url-tunnel cloudflared-url">
+                    <div class="link-url-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <div class="link-url-text">${cloudflaredUrl}/${link.id}</div>
+                    <button class="copy-btn copy-btn-tunnel" data-url="${cloudflaredUrl}/${link.id}" title="Copy Cloudflared URL">
+                        <i class="fas fa-copy"></i>
+                    </button>
+                </div>
+            `;
+        }
+        
+        linkCard.innerHTML = `
+            <div class="link-header">
+                <h3 class="link-name">
+                    <i class="fas fa-link"></i>
+                    ${link.name}
+                </h3>
+                <div class="link-actions">
+                    <button class="action-btn settings-btn" title="Link Settings" data-id="${link.id}" data-redirect="${link.redirect_url || ''}" data-geo-mode="${link.geo_mode || 'single'}">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="action-btn template-btn" title="Change template" data-id="${link.id}" data-template="${link.template || 'default'}">
+                        <i class="fas fa-file-code"></i>
+                    </button>
+                    <button class="action-btn delete-btn" title="Delete link" data-id="${link.id}">
+                        <i class="fas fa-trash-alt"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="link-url">
+                <div class="link-url-icon">
+                    <i class="fas fa-link"></i>
+                </div>
+                <div class="link-url-text">${fullUrl}</div>
+                <button class="copy-btn" data-url="${fullUrl}" title="Copy URL">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+            ${ngrokHtml}
+            ${cloudflaredHtml}
+            <div class="link-stats">
+                <div class="stat">
+                    <div class="stat-label">Template</div>
+                    <div class="stat-value template-badge">${templateName}</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">Created</div>
+                    <div class="stat-value">${formattedDate}</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-label">${geoModeText}</div>
+                    <div class="stat-value">Mode</div>
+                </div>
+            </div>
+            ${link.redirect_url ? `
+            <div class="link-footer">
+                <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
+                    <span style="color: var(--secondary);">Redirect:</span> 
+                    <span title="${link.redirect_url}" style="color: var(--primary-light);">${link.redirect_url}</span>
+                </div>
+            </div>
+            ` : ''}
+        `;
+        
+        linksContainer.appendChild(linkCard);
+    }
+    
+    function switchTab(tabId) {
+        currentTab = tabId;
+        
+        document.querySelectorAll('.menu-link').forEach(link => {
+            link.classList.remove('active');
+        });
+        document.querySelector(`.menu-link[data-tab="${tabId}"]`).classList.add('active');
+        
+        document.querySelectorAll('.tab-panel').forEach(panel => {
+            panel.classList.remove('active');
+        });
+        document.getElementById(`${tabId}-panel`).classList.add('active');
+        
+        if (tabId === 'dashboard') {
+            // Nothing specific to do here
+        } else if (tabId === 'connections') {
+            loadTargets();
+        } else if (tabId === 'links') {
+            loadLinks();
+        } else if (tabId === 'details') {
+            if (currentSelectedTarget) {
                 document.getElementById('detail-empty-state').style.display = 'none';
                 document.getElementById('detail-grid').style.display = 'grid';
                 
-                // Update device information
-                updateDetailSection('Device Information', [
-                    { label: 'Platform', value: target.platform || 'Null' },
-                    { label: 'Operating System', value: target.os || 'Null' },
-                    { label: 'Browser', value: target.browser || 'Null' },
-                    { label: 'CPU Cores', value: target.hardwareConcurrency || 'Null' },
-                    { label: 'Memory', value: target.deviceMemory ? target.deviceMemory + ' GB' : 'Null' },
-                    { label: 'Screen Resolution', value: target.screenWidth && target.screenHeight ? `${target.screenWidth}x${target.screenHeight}` : 'Null' },
-                    { label: 'GPU Vendor', value: target.gpuVendor || 'Null' },
-                    { label: 'GPU Renderer', value: target.gpuRenderer || 'Null' }
-                ]);
-                
-                // Update IP information
-                updateDetailSection('IP Information', [
-                    { label: 'IP Address', value: target.ip || 'Null' },
-                    { label: 'City', value: target.city || 'Null' },
-                    { label: 'Region', value: target.region || 'Null' },
-                    { label: 'Country', value: target.country || 'Null' },
-                    { label: 'ISP', value: target.isp || target.org || 'Null' },
-                    { label: 'Organization', value: target.org || 'Null' },
-                    { label: 'Timezone', value: target.timezone || 'Null' },
-                    { label: 'Postal Code', value: target.postal || 'Null' }
-                ]);
-                
-                // Update location information
-                if (target.geolocationStatus === 'success') {
-                    const latDec = parseFloat(target.latitude).toFixed(6);
-                    const lonDec = parseFloat(target.longitude).toFixed(6);
-                    
-                    updateDetailSection('Location Information', [
-                        { label: 'Latitude', value: `${latDec}°` },
-                        { label: 'Longitude', value: `${lonDec}°` },
-                        { label: 'Accuracy', value: target.accuracy ? parseFloat(target.accuracy).toFixed(2) + ' m' : 'Null' },
-                        { label: 'Altitude', value: target.altitude ? parseFloat(target.altitude).toFixed(2) + ' m' : 'Null' },
-                        { label: 'Altitude Accuracy', value: target.altitudeAccuracy ? parseFloat(target.altitudeAccuracy).toFixed(2) + ' m' : 'Null' },
-                        { label: 'Heading', value: target.heading ? parseFloat(target.heading).toFixed(2) + '°' : 'Null' },
-                        { label: 'Speed', value: target.speed ? parseFloat(target.speed).toFixed(2) + ' m/s' : 'Null' },
-                        { label: 'Maps Link', value: `<a href="https://www.google.com/maps?q=${target.latitude},${target.longitude}" target="_blank" style="color: var(--primary);">View in Google Maps</a>` }
-                    ]);
-                } else {
-                    updateDetailSection('Location Information', [
-                        { label: 'Status', value: '<span style="color: var(--danger);">Location unavailable</span>' },
-                        { label: 'Reason', value: target.geolocationError || 'Unknown' }
-                    ]);
-                }
-                
-                // Initialize map
-                setTimeout(() => {
-                    initializeMap();
-                    
-                    if (target.geolocationStatus === 'success' && 
-                        target.latitude && 
-                        target.longitude) {
-                        map.flyTo([target.latitude, target.longitude], 13);
-                        
-                        let iconClass = 'fa-map-marker-alt';
-                        let iconColor = '#0ea5e9';
-                        
-                        if (target.browser) {
-                            if (target.browser.includes('Chrome')) {
-                                iconColor = '#10b981';
-                                iconClass = 'fa-chrome';
-                            }
-                            else if (target.browser.includes('Firefox')) {
-                                iconColor = '#f59e0b';
-                                iconClass = 'fa-firefox';
-                            }
-                            else if (target.browser.includes('Safari')) {
-                                iconColor = '#3b82f6';
-                                iconClass = 'fa-safari';
-                            }
-                            else if (target.browser.includes('Edge')) {
-                                iconColor = '#0ea5e9';
-                                iconClass = 'fa-edge';
-                            }
-                        }
-                        
-                        const customIcon = L.divIcon({
-                            html: `<div class="custom-marker" style="color:${iconColor}"><i class="fab ${iconClass}"></i></div>`,
-                            className: '',
-                            iconSize: [30, 30],
-                            iconAnchor: [15, 30],
-                            popupAnchor: [0, -30]
-                        });
-                        
-                        L.marker([target.latitude, target.longitude], {icon: customIcon}).addTo(map);
-                    }
-                }, 100);
-            }
-            
-            function updateDetailSection(sectionTitle, items) {
-                const sections = document.querySelectorAll('.detail-section');
-                let section;
-                
-                for (let i = 0; i < sections.length; i++) {
-                    if (sections[i].querySelector('h3').textContent.includes(sectionTitle)) {
-                        section = sections[i];
-                        break;
+                if (map) {
+                    map.invalidateSize();
+                    if (currentSelectedTarget.geolocationStatus === 'success' && 
+                        currentSelectedTarget.latitude && 
+                        currentSelectedTarget.longitude) {
+                        map.flyTo(
+                            [currentSelectedTarget.latitude, currentSelectedTarget.longitude], 
+                            13
+                        );
                     }
                 }
-                
-                if (!section) return;
-                
-                // Clear existing items except the header
-                const header = section.querySelector('h3');
-                section.innerHTML = '';
-                section.appendChild(header);
-                
-                // Add new items
-                items.forEach(item => {
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = 'detail-item';
-                    itemDiv.innerHTML = `
-                        <div class="detail-label">${item.label}</div>
-                        <div class="detail-value">${item.value}</div>
-                    `;
-                    section.appendChild(itemDiv);
-                });
+            } else {
+                document.getElementById('detail-empty-state').style.display = 'flex';
+                document.getElementById('detail-grid').style.display = 'none';
             }
-            
-            function openLinkModal() {
-                document.getElementById('create-link-modal').classList.add('show');
-                document.getElementById('link-name').value = '';
-                document.getElementById('custom-id').value = '';
-                document.getElementById('template-select').value = 'default';
-                document.getElementById('redirect-url-new').value = '';
-                document.getElementById('geo-mode-select-new').value = 'single';
-                document.getElementById('link-name').focus();
-            }
-            
-            function closeLinkModal() {
-                document.getElementById('create-link-modal').classList.remove('show');
-            }
-            
-            function openTemplateModal(linkId, currentTemplate) {
-                currentTemplateLinkId = linkId;
-                document.getElementById('change-template-select').value = currentTemplate || 'default';
-                document.getElementById('template-modal').classList.add('show');
-            }
-            
-            function closeTemplateModal() {
-                document.getElementById('template-modal').classList.remove('show');
-                currentTemplateLinkId = null;
-            }
-            
-            function openSettingsModal(linkId, redirectUrl, geoMode) {
-                currentSettingsLinkId = linkId;
-                document.getElementById('redirect-url').value = redirectUrl || '';
-                document.getElementById('geo-mode-select').value = geoMode || 'single';
-                document.getElementById('settings-modal').classList.add('show');
-            }
-            
-            function closeSettingsModal() {
-                document.getElementById('settings-modal').classList.remove('show');
-                currentSettingsLinkId = null;
-            }
-            
-            function openDeleteModal(linkId) {
-                currentDeleteLinkId = linkId;
-                document.getElementById('confirm-delete-modal').classList.add('show');
-            }
-            
-            function closeDeleteModal() {
-                document.getElementById('confirm-delete-modal').classList.remove('show');
-                currentDeleteLinkId = null;
-            }
-            
-            function deleteLink() {
-                if (!currentDeleteLinkId) return;
-                
-                const deleteBtn = document.getElementById('confirm-delete');
-                const originalText = deleteBtn.innerHTML;
-                deleteBtn.disabled = true;
-                deleteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Deleting...';
-                
-                fetch(`/api/delete_link/${currentDeleteLinkId}`, {
-                    method: 'DELETE',
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        showNotification('Link deleted successfully', 'fa-check-circle');
-                        closeDeleteModal();
-                        
-                        const linkElement = document.getElementById(`link-card-${currentDeleteLinkId}`);
-                        if (linkElement) {
-                            linkElement.remove();
-                        }
-                        
-                        linksData = linksData.filter(link => link.id !== currentDeleteLinkId);
-                        
-                        if (linksData.length === 0) {
-                            const linksContainer = document.getElementById('links-container');
-                            const cardBody = linksContainer.parentElement;
-                            cardBody.style.display = "flex";
-                            cardBody.style.justifyContent = "center";
-                            cardBody.style.alignItems = "center";
-                            
-                            linksContainer.innerHTML = `
-                                <div class="empty-state">
-                                    <i class="fas fa-link"></i>
-                                    <p>No custom links created yet.</p>
-                                    <button class="btn btn-primary" id="empty-create-link" style="margin-top: 1rem;">
-                                        <i class="fas fa-plus"></i>
-                                        <span>Create Link</span>
-                                    </button>
-                                </div>
-                            `;
-                            
-                            document.getElementById('empty-create-link').addEventListener('click', openLinkModal);
-                        }
-                    } else {
-                        showNotification(data.message || 'Error deleting link', 'fa-exclamation-triangle');
-                    }
-                    
-                    deleteBtn.disabled = false;
-                    deleteBtn.innerHTML = originalText;
-                })
-                .catch(error => {
-                    showNotification('Error deleting link', 'fa-exclamation-triangle');
-                    deleteBtn.disabled = false;
-                    deleteBtn.innerHTML = originalText;
-                });
-            }
-            
-            function updateLinkTemplate() {
-                if (!currentTemplateLinkId) return;
-                
-                const templateSelect = document.getElementById('change-template-select');
-                const selectedTemplate = templateSelect.value;
-                
-                const saveBtn = document.getElementById('save-template-change');
-                const originalText = saveBtn.innerHTML;
-                saveBtn.disabled = true;
-                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-                
-                fetch('/api/update_link_template', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        link_id: currentTemplateLinkId,
-                        template: selectedTemplate
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        showNotification('Template updated successfully', 'fa-check-circle');
-                        closeTemplateModal();
-                        
-                        const linkIndex = linksData.findIndex(link => link.id === currentTemplateLinkId);
-                        if (linkIndex !== -1) {
-                            linksData[linkIndex].template = selectedTemplate;
-                            
-                            const linkCard = document.getElementById(`link-card-${currentTemplateLinkId}`);
-                            if (linkCard) {
-                                const templateBadge = linkCard.querySelector('.template-badge');
-                                if (templateBadge) {
-                                    let templateName = "Default";
-                                    if (selectedTemplate === 'nearyou') {
-                                        templateName = "Near You";
-                                    } else if (selectedTemplate === 'gdrive') {
-                                        templateName = "Google Drive";
-                                    } else if (selectedTemplate === 'captcha') {
-                                        templateName = "CAPTCHA";
-                                    }
-                                    templateBadge.textContent = templateName;
-                                }
-                            }
-                        }
-                    } else {
-                        showNotification(data.message || 'Error updating template', 'fa-exclamation-triangle');
-                    }
-                    
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = originalText;
-                })
-                .catch(error => {
-                    showNotification('Error updating template', 'fa-exclamation-triangle');
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = originalText;
-                });
-            }
-            
-            function updateLinkSettings() {
-                if (!currentSettingsLinkId) return;
-                
-                const redirectUrl = document.getElementById('redirect-url').value.trim();
-                const geoMode = document.getElementById('geo-mode-select').value;
-                
-                const saveBtn = document.getElementById('save-settings');
-                const originalText = saveBtn.innerHTML;
-                saveBtn.disabled = true;
-                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
-                
-                fetch('/api/update_link_settings', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        link_id: currentSettingsLinkId,
-                        redirect_url: redirectUrl,
-                        geo_mode: geoMode
-                    })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        showNotification('Settings updated successfully', 'fa-check-circle');
-                        closeSettingsModal();
-                        
-                        const linkIndex = linksData.findIndex(link => link.id === currentSettingsLinkId);
-                        if (linkIndex !== -1) {
-                            linksData[linkIndex].redirect_url = redirectUrl;
-                            linksData[linkIndex].geo_mode = geoMode;
-                            
-                            const linkCard = document.getElementById(`link-card-${currentSettingsLinkId}`);
-                            if (linkCard) {
-                                // Update the geolocation mode display
-                                const stats = linkCard.querySelectorAll('.stat');
-                                if (stats.length >= 3) {
-                                    const geoModeStat = stats[2];
-                                    const geoModeLabel = geoModeStat.querySelector('.stat-label:first-child');
-                                    if (geoModeLabel) {
-                                        geoModeLabel.textContent = geoMode === 'watch' ? 'Continuous' : 'One-time';
-                                    }
-                                }
-                                
-                                // Update or add the redirect URL section
-                                let footer = linkCard.querySelector('.link-footer');
-                                if (redirectUrl) {
-                                    if (footer) {
-                                        const redirectText = footer.querySelector('span:last-child');
-                                        if (redirectText) {
-                                            redirectText.textContent = redirectUrl;
-                                            redirectText.setAttribute('title', redirectUrl);
-                                        }
-                                    } else {
-                                        footer = document.createElement('div');
-                                        footer.className = 'link-footer';
-                                        footer.style = 'margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05);';
-                                        footer.innerHTML = `
-                                            <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                                                <span style="color: var(--secondary);">Redirect:</span> 
-                                                <span title="${redirectUrl}" style="color: var(--primary-light);">${redirectUrl}</span>
-                                            </div>
-                                        `;
-                                        linkCard.appendChild(footer);
-                                    }
-                                } else if (footer) {
-                                    footer.remove();
-                                }
-                                
-                                // Update the settings button data attributes
-                                const settingsBtn = linkCard.querySelector('.settings-btn');
-                                if (settingsBtn) {
-                                    settingsBtn.setAttribute('data-redirect', redirectUrl || '');
-                                    settingsBtn.setAttribute('data-geo-mode', geoMode);
-                                }
-                            }
-                        }
-                    } else {
-                        showNotification(data.message || 'Error updating settings', 'fa-exclamation-triangle');
-                    }
-                    
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = originalText;
-                })
-                .catch(error => {
-                    showNotification('Error updating settings', 'fa-exclamation-triangle');
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = originalText;
-                });
-            }
-            
-            function addLinkCard(link) {
-                const linksContainer = document.getElementById('links-container');
-                
-                if (linksData.length === 1) {
-                    linksContainer.innerHTML = '';
-                    linksContainer.className = 'links-grid';
-                    const cardBody = linksContainer.parentElement;
-                    cardBody.style.display = "block";
-                    cardBody.style.justifyContent = "";
-                    cardBody.style.alignItems = "";
-                }
-                
-                let formattedDate = link.created || 'N/A';
-                if (link.created) {
-                    try {
-                        const date = new Date(link.created.replace(/-/g, '/'));
-                        formattedDate = new Intl.DateTimeFormat('en-US', {
-                            year: 'numeric',
-                            month: 'short',
-                            day: 'numeric'
-                        }).format(date);
-                    } catch (e) {
-                    }
-                }
-                
-                const baseUrl = window.location.origin;
-                const fullUrl = `${baseUrl}/${link.id}`;
-                
-                let templateName = "Default";
-                if (link.template === 'nearyou') {
-                    templateName = "Near You";
-                } else if (link.template === 'gdrive') {
-                    templateName = "Google Drive";
-                } else if (link.template === 'captcha') {
-                    templateName = "CAPTCHA";
-                }
-            
-                // Geolocation mode text
-                let geoModeText = link.geo_mode === 'watch' ? 'Continuous' : 'One-time';
-                
-                const linkCard = document.createElement('div');
-                linkCard.className = 'link-card';
-                linkCard.id = `link-card-${link.id}`;
-                
-                let ngrokHtml = '';
-                if (ngrokUrl) {
-                    ngrokHtml = `
-                        <div class="link-url-ngrok">
-                            <div class="link-url-icon">
-                                <i class="fas fa-globe"></i>
-                            </div>
-                            <div class="link-url-text">${ngrokUrl}/${link.id}</div>
-                            <button class="copy-btn copy-btn-ngrok" data-url="${ngrokUrl}/${link.id}" title="Copy Ngrok URL">
-                                <i class="fas fa-copy"></i>
-                            </button>
-                        </div>
-                    `;
-                }
-                
-                linkCard.innerHTML = `
-                    <div class="link-header">
-                        <h3 class="link-name">
-                            <i class="fas fa-link"></i>
-                            ${link.name}
-                        </h3>
-                        <div class="link-actions">
-                            <button class="action-btn settings-btn" title="Link Settings" data-id="${link.id}" data-redirect="${link.redirect_url || ''}" data-geo-mode="${link.geo_mode || 'single'}">
-                                <i class="fas fa-cog"></i>
-                            </button>
-                            <button class="action-btn template-btn" title="Change template" data-id="${link.id}" data-template="${link.template || 'default'}">
-                                <i class="fas fa-file-code"></i>
-                            </button>
-                            <button class="action-btn delete-btn" title="Delete link" data-id="${link.id}">
-                                <i class="fas fa-trash-alt"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div class="link-url">
-                        <div class="link-url-icon">
-                            <i class="fas fa-link"></i>
-                        </div>
-                        <div class="link-url-text">${fullUrl}</div>
-                        <button class="copy-btn" data-url="${fullUrl}" title="Copy URL">
-                            <i class="fas fa-copy"></i>
-                        </button>
-                    </div>
-                    ${ngrokHtml}
-                    ${link.redirect_url ? `
-                    <div class="link-footer" style="margin-top: 15px; padding-top: 15px; border-top: 1px solid rgba(255, 255, 255, 0.05);">
-                        <div style="overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">
-                            <span style="color: var(--secondary);">Redirect:</span> 
-                            <span title="${link.redirect_url}" style="color: var(--primary-light);">${link.redirect_url}</span>
-                        </div>
-                    </div>
-                    ` : ''}
-                `;
-                
-                setTimeout(() => {
-                    const settingsBtn = linkCard.querySelector('.settings-btn');
-                    if (settingsBtn) {
-                        settingsBtn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const id = settingsBtn.getAttribute('data-id');
-                            const redirect = settingsBtn.getAttribute('data-redirect');
-                            const geoMode = settingsBtn.getAttribute('data-geo-mode');
-                            openSettingsModal(id, redirect, geoMode);
-                        });
-                    }
-                    
-                    const templateBtn = linkCard.querySelector('.template-btn');
-                    if (templateBtn) {
-                        templateBtn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const id = templateBtn.getAttribute('data-id');
-                            const template = templateBtn.getAttribute('data-template');
-                            openTemplateModal(id, template);
-                        });
-                    }
-                    
-                    const deleteBtn = linkCard.querySelector('.delete-btn');
-                    if (deleteBtn) {
-                        deleteBtn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const id = deleteBtn.getAttribute('data-id');
-                            openDeleteModal(id);
-                        });
-                    }
-                    
-                    const copyBtn = linkCard.querySelector('.copy-btn');
-                    if (copyBtn) {
-                        copyBtn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const url = copyBtn.getAttribute('data-url');
-                            navigator.clipboard.writeText(url).then(() => {
-                                showNotification('URL copied to clipboard', 'fa-copy');
-                            });
-                        });
-                    }
-                    
-                    const copyNgrokBtn = linkCard.querySelector('.copy-btn-ngrok');
-                    if (copyNgrokBtn) {
-                        copyNgrokBtn.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const url = copyNgrokBtn.getAttribute('data-url');
-                            navigator.clipboard.writeText(url).then(() => {
-                                showNotification('Ngrok URL copied to clipboard', 'fa-copy');
-                            });
-                        });
-                    }
-                }, 0);
-                
-                linksContainer.appendChild(linkCard);
-            }
-            
-            function loadTargets() {
-                fetch('/api/targets')
-                    .then(response => response.json())
-                    .then(data => {
-                        targetsData = data;
-                        const tableBody = document.getElementById('targets-body');
-                        tableBody.innerHTML = '';
-                        
-                        markerClusterGroup.clearLayers();
-                        markers.length = 0;
-                        
-                        if (data.length === 0) {
-                            tableBody.innerHTML = `
-                                <tr>
-                                    <td colspan="5" style="text-align: center; padding: 2rem 1rem;">
-                                        <div style="color: var(--secondary);">
-                                            No connection data available
-                                        </div>
-                                    </td>
-                                </tr>
-                            `;
-                        } else {
-                            data.slice().reverse().forEach(target => {
-                                addTargetRow(target);
-                                addMarker(target);
-                            });
-                        }
-                        
-                        updateDashboardStats();
-                    })
-                    .catch(error => {
-                        showNotification('Error loading connection data', 'fa-exclamation-triangle');
-                    });
-            }
-            
-            function loadLinks() {
-                fetch('/api/links')
-                    .then(response => response.json())
-                    .then(data => {
-                        linksData = data;
-                        const linksContainer = document.getElementById('links-container');
-                        const cardBody = linksContainer.parentElement;
-                        
-                        if (data.length === 0) {
-                            cardBody.style.display = "flex";
-                            cardBody.style.justifyContent = "center";
-                            cardBody.style.alignItems = "center";
-                            
-                            linksContainer.innerHTML = `
-                                <div class="empty-state">
-                                    <i class="fas fa-link"></i>
-                                    <p>No custom links created yet.</p>
-                                    <button class="btn btn-primary" id="empty-create-link" style="margin-top: 1rem;">
-                                        <i class="fas fa-plus"></i>
-                                        <span>Create Link</span>
-                                    </button>
-                                </div>
-                            `;
-                            
-                            document.getElementById('empty-create-link').addEventListener('click', openLinkModal);
-                        } else {
-                            linksContainer.innerHTML = '';
-                            linksContainer.className = 'links-grid';
-                            cardBody.style.display = "block";
-                            cardBody.style.justifyContent = "";
-                            cardBody.style.alignItems = "";
-                            
-                            data.forEach(link => {
-                                addLinkCard(link);
-                            });
-                        }
-                        
-                        updateDashboardStats();
-                    })
-                    .catch(error => {
-                        showNotification('Error loading links', 'fa-exclamation-triangle');
-                    });
-                
-                loadNgrokStatus();
-            }
-            
-            function updateDashboardStats() {
-                const totalLinks = linksData.length;
-                const totalVisits = linksData.reduce((acc, link) => acc + (link.visits || 0), 0);
-                
-                const oneWeekAgo = new Date();
-                oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-                
-                const recentLinks = linksData.filter(link => {
-                    if (!link.created) return false;
-                    try {
-                        const linkDate = new Date(link.created.replace(/-/g, '/'));
-                        return linkDate >= oneWeekAgo;
-                    } catch (e) {
-                        return false;
-                    }
-                }).length;
-            }
-            
-            function loadNgrokStatus() {
-                fetch('/api/ngrok/status')
-                    .then(response => response.json())
-                    .then(data => {
-                        updateNgrokUI(data);
-                        if (data.running && data.url) {
-                            ngrokUrl = data.url;
-                            updateLinkCards();
-                        }
-                    })
-                    .catch(error => {
-                        showNotification('Error loading ngrok status', 'fa-exclamation-triangle');
-                    });
-            }
-            
-            function updateNgrokUI(status) {
-                const startBtn = document.getElementById('start-ngrok-btn');
-                const stopBtn = document.getElementById('stop-ngrok-btn');
-                
-                if (status.running) {
-                    if (startBtn) startBtn.style.display = 'none';
-                    if (stopBtn) stopBtn.style.display = 'block';
-                } else {
-                    if (startBtn) startBtn.style.display = 'block';
-                    if (stopBtn) stopBtn.style.display = 'none';
-                }
-            }
-            
-            function createLink() {
-                const name = document.getElementById('link-name').value.trim();
-                const customId = document.getElementById('custom-id').value.trim();
-                const template = document.getElementById('template-select').value;
-                const redirectUrl = document.getElementById('redirect-url-new').value.trim();
-                const geoMode = document.getElementById('geo-mode-select-new').value;
-                
-                if (!name) {
-                    showNotification('Link name is required', 'fa-exclamation-triangle');
-                    return;
-                }
-                
-                const saveBtn = document.getElementById('save-link');
-                const originalText = saveBtn.innerHTML;
-                saveBtn.disabled = true;
-                saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating...';
-                
-                const linkData = {
-                    name: name,
-                    template: template,
-                    redirect_url: redirectUrl,
-                    geo_mode: geoMode
-                };
-                
-                if (customId) {
-                    linkData.custom_id = customId;
-                }
-                
-                fetch('/api/create_link', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(linkData)
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        showNotification('Custom link created successfully', 'fa-check-circle');
-                        closeLinkModal();
-                        
-                        const exists = linksData.find(link => link.id === data.id);
-                        if (!exists) {
-                            const newLink = {
-                                id: data.id,
-                                name: name,
-                                created: new Date().toISOString(),
-                                visits: 0,
-                                template: template,
-                                redirect_url: redirectUrl,
-                                geo_mode: geoMode
-                            };
-                            linksData.push(newLink);
-                            
-                            if (currentTab === 'links') {
-                                if (linksData.length === 1) {
-                                    document.getElementById('links-container').innerHTML = '';
-                                }
-                                
-                                addLinkCard(newLink);
-                            }
-                            
-                            switchTab('links');
-                        }
-                    } else {
-                        showNotification(data.message || 'Error creating link', 'fa-exclamation-triangle');
-                    }
-                    
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = originalText;
-                })
-                .catch(error => {
-                    showNotification('Error creating link', 'fa-exclamation-triangle');
-                    saveBtn.disabled = false;
-                    saveBtn.innerHTML = originalText;
-                });
-            }
-            
-            function switchTab(tabId) {
-                currentTab = tabId;
-                
-                document.querySelectorAll('.menu-link').forEach(link => {
-                    link.classList.remove('active');
-                });
-                document.querySelector(`.menu-link[data-tab="${tabId}"]`).classList.add('active');
-                
-                document.querySelectorAll('.tab-panel').forEach(panel => {
-                    panel.classList.remove('active');
-                });
-                document.getElementById(`${tabId}-panel`).classList.add('active');
-                
-                if (tabId === 'dashboard') {
-                    // Nothing specific to do for dashboard
-                } else if (tabId === 'connections') {
-                    loadTargets();
-                } else if (tabId === 'links') {
-                    loadLinks();
-                } else if (tabId === 'details') {
-                    // For the details tab, show either details or empty state
-                    if (currentSelectedTarget) {
-                        // We already have a selected target, just make sure the details are visible
-                        document.getElementById('detail-empty-state').style.display = 'none';
-                        document.getElementById('detail-grid').style.display = 'grid';
-                    } else {
-                        // No target selected, show empty state
-                        document.getElementById('detail-empty-state').style.display = 'flex';
-                        document.getElementById('detail-grid').style.display = 'none';
-                    }
-                    
-                    // Initialize map if showing details tab and we have a selected target
-                    setTimeout(() => {
-                        if (map && currentSelectedTarget) {
-                            map.invalidateSize();
-                            
-                            // If we have a selected target with coords, fly to it
-                            if (currentSelectedTarget.geolocationStatus === 'success' && 
-                                currentSelectedTarget.latitude && 
-                                currentSelectedTarget.longitude) {
-                                map.flyTo(
-                                    [currentSelectedTarget.latitude, currentSelectedTarget.longitude], 
-                                    13
-                                );
-                            }
-                        }
-                    }, 100);
-                }
-            }
-            
-            // Event listeners for refresh and clear buttons
-            document.getElementById('refresh-targets').addEventListener('click', () => {
-                loadTargets();
-                showNotification('Refreshing connection data', 'fa-sync-alt');
-            });
-            
-            document.getElementById('clear-history').addEventListener('click', () => {
-                if (confirm("Are you sure you want to clear all connection history? This action cannot be undone.")) {
-                    showNotification('Clearing connection history...', 'fa-circle-notch');
-                    
-                    fetch('/api/clear_history', {
-                        method: 'POST'
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.status === 'success') {
-                            showNotification('Connection history cleared', 'fa-check-circle');
-                            loadTargets();
-                        } else {
-                            showNotification(data.message || 'Error clearing history', 'fa-exclamation-triangle');
-                        }
-                    })
-                    .catch(error => {
-                        console.error("Clear history error:", error);
-                        showNotification('Error clearing history', 'fa-exclamation-triangle');
-                    });
-                }
-            });
-            
-            // Modal event listeners
-            document.getElementById('new-link-btn').addEventListener('click', openLinkModal);
-            document.getElementById('close-modal').addEventListener('click', closeLinkModal);
-            document.getElementById('cancel-link').addEventListener('click', closeLinkModal);
-            document.getElementById('save-link').addEventListener('click', createLink);
-            
-            document.getElementById('close-template-modal').addEventListener('click', closeTemplateModal);
-            document.getElementById('cancel-template-change').addEventListener('click', closeTemplateModal);
-            document.getElementById('save-template-change').addEventListener('click', updateLinkTemplate);
-            
-            document.getElementById('close-settings-modal').addEventListener('click', closeSettingsModal);
-            document.getElementById('cancel-settings').addEventListener('click', closeSettingsModal);
-            document.getElementById('save-settings').addEventListener('click', updateLinkSettings);
-            
-            document.getElementById('close-delete-modal').addEventListener('click', closeDeleteModal);
-            document.getElementById('cancel-delete').addEventListener('click', closeDeleteModal);
-            document.getElementById('confirm-delete').addEventListener('click', deleteLink);
-            
-            // Input event listeners for keyboard shortcuts
-            document.getElementById('link-name').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('save-link').click();
-                }
-            });
-            
-            document.getElementById('custom-id').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('save-link').click();
-                }
-            });
-            
-            document.getElementById('redirect-url-new').addEventListener('keypress', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('save-link').click();
-                }
-            });
-            
-            // Menu navigation
-            document.querySelectorAll('.menu-link').forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const tabId = this.getAttribute('data-tab');
-                    switchTab(tabId);
-                });
-            });
-
-            // Ngrok event listeners
-            document.getElementById('start-ngrok-btn').addEventListener('click', () => {
-                showNotification('Starting ngrok tunnel...', 'fa-circle-notch');
-                
-                fetch('/api/ngrok/start', {
-                    method: 'POST'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        showNotification('Ngrok tunnel started', 'fa-check-circle');
-                        loadNgrokStatus();
-                    } else {
-                        showNotification(data.message || 'Error starting ngrok', 'fa-exclamation-triangle');
-                    }
-                })
-                .catch(error => {
-                    console.error("Start ngrok error:", error);
-                    showNotification('Error starting ngrok', 'fa-exclamation-triangle');
-                });
-            });
-
-            document.getElementById('stop-ngrok-btn').addEventListener('click', () => {
-                showNotification('Stopping ngrok tunnel...', 'fa-circle-notch');
-                
-                fetch('/api/ngrok/stop', {
-                    method: 'POST'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === 'success') {
-                        showNotification('Ngrok tunnel stopped', 'fa-check-circle');
-                        ngrokUrl = null;
-                        loadNgrokStatus();
-                        updateLinkCards();
-                    } else {
-                        showNotification(data.message || 'Error stopping ngrok', 'fa-exclamation-triangle');
-                    }
-                })
-                .catch(error => {
-                    console.error("Stop ngrok error:", error);
-                    showNotification('Error stopping ngrok', 'fa-exclamation-triangle');
-                });
-            });
-
-            // Initialize the map and load the data
-            initializeMap();
-            loadTargets();
-        });
-    </script>
+        }
+    }
+    
+    initializeMap();
+    loadTargets();
+    checkTunnelingOptions();
+});
+</script>
 </body>
 </html>
