@@ -28,22 +28,14 @@ Geolocation provides a user-friendly graphical interface for gathering device in
 <br>
 
 ## ✨ Features
-
 - **Device Information** - Capture comprehensive details about target devices
 - **IP Intelligence** - Gather and analyze IP address information
 - **Geolocation Tracking** - Obtain precise location coordinates
 - **Template Selection** - Choose from various templates for different scenarios
 - **Redirect Options** - Configure custom redirection paths
 - **Ngrok Integration** - Simplified port forwarding using Ngrok tunnels
-
-<br>
-
-## 🚀 Upcoming Features
-
-- Proper implementation of the static folder and fixed redirection URLs
-- Custom domain support using Ngrok Tunnels
-- Custom domain integration with Cloudflare Tunnels (alternative to Ngrok)
-- Form submission data capture (usernames, passwords, etc.)
+- **Custom Domain Support** - Fully integrated support for custom domains using Ngrok Tunnels
+- **Cloudflare Tunnels Integration** - Alternative to Ngrok for custom domain configuration
 
 <br>
 
@@ -53,8 +45,6 @@ Geolocation provides a user-friendly graphical interface for gathering device in
 
 - Python 3.6 or higher
 - Ngrok account (free tier available)
-
-<br>
 
 ### Step 1: Install Ngrok
 
@@ -67,8 +57,6 @@ curl -sSL https://ngrok-agent.s3.amazonaws.com/ngrok.asc \
   && sudo apt install ngrok
 ```
 
-<br>
-
 ### Step 2: Configure Ngrok
 
 Navigate to https://dashboard.ngrok.com/get-started/setup/linux to obtain your authentication token, then configure it:
@@ -76,8 +64,6 @@ Navigate to https://dashboard.ngrok.com/get-started/setup/linux to obtain your a
 ```bash
 ngrok config add-authtoken YOUR_AUTH_TOKEN
 ```
-
-<br>
 
 ### Step 3: Install Python Dependencies
 
